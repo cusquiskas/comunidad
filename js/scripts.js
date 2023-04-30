@@ -16,7 +16,7 @@ function iniciarApp() {
     //for (let i = 0; i < document.forms.length; i++) Moduls.Forms[document.forms[i].name] = new FormController(document.forms[i], null);
     Moduls.constants = {};
     Moduls.constants.initDate = new Date;
-    Moduls.getFooter().load({ url: 'content/footer.html', script: false });
+    //Moduls.getFooter().load({ url: 'content/footer.html', script: false });
     Moduls.getHeader().load({ url: 'content/header.html', script: false });
     Moduls.getBody().load({ url: 'content/blanco.html', script: false });
     Moduls.getAlertbox().load({ url: 'content/alerta.html', script: false });
