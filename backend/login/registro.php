@@ -16,26 +16,30 @@
 
     header('Content-Type: application/json; charset=utf-8');
 
-    if ($_POST['JGD_PASSWORD'] !== $_POST['JGD_PASSWORD2']) {
+    if (!isset($_POST) || $_POST == []) 
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        
+    if ($_POST['usu_contrasena'] !== $_POST['usu_contrasena2']) {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Las contraseñas no coinciden']]]));
     }
 
-    $_POST['JGD_PASSWORD'] = md5($_POST['JGD_PASSWORD']);
+    $_POST['usu_contrasena'] = md5($_POST['usu_contrasena']);
 
-    $_POST['JGD_FDESDE'] = $_POST['JGD_FACCESO'] = date('Y-m-d'); #date('Y-m-d G:i:s');
-
-    $_POST['JGD_TOKEN'] = bin2hex(random_bytes(32));
+    #$_POST['ses_primero'] = $_POST['ses_ultimo'] = date('Y-m-d G:i:s');
     
-    $_POST['JGD_ERRLOGIN'] = 0;
-
-    $manJugador = ControladorDinamicoTabla::set('JUGADOR');
-
-    if (!isset($_POST['JGD_JUGADOR']) || $_POST['JGD_JUGADOR'] == '') $_POST['JGD_JUGADOR'] = -1;
+    #$_POST['ses_token'] = bin2hex(random_bytes(32));
     
-    if ($manJugador->save($_POST) == 0) {
-        $reg = $manJugador->getArray();
-        $_SESSION['data']['user']['id'] = $reg['JGD_JUGADOR'];
-        $_SESSION['data']['user']['nombre'] = $reg['JGD_NOMBRE'];
+    $_POST['usu_errorlogin'] = 0;
+
+    $manUsuario = ControladorDinamicoTabla::set('USUARIO');
+
+    #if (!isset($_POST['usu_correo']) || $_POST['usu_correo'] == '') $_POST['usu_correo'] = "-1";
+    echo var_export($_POST, true);
+
+    if ($manUsuario->save($_POST) == 0) {
+        $reg = $manUsuario->getArray();
+        $_SESSION['data']['user']['correo'] = $reg['usu_correo'];
+        $_SESSION['data']['user']['nombre'] = $reg['usu_nombre'];
         /*
         $to      = 'cusquiskas@gmail.com';
         $subject = 'Verificación de cuenta de correo';
@@ -46,15 +50,15 @@
 
         mail($to, $subject, $message, $headers);
         */
-        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Registro realizado correctamente', 'id' => $reg['JGD_JUGADOR'], 'nombre' => $reg['JGD_NOMBRE']]]);
+        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Registro realizado correctamente', 'id' => $reg['usu_correo'], 'nombre' => $reg['usu_nombre']]]);
         
     } else {
-        $reg = $manJugador->getListaErrores();
+        $reg = $manUsuario->getListaErrores();
         $rag = [];
         foreach ($reg as $valor) { $rag[] = [$valor['error']]; }
         echo json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
     }
 
-    unset($manJugador);
+    unset($manUsuario);
     unset($reg);
     unset($rag);

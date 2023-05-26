@@ -245,7 +245,7 @@ class FormController {
     ajax(objeto) {
         invocaAjax({
             direccion: objeto.action,
-            metodo: objeto.method || 'GET',
+            metodo: objeto.method || 'POST',
             parametros: objeto.params || '',
             contentType: objeto.contentType || 'application/json',
             autoXSID: (objeto.autoXSID === false ? false : true),
@@ -271,7 +271,7 @@ class FormController {
                     method: this.formulario.method,
                     params: this.get(),
                     extra: { form: me },
-                    contentType: this.formulario.getAttribute('Content-Type') || 'application/x-www-form-urlencoded',
+                    contentType: this.formulario.getAttribute('Content-Type') || 'application/json',
                     autoXSID: false,
                     function: function (s, d, e) {
                         //me.loading(me.formulario.name, false);

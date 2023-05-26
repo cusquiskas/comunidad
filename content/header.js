@@ -5,24 +5,17 @@ var header = class {
     };
 
     addEventos () {
-    
-    }
-
-    darkAndLigth () {
-        $('nav.bannerHeader').toggleClass('navbar-dark');
-        $('nav.bannerHeader').toggleClass('bg-dark');
-        $('nav.bannerHeader').toggleClass('navbar-ligth');
-        $('nav.bannerHeader').toggleClass('bg-ligth');
-        $('nav.bannerHeader').toggleClass('text-white');
-        $('nav.bannerHeader').toggleClass('text-black');
-        $('button.exitHeader').toggleClass('btn-dark');
-        $('button.exitHeader').toggleClass('btn-ligth');
+        $('button.loginHeader').click(function () {
+            Moduls.getModalbody().load({ url: 'content/app/login.html', script: true });
+            construirModal({title:"Login", w:400, h:700});
+        });
     }
 
     setUser(name) {
         $("span[name='nombre']").empty();
         $("span[name='nombre']").append(name);
-        $('button.exitHeader').toggleClass('xx');
+        $('button.exitHeader').toggleClass ('xx');
+        $('button.loginHeader').toggleClass('xx');
     }
     
     salir (s, d, e) {

@@ -19,11 +19,10 @@ var panelprincipal = class {
             if (sessionStorage.getItem('id')) validaErroresCBK(d.root||d);
             sessionStorage.setItem('id','');
             sessionStorage.setItem('nombre','');
-            Moduls.getBody().load({ url: 'content/game/intro.html', script: true });
+            Moduls.getBody().load({ url: 'content/app/intro.html', script: true });
         } else {
             sessionStorage.setItem('id',d.root.Detalle.JGD_JUGADOR);
             sessionStorage.setItem('nombre',d.root.Detalle.JGD_NOMBRE);
-            headerClass.darkAndLigth();
         }
         headerClass.setUser(sessionStorage.getItem('nombre'));
     }

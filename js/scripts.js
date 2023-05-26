@@ -18,7 +18,7 @@ function iniciarApp() {
     Moduls.constants.initDate = new Date;
     Moduls.getFooter().load({ url: 'content/footer.html', script: false });
     Moduls.getHeader().load({ url: 'content/header.html', script: true });
-    Moduls.getBody().load({ url: 'content/game/intro.html', script: true });
+    Moduls.getBody().load({ url: 'content/app/intro.html', script: true });
     Moduls.getAlertbox().load({ url: 'content/alerta.html', script: false });
     Moduls.getModal().load({ url: 'content/modal.html', script: false });
 }
@@ -49,7 +49,7 @@ function construirModal(modal) {
     let $myModal = $('#myModal');
 
     $myModal.on('hidden.bs.modal', function () {
-        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/interestelar/res/blanco.html', script: false });
+        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/comunidad/res/blanco.html', script: false });
     });
 
     if (modal.ocultarXCerrar) {

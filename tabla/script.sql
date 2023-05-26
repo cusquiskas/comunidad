@@ -1,18 +1,11 @@
-CREATE DATABASE IF NOT EXISTS interestelar;
-CREATE USER 'teniente'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';
-GRANT USAGE ON *.* TO 'teniente'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
-GRANT SELECT, INSERT, UPDATE, DELETE ON `interestelar`.* TO 'teniente'@'localhost';
-
-
-
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-02-2022 a las 19:25:41
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 7.4.16
+-- Tiempo de generación: 27-05-2023 a las 00:34:00
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,446 +18,148 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `interestelar`
+-- Base de datos: `comunidad`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ALMACEN`
+-- Estructura de tabla para la tabla `COMUNIDAD`
 --
 
-CREATE TABLE `ALMACEN` (
-  `ALM_SECTOR` int(11) NOT NULL COMMENT 'ID DEL SECTOR',
-  `ALM_RECURSO` int(11) NOT NULL COMMENT 'ID DEL RECURSO',
-  `ALM_CANTIDAD` int(11) NOT NULL COMMENT 'CANTIDAD DEL RECURSO ALMACENADA ALMACENADA'
+CREATE TABLE `COMUNIDAD` (
+  `com_comuniad` int(11) NOT NULL,
+  `com_nombre` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `CATEGORIA`
+-- Estructura de tabla para la tabla `PERFIL`
 --
 
-CREATE TABLE `CATEGORIA` (
-  `CTG_CATEGORIA` int(11) NOT NULL COMMENT 'ID DE LA CATEGORIA',
-  `CTG_NOMBRE` varchar(100) NOT NULL COMMENT 'NOMBRE DE LA CATEGORIA'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE LAS DIFERENTES DISCIPLINAS DEL JUEGO';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `EDF_TAR`
---
-
-CREATE TABLE `EDF_TAR` (
-  `EDF_EDIFICIO` int(11) NOT NULL,
-  `EDF_TAREA` int(11) NOT NULL
+CREATE TABLE `PERFIL` (
+  `per_perfil` int(11) NOT NULL,
+  `per_nombre` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `EDIFICIO`
+-- Estructura de tabla para la tabla `SESION`
 --
 
-CREATE TABLE `EDIFICIO` (
-  `EDF_EDIFICIO` int(11) NOT NULL COMMENT 'ID DE EDIFICIO',
-  `EDF_NOMBRE` varchar(100) NOT NULL COMMENT 'NOMBRE DEL EDIFICIO',
-  `EDF_CATEGORIA` int(11) NOT NULL COMMENT 'ID DE LA CATEGORIA',
-  `EDF_INVESTIGACION` int(11) NOT NULL COMMENT 'ID DE LA INVESTIGACION NECESARIA PARA PODER CONSTRUIR DICHO EDIFICIO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE EDIFICIOS QUE SE PUEDEN CONSTRUIR';
+CREATE TABLE `SESION` (
+  `ses_sesion` int(11) NOT NULL,
+  `ses_correo` varchar(99) CHARACTER SET utf8mb4 NOT NULL,
+  `ses_token` varchar(99) COLLATE utf8_bin NOT NULL,
+  `ses_primero` datetime NOT NULL,
+  `ses_ultimo` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `INVESTIGACION`
+-- Estructura de tabla para la tabla `USUARIO`
 --
 
-CREATE TABLE `INVESTIGACION` (
-  `ING_INVESTIGACION` int(11) NOT NULL COMMENT 'ID DE LA INVESTIGACION',
-  `ING_NOMBRE` varchar(100) NOT NULL COMMENT 'NOMBRE DE LA INVESTIGACIÓN',
-  `ING_PADRE` int(11) NOT NULL COMMENT 'ID DE LA INVESTIGACIÓN PADRE DE LA QUE DEPENDE'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE LAS INVESTIGACIONES QUE SE PUEDEN REALIZAR';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `JGD_ING`
---
-
-CREATE TABLE `JGD_ING` (
-  `JGD_JUGADOR` int(11) NOT NULL COMMENT 'ID DEL JUGADOR',
-  `JGD_UNIVERSO` int(11) NOT NULL COMMENT 'ID DEL UNIVERSO',
-  `JGD_INVESTIGACION` int(11) NOT NULL COMMENT 'ID DE LA INVESTIGACION'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE INVESTIGACIONES QUE HA REALIZADO UN JUGADOR';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `JGD_SCT`
---
-
-CREATE TABLE `JGD_SCT` (
-  `JGD_JUGADOR` int(11) NOT NULL,
-  `JGD_UNIVERSO` int(11) NOT NULL,
-  `JGD_SECTOR` int(11) NOT NULL
+CREATE TABLE `USUARIO` (
+  `usu_correo` varchar(99) NOT NULL,
+  `usu_nombre` varchar(99) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usu_contrasena` varchar(99) NOT NULL,
+  `usu_errorlogin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `JGD_UNV`
+-- Estructura de tabla para la tabla `USUARIO_COMUNIDAD`
 --
 
-CREATE TABLE `JGD_UNV` (
-  `JGD_JUGADOR` int(11) NOT NULL COMMENT 'ID DEL JUGADOR',
-  `JGD_UNIVERSO` int(11) NOT NULL COMMENT 'ID DEL UNIVERSO EN EL QUE PARTICIPA EL JUGADOR'
+CREATE TABLE `USUARIO_COMUNIDAD` (
+  `uco_comunidad` int(11) NOT NULL,
+  `uco_correo` varchar(99) NOT NULL,
+  `uco_perfil` int(11) NOT NULL,
+  `uco_desde` date NOT NULL,
+  `uco_hasta` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `JUGADOR`
---
-
-CREATE TABLE `JUGADOR` (
-  `JGD_JUGADOR` int(11) NOT NULL COMMENT 'ID DEL JUGADOR',
-  `JGD_NOMBRE` varchar(20) NOT NULL COMMENT 'NOMBRE DEL JUGADOR',
-  `JGD_CORREO` varchar(200) NOT NULL COMMENT 'EMAIL DEL JUGADOR PARA VALIDAR AUTENTICIDAD',
-  `JGD_FDESDE` datetime NOT NULL DEFAULT current_timestamp() COMMENT 'FECHA DE CREACIÓN DE LA CUENTA',
-  `JGD_FVALIDA` datetime DEFAULT NULL COMMENT 'FECHA DE VALIDACIÓN DEL CORREO',
-  `JGD_FACCESO` datetime NOT NULL DEFAULT current_timestamp() COMMENT 'FECHA DEL ÚLTIMO ACCESO',
-  `JGD_PASSWORD` varchar(50) NOT NULL COMMENT 'CONTRASEÑA MD5 DEL JUGADOR',
-  `JGD_TOKEN` varchar(64) NOT NULL COMMENT 'por si en algún momento se necesita una segunda validación con el jugador'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE JUGADORES REGISTRADOS';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `PLANETA`
---
-
-CREATE TABLE `PLANETA` (
-  `PNT_PLANETA` int(11) NOT NULL COMMENT 'ID DEL PLANETA',
-  `PNT_NOMBRE` varchar(200) NOT NULL COMMENT 'NOMBRE DEL PLANETA',
-  `PNT_UNIVERSO` int(11) NOT NULL COMMENT 'ID DEL UNIVERSO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE TODOS LOS PLANETAS DEL UNIVERSO';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `RECURSO`
---
-
-CREATE TABLE `RECURSO` (
-  `RCS_RECURSO` int(11) NOT NULL COMMENT 'ID DEL RECURSO',
-  `RCS_NOMBRE` varchar(100) NOT NULL COMMENT 'NOMBRE DEL RECURSO',
-  `RCS_UNIDAD` varchar(10) NOT NULL COMMENT 'UNIDAD DE MEDIDA QUE SE USA PARA CALIBRAR EL RECURSO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE RECURSOS DISPONIBLES';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `SCT_EDF`
---
-
-CREATE TABLE `SCT_EDF` (
-  `SCT_SECTOR` int(11) NOT NULL COMMENT 'ID DEL SECTOR',
-  `SCT_EDIFICIO` int(11) NOT NULL COMMENT 'ID DEL EDIFICIO',
-  `SCT_ESTADO` int(11) NOT NULL DEFAULT 100 COMMENT 'CAPACIDAD PRODUCTIVA DEL EDIFICIO',
-  `SCT_MEJORA` int(11) NOT NULL DEFAULT 0 COMMENT 'AUMENTO DE PRODUCCIÓN DEL EDIFICIO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE EDIFICIOS CONSTRUIDOS EN UN SECTOR';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `SCT_RCS`
---
-
-CREATE TABLE `SCT_RCS` (
-  `SCT_SECTOR` int(11) NOT NULL COMMENT 'ID DEL SECTOR',
-  `SCT_RECURSO` int(11) NOT NULL COMMENT 'ID DEL RECURSO',
-  `SCT_CANTIDAD` int(11) NOT NULL COMMENT 'CANTIDAD DE RECURSO QUE QUEDA EN EL SECTOR'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='RECURSOS DISPONIBLES EN UN SECTOR';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `SECTOR`
---
-
-CREATE TABLE `SECTOR` (
-  `SCT_SECTOR` int(11) NOT NULL COMMENT 'ID DEL SECTOR',
-  `SCT_NOMBRE` varchar(200) NOT NULL COMMENT 'NOMBRE DEL SECTOR',
-  `SCT_PLANETA` int(11) NOT NULL COMMENT 'ID DEL PLANETA'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='CADA PLANETA PUEDE TENER UNO O VARIOS SECTORES';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `TAREA`
---
-
-CREATE TABLE `TAREA` (
-  `TAR_TAREA` int(11) NOT NULL COMMENT 'ID DE LA TAREA',
-  `TAR_NOMBRE` varchar(100) NOT NULL COMMENT 'NOMBRE DE LA TAREA'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `UNIVERSO`
---
-
-CREATE TABLE `UNIVERSO` (
-  `UNV_UNIVERSO` int(11) NOT NULL COMMENT 'ID DEL UNIVERSO',
-  `UNV_NOMBRE` varchar(200) NOT NULL COMMENT 'NOMBRE DEL UNIVERSO',
-  `UNV_FDESDE` date NOT NULL DEFAULT current_timestamp() COMMENT 'FECHA DE CREACIÓN DEL UNIVERSO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='LISTA DE LOS UNIVERSOS CREADOS';
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `ALMACEN`
+-- Indices de la tabla `COMUNIDAD`
 --
-ALTER TABLE `ALMACEN`
-  ADD PRIMARY KEY (`ALM_SECTOR`,`ALM_RECURSO`),
-  ADD KEY `ALMACEN_ibfk_2` (`ALM_RECURSO`);
+ALTER TABLE `COMUNIDAD`
+  ADD PRIMARY KEY (`com_comuniad`);
 
 --
--- Indices de la tabla `CATEGORIA`
+-- Indices de la tabla `PERFIL`
 --
-ALTER TABLE `CATEGORIA`
-  ADD PRIMARY KEY (`CTG_CATEGORIA`);
+ALTER TABLE `PERFIL`
+  ADD PRIMARY KEY (`per_perfil`);
 
 --
--- Indices de la tabla `EDF_TAR`
+-- Indices de la tabla `SESION`
 --
-ALTER TABLE `EDF_TAR`
-  ADD PRIMARY KEY (`EDF_EDIFICIO`,`EDF_TAREA`),
-  ADD KEY `EDF_TAREA` (`EDF_TAREA`);
+ALTER TABLE `SESION`
+  ADD PRIMARY KEY (`ses_sesion`),
+  ADD KEY `ses_usu_fk` (`ses_correo`);
 
 --
--- Indices de la tabla `EDIFICIO`
+-- Indices de la tabla `USUARIO`
 --
-ALTER TABLE `EDIFICIO`
-  ADD PRIMARY KEY (`EDF_EDIFICIO`),
-  ADD KEY `EDF_CATEGORIA` (`EDF_CATEGORIA`),
-  ADD KEY `EDF_INVESTIGACION` (`EDF_INVESTIGACION`);
+ALTER TABLE `USUARIO`
+  ADD PRIMARY KEY (`usu_correo`);
 
 --
--- Indices de la tabla `INVESTIGACION`
+-- Indices de la tabla `USUARIO_COMUNIDAD`
 --
-ALTER TABLE `INVESTIGACION`
-  ADD PRIMARY KEY (`ING_INVESTIGACION`);
-
---
--- Indices de la tabla `JGD_ING`
---
-ALTER TABLE `JGD_ING`
-  ADD PRIMARY KEY (`JGD_UNIVERSO`,`JGD_INVESTIGACION`,`JGD_JUGADOR`),
-  ADD KEY `JGD_JUGADOR` (`JGD_JUGADOR`,`JGD_UNIVERSO`),
-  ADD KEY `JGD_INVESTIGACION` (`JGD_INVESTIGACION`);
-
---
--- Indices de la tabla `JGD_SCT`
---
-ALTER TABLE `JGD_SCT`
-  ADD PRIMARY KEY (`JGD_JUGADOR`,`JGD_UNIVERSO`,`JGD_SECTOR`),
-  ADD KEY `JGD_SECTOR` (`JGD_SECTOR`);
-
---
--- Indices de la tabla `JGD_UNV`
---
-ALTER TABLE `JGD_UNV`
-  ADD PRIMARY KEY (`JGD_JUGADOR`,`JGD_UNIVERSO`),
-  ADD KEY `JGD_UNIVERSO` (`JGD_UNIVERSO`);
-
---
--- Indices de la tabla `JUGADOR`
---
-ALTER TABLE `JUGADOR`
-  ADD PRIMARY KEY (`JGD_JUGADOR`),
-  ADD UNIQUE KEY `JGD_CORREO` (`JGD_CORREO`);
-
---
--- Indices de la tabla `PLANETA`
---
-ALTER TABLE `PLANETA`
-  ADD PRIMARY KEY (`PNT_PLANETA`),
-  ADD KEY `PNT_UNIVERSO` (`PNT_UNIVERSO`);
-
---
--- Indices de la tabla `RECURSO`
---
-ALTER TABLE `RECURSO`
-  ADD PRIMARY KEY (`RCS_RECURSO`);
-
---
--- Indices de la tabla `SCT_EDF`
---
-ALTER TABLE `SCT_EDF`
-  ADD PRIMARY KEY (`SCT_SECTOR`,`SCT_EDIFICIO`),
-  ADD KEY `SCT_EDIFICIO` (`SCT_EDIFICIO`);
-
---
--- Indices de la tabla `SCT_RCS`
---
-ALTER TABLE `SCT_RCS`
-  ADD PRIMARY KEY (`SCT_SECTOR`,`SCT_RECURSO`),
-  ADD KEY `SCT_RECURSO` (`SCT_RECURSO`);
-
---
--- Indices de la tabla `SECTOR`
---
-ALTER TABLE `SECTOR`
-  ADD PRIMARY KEY (`SCT_SECTOR`),
-  ADD KEY `SCT_PLANETA` (`SCT_PLANETA`);
-
---
--- Indices de la tabla `TAREA`
---
-ALTER TABLE `TAREA`
-  ADD PRIMARY KEY (`TAR_TAREA`);
-
---
--- Indices de la tabla `UNIVERSO`
---
-ALTER TABLE `UNIVERSO`
-  ADD PRIMARY KEY (`UNV_UNIVERSO`);
+ALTER TABLE `USUARIO_COMUNIDAD`
+  ADD PRIMARY KEY (`uco_correo`,`uco_comunidad`) USING BTREE,
+  ADD KEY `uco_com_fk` (`uco_comunidad`),
+  ADD KEY `uco_per_fk` (`uco_perfil`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `CATEGORIA`
+-- AUTO_INCREMENT de la tabla `COMUNIDAD`
 --
-ALTER TABLE `CATEGORIA`
-  MODIFY `CTG_CATEGORIA` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DE LA CATEGORIA';
+ALTER TABLE `COMUNIDAD`
+  MODIFY `com_comuniad` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `EDIFICIO`
+-- AUTO_INCREMENT de la tabla `PERFIL`
 --
-ALTER TABLE `EDIFICIO`
-  MODIFY `EDF_EDIFICIO` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DE EDIFICIO';
+ALTER TABLE `PERFIL`
+  MODIFY `per_perfil` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `INVESTIGACION`
+-- AUTO_INCREMENT de la tabla `SESION`
 --
-ALTER TABLE `INVESTIGACION`
-  MODIFY `ING_INVESTIGACION` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DE LA INVESTIGACION';
-
---
--- AUTO_INCREMENT de la tabla `JUGADOR`
---
-ALTER TABLE `JUGADOR`
-  MODIFY `JGD_JUGADOR` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DEL JUGADOR', AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `PLANETA`
---
-ALTER TABLE `PLANETA`
-  MODIFY `PNT_PLANETA` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DEL PLANETA';
-
---
--- AUTO_INCREMENT de la tabla `RECURSO`
---
-ALTER TABLE `RECURSO`
-  MODIFY `RCS_RECURSO` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DEL RECURSO';
-
---
--- AUTO_INCREMENT de la tabla `SECTOR`
---
-ALTER TABLE `SECTOR`
-  MODIFY `SCT_SECTOR` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DEL SECTOR';
-
---
--- AUTO_INCREMENT de la tabla `TAREA`
---
-ALTER TABLE `TAREA`
-  MODIFY `TAR_TAREA` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DE LA TAREA';
-
---
--- AUTO_INCREMENT de la tabla `UNIVERSO`
---
-ALTER TABLE `UNIVERSO`
-  MODIFY `UNV_UNIVERSO` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID DEL UNIVERSO';
+ALTER TABLE `SESION`
+  MODIFY `ses_sesion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `ALMACEN`
+-- Filtros para la tabla `SESION`
 --
-ALTER TABLE `ALMACEN`
-  ADD CONSTRAINT `ALMACEN_ibfk_1` FOREIGN KEY (`ALM_SECTOR`) REFERENCES `SECTOR` (`SCT_SECTOR`),
-  ADD CONSTRAINT `ALMACEN_ibfk_2` FOREIGN KEY (`ALM_RECURSO`) REFERENCES `RECURSO` (`RCS_RECURSO`);
+ALTER TABLE `SESION`
+  ADD CONSTRAINT `ses_usu_fk` FOREIGN KEY (`ses_correo`) REFERENCES `USUARIO` (`usu_correo`);
 
 --
--- Filtros para la tabla `EDF_TAR`
+-- Filtros para la tabla `USUARIO_COMUNIDAD`
 --
-ALTER TABLE `EDF_TAR`
-  ADD CONSTRAINT `EDF_TAR_ibfk_1` FOREIGN KEY (`EDF_EDIFICIO`) REFERENCES `EDIFICIO` (`EDF_EDIFICIO`),
-  ADD CONSTRAINT `EDF_TAR_ibfk_2` FOREIGN KEY (`EDF_TAREA`) REFERENCES `TAREA` (`TAR_TAREA`);
-
---
--- Filtros para la tabla `EDIFICIO`
---
-ALTER TABLE `EDIFICIO`
-  ADD CONSTRAINT `EDIFICIO_ibfk_1` FOREIGN KEY (`EDF_CATEGORIA`) REFERENCES `CATEGORIA` (`CTG_CATEGORIA`),
-  ADD CONSTRAINT `EDIFICIO_ibfk_2` FOREIGN KEY (`EDF_INVESTIGACION`) REFERENCES `INVESTIGACION` (`ING_INVESTIGACION`);
-
---
--- Filtros para la tabla `JGD_ING`
---
-ALTER TABLE `JGD_ING`
-  ADD CONSTRAINT `JGD_ING_ibfk_1` FOREIGN KEY (`JGD_JUGADOR`,`JGD_UNIVERSO`) REFERENCES `JGD_UNV` (`JGD_JUGADOR`, `JGD_UNIVERSO`),
-  ADD CONSTRAINT `JGD_ING_ibfk_2` FOREIGN KEY (`JGD_INVESTIGACION`) REFERENCES `INVESTIGACION` (`ING_INVESTIGACION`);
-
---
--- Filtros para la tabla `JGD_SCT`
---
-ALTER TABLE `JGD_SCT`
-  ADD CONSTRAINT `JGD_SCT_ibfk_1` FOREIGN KEY (`JGD_JUGADOR`,`JGD_UNIVERSO`) REFERENCES `JGD_UNV` (`JGD_JUGADOR`, `JGD_UNIVERSO`),
-  ADD CONSTRAINT `JGD_SCT_ibfk_2` FOREIGN KEY (`JGD_SECTOR`) REFERENCES `SECTOR` (`SCT_SECTOR`);
-
---
--- Filtros para la tabla `JGD_UNV`
---
-ALTER TABLE `JGD_UNV`
-  ADD CONSTRAINT `JGD_UNV_ibfk_1` FOREIGN KEY (`JGD_JUGADOR`) REFERENCES `JUGADOR` (`JGD_JUGADOR`),
-  ADD CONSTRAINT `JGD_UNV_ibfk_2` FOREIGN KEY (`JGD_UNIVERSO`) REFERENCES `UNIVERSO` (`UNV_UNIVERSO`);
-
---
--- Filtros para la tabla `PLANETA`
---
-ALTER TABLE `PLANETA`
-  ADD CONSTRAINT `PLANETA_ibfk_1` FOREIGN KEY (`PNT_UNIVERSO`) REFERENCES `UNIVERSO` (`UNV_UNIVERSO`);
-
---
--- Filtros para la tabla `SCT_EDF`
---
-ALTER TABLE `SCT_EDF`
-  ADD CONSTRAINT `SCT_EDF_ibfk_1` FOREIGN KEY (`SCT_SECTOR`) REFERENCES `SECTOR` (`SCT_SECTOR`),
-  ADD CONSTRAINT `SCT_EDF_ibfk_2` FOREIGN KEY (`SCT_EDIFICIO`) REFERENCES `EDIFICIO` (`EDF_EDIFICIO`);
-
---
--- Filtros para la tabla `SCT_RCS`
---
-ALTER TABLE `SCT_RCS`
-  ADD CONSTRAINT `SCT_RCS_ibfk_1` FOREIGN KEY (`SCT_SECTOR`) REFERENCES `SECTOR` (`SCT_SECTOR`),
-  ADD CONSTRAINT `SCT_RCS_ibfk_2` FOREIGN KEY (`SCT_RECURSO`) REFERENCES `RECURSO` (`RCS_RECURSO`);
-
---
--- Filtros para la tabla `SECTOR`
---
-ALTER TABLE `SECTOR`
-  ADD CONSTRAINT `SECTOR_ibfk_1` FOREIGN KEY (`SCT_PLANETA`) REFERENCES `PLANETA` (`PNT_PLANETA`);
+ALTER TABLE `USUARIO_COMUNIDAD`
+  ADD CONSTRAINT `uco_com_fk` FOREIGN KEY (`uco_comunidad`) REFERENCES `COMUNIDAD` (`com_comuniad`),
+  ADD CONSTRAINT `uco_per_fk` FOREIGN KEY (`uco_perfil`) REFERENCES `PERFIL` (`per_perfil`),
+  ADD CONSTRAINT `uco_usu_fk` FOREIGN KEY (`uco_correo`) REFERENCES `USUARIO` (`usu_correo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
