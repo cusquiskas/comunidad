@@ -1,5 +1,15 @@
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-          <img src="css/img/imagen.gif" width="45px" height="45px" alt="">
-        </a>
-      </nav>
+<nav class="bannerHeader navbar navbar-expand-sm navbar-dark bg-dark text-white">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="css/img/imagen.gif" width="45px" height="45px" alt=""></a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <span name="nombre" class=""></span>
+        </li>
+      </ul>
+      <form class="d-flex" name="salir" method="post" action="backend/login/logout.php" frc-callback="salir">
+        <button class="xx exitHeader btn btn-dark" type="submit">Salir</button>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -16,15 +16,15 @@ function iniciarApp() {
     //for (let i = 0; i < document.forms.length; i++) Moduls.Forms[document.forms[i].name] = new FormController(document.forms[i], null);
     Moduls.constants = {};
     Moduls.constants.initDate = new Date;
-    //Moduls.getFooter().load({ url: 'content/footer.html', script: false });
-    Moduls.getHeader().load({ url: 'content/header.html', script: false });
-    Moduls.getBody().load({ url: 'content/blanco.html', script: false });
+    Moduls.getFooter().load({ url: 'content/footer.html', script: false });
+    Moduls.getHeader().load({ url: 'content/header.html', script: true });
+    Moduls.getBody().load({ url: 'content/game/intro.html', script: true });
     Moduls.getAlertbox().load({ url: 'content/alerta.html', script: false });
     Moduls.getModal().load({ url: 'content/modal.html', script: false });
 }
 
-function validaErroresCBK(obj) {
-    let msg = "<div class='alert alert-{{tipo}}'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>{{Campo}}</strong> {{Detalle}}.</div>";
+function validaErroresCBK(obj, time=4000) {
+    let msg = "<div class='alert alert-{{tipo}} alert-dismissible fade show' role='alert'><strong>{{Campo}}</strong> {{Detalle}}.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
     if (typeof obj === "object" && typeof obj.length === "undefined") obj = [obj];
     for (let i = 0; i < obj.length; i++) {
         if (obj[i].type) {
@@ -37,6 +37,9 @@ function validaErroresCBK(obj) {
         if (!obj[i].Campo) obj[i].Campo = "";
         $(".alertBoxMessage").append(msg.reemplazaMostachos(obj[i]));
     }
+    $(".alert").delay(time).slideUp(200, function() {
+        $(this).alert('close');
+    });
 }
 
 // Funcion para construir la modal, recibe un objeto modal con parametros
@@ -46,16 +49,20 @@ function construirModal(modal) {
     let $myModal = $('#myModal');
 
     $myModal.on('hidden.bs.modal', function () {
-        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/portalapp/res/blanco.html', script: false });
+        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/interestelar/res/blanco.html', script: false });
     });
 
     if (modal.ocultarXCerrar) {
-        $('button.close', $myModal).hide();
+        $('button.btn-close', $myModal).hide();
     } else {
-        $('button.close', $myModal).show();
+        $('button.btn-close', $myModal).show();
         if (typeof (modal.xfunction) === 'function') {
-            $('button.close', $myModal).click(function () {
+            $('button.btn-close', $myModal).click(function () {
                 modal.xfunction();
+            });
+        } else {
+            $('button.btn-close', $myModal).click(function () {
+                $myModal.hide();
             });
         }
     }
@@ -73,9 +80,7 @@ function construirModal(modal) {
     let $myModalFooter = $('.modal-footer', $myModal).empty();
     if (modal.oktext) {
         if (!(typeof (modal.okfunction) === 'function')) {
-            modal.okfunction = function () {
-                cerrarModalIE($myModal);
-            };
+            modal.okfunction = function () { $myModal.hide() };
         }
         $myModalFooter.append('<button id="okfunction" type="button" class="btn btn-primary">' + modal.oktext + '</button>');
         $("#okfunction").on("click", function () { modal.okfunction(); return false; });
@@ -94,4 +99,8 @@ function construirModal(modal) {
     $('.close', $myModal).click(function () {
         $myModal.hide();
     });
+}
+
+function cerrarModal() {
+    $('#myModal').hide();    
 }

@@ -1,0 +1,19 @@
+<form name="login" method="post" action="backend/login/login.php" frc-callback="login">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="JGD_CORREO">Correo:</label>
+        <input type="email" name="JGD_CORREO" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="JGD_PASSWORD">Contraseña:</label>
+        <input type="password" name="JGD_PASSWORD" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4 text-center">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Acceder</button>
+    </div>
+    <input class="xx" name="accion" value="login"/>
+</form>
+<p class="lh-1">* Si no has activado la cuenta, o te has equivocado muchas veces al introducir la contraseña, la cuenta se bloquea e ignora todos los intentos de acceso, solicita la recuperación de contraseña para activar la cuenta o reestablecer la contraseña.</p>
+<p class="text-center"><a href="#" class="mandaMail">recuperar cuenta</a></p>
+     

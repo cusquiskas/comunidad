@@ -26,7 +26,7 @@ footer {
   padding-left: 0;
 }
 
-body {
+.logo {
   background-image: url("img/imagen.gif");
   background-position: center center;
   background-repeat: no-repeat;
@@ -100,7 +100,7 @@ body {
  */
 
 body {
-  margin: 0;
+  margin: 10px;
 }
 
 /**

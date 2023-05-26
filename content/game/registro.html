@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <p>
+        Se ha iniciado el descenso a la superficie del planeta.<br>
+        Se iniciará el proceso de transformación en un centro de mando para una colonización ordenada.<br>
+        Mientras se realiza la tarea, registra la colonización para que nadie más pueda reclamar el planeta.
+    </p>
+        <form name="registro" method="post" action="backend/login/registro.php" frc-callback="registro">
+            <div class="row">
+                <div class="col-6">
+                    <label for="JGD_NOMBRE" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" name="JGD_NOMBRE" aria-describedby="nombreHelp" maxlength="20" required>
+                    <div id="emailHelp" class="form-text">El que tú quieras, no importa que ya exista.</div>
+                </div>
+                <div class="col-6">
+                    <label for="JGD_CORREO" class="form-label">eMail:</label>
+                    <input type="email" class="form-control" name="JGD_CORREO" aria-describedby="correoHelp" maxlength="50" required>
+                    <div id="correoHelp" class="form-text">Nunca será visible por otros jugadores ni tendrán acceso a él terceros.</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="JGD_PASSWORD" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" name="JGD_PASSWORD" aria-describedby="passHelp" maxlength="50" required>
+                    <div id="passHelp" class="form-text">Que sea segura, es tu responsabilidad.</div>
+                </div>
+                <div class="col-6">
+                    <label for="JGD_PASSWORD2" class="form-label">Repite la contraseña</label>
+                    <input type="password" class="form-control" name="JGD_PASSWORD2" maxlength="50" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <input type="checkbox" name="condiciones" required> Acepto las condiciones del sitio.
+                </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary " name="guardar">Guardar Datos</button>
+                </div>
+            </div>
+        </form>
+    
+</div>
