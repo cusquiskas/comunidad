@@ -33,9 +33,6 @@
 
     $manUsuario = ControladorDinamicoTabla::set('USUARIO');
 
-    #if (!isset($_POST['usu_correo']) || $_POST['usu_correo'] == '') $_POST['usu_correo'] = "-1";
-    echo var_export($_POST, true);
-
     if ($manUsuario->save($_POST) == 0) {
         $reg = $manUsuario->getArray();
         $_SESSION['data']['user']['correo'] = $reg['usu_correo'];
