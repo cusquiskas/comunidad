@@ -8,6 +8,7 @@ class ConfiguracionSistema
     private $apli = 'comunidad';
 
     private $home = '/opt/lampp/htdocs/comunidad/';
+    private $timeSession = "-30 minute";
 
     public function getHost()
     {
@@ -32,5 +33,9 @@ class ConfiguracionSistema
     public function getHome()
     {
         return $this->home;
+    }
+
+    public function getTimeSession() {
+        return $this->timeSession;
     }
 }

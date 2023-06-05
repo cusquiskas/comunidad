@@ -1,24 +1,5 @@
 <?php
-
-    session_start();
-    error_reporting(E_ALL & ~E_NOTICE);
-
-    if (!isset($_SESSION['data'])) {
-        $_SESSION['data'] = [];
-    }
-    if (!isset($_SESSION['data']['user'])) {
-        $_SESSION['data']['user'] = [];
-    }
-
-    require_once '../../conex/conf.php';  //información crítica del sistema
-    require_once '../../conex/dao.php';   //control de comunicación con la base de datos MySQL
-    require_once '../../tabla/controller.php';
-
-    header('Content-Type: application/json; charset=utf-8');
-    
-    if (!isset($_POST) || $_POST == []) 
-        $_POST = json_decode(file_get_contents('php://input'), true);
-    
+    require_once('../required/initSession.php');
 
     if ($_POST['usu_contrasena'] == '' || $_POST['usu_correo'] == '') {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Usuario o contraseña no válido']]]));
@@ -37,16 +18,30 @@
         #echo var_export($reg, true)."\n";
         if (count($reg) == 1) {
 
-            $_SESSION['data']['user']['id'] = $reg[0]['usu_correo'];
-            $_SESSION['data']['user']['nombre'] = $reg[0]['usu_nombre'];
-            
             $_POST['usu_correo'] = $reg[0]['usu_correo'];
             $_POST['usu_facceso'] = date('Y-m-d G:i:s');
             unset($_POST['usu_fvalida']);
             $_POST['usu_errorlogin'] = 0;
             $manJugador->save($_POST);
-            #echo var_export($manJugador->getDatos(), true)."\n";
-            echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Login realizado correctamente', 'id' => $reg[0]['usu_correo'], 'nombre' => $reg[0]['usu_nombre']]]);
+            
+            #iniciamos sesión
+            $manSesion = ControladorDinamicoTabla::set('SESION');
+            $ses = [];
+            $ses["ses_token"] = bin2hex(random_bytes(32));
+            $ses["ses_correo"] = $reg[0]['usu_correo'];
+            $ses["ses_primero"] = date('Y-m-d G:i:s');
+            $ses["ses_ultimo"] = date('Y-m-d G:i:s');
+            if ($manSesion->save($ses) != 0) {
+                unset($ses);
+                $ses = $manSesion->getListaErrores();
+                unset($manSesion);
+                die(json_encode(['success' => false, 'root' => $ses]));
+            }
+            $_SESSION['data']['user']['id'] = $reg[0]['usu_correo'];
+            $_SESSION['data']['user']['nombre'] = $reg[0]['usu_nombre'];
+            $_SESSION['data']['user']['token'] = $ses['ses_token'];
+            
+            echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Login realizado correctamente', 'id' => $reg[0]['usu_correo'], 'nombre' => $reg[0]['usu_nombre'], 'token' => $ses["ses_token"]]]);
         } else {
             
             if ($manJugador->give(["usu_correo" => $_POST["usu_correo"]]) == 0) {
