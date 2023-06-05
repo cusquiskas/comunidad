@@ -12,6 +12,7 @@ var login = class {
 
     login (s,d,e) {
         if (s) {
+            debugger;
             validaErroresCBK(d.root, 1000);
             cerrarModal();
             sessionStorage.setItem('id', d.root.id);
