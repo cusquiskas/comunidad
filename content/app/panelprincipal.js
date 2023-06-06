@@ -9,10 +9,22 @@ var panelprincipal = class {
         form.executeForm();
     };
 
-    addEventos () {
-
+    addEventos (modulo) {
+        $(".comboComunidad").change(function(eve){
+            let form = modulo.Forms['datosPisos'];
+            form.set({'pis_comunidad':eve.currentTarget.value});
+            form.executeForm();
+        });
     };
 
+    pisos (s,d,e) {
+        if (!s) {
+            validaErroresCBK(d.root||d);
+        } else {
+            alert('información de los pisos');
+        }
+    }
+    
     sesion (s,d,e) {
         let headerClass = Moduls.getHeader().getScript();
         if (!s) {
@@ -33,6 +45,7 @@ var panelprincipal = class {
                 for (let i=0; i<d.root.Comunidades.length; i++) {
                     combo.append($("<option>", {value: d.root.Comunidades[i].com_comunidad, text: d.root.Comunidades[i].com_nombre}));
                 }
+                combo.change();
             }   
             
         }

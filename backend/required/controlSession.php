@@ -38,4 +38,24 @@
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Token no válido']]]));
     }
     unset($manSesion);
+
+    function controlPerfil($comunidad) {
+        $perfil = 0;
+        $manValidador = ControladorDinamicoTabla::set('USUARIO_COMUNIDAD');
+        $manValidador->give([
+            "uco_comunidad"  => $comunidad,
+            "uco_correo"     => $_SESSION['data']['user']['id'],
+            "uco_desde"      => date('Y-m-d'),
+            "uco_desde_signo"=> "<=",
+            "uco_hasta"      => date('Y-m-d'),
+            "uco_hasta_signo"=> ">="
+        ]);
+        $reg = $manValidador->getArray();
+        if (count($reg) == 0) { $perfil = 0; } 
+        else { $perfil = $reg[0]['uco_perfil']; }
+        unset($reg);
+        unset($manValidador);
+    
+        return $perfil;
+    }
 ?>
