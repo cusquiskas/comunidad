@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 07-06-2023 a las 00:00:35
+-- Tiempo de generación: 08-06-2023 a las 00:43:21
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -70,7 +70,7 @@ CREATE TABLE `PISO` (
   `pis_piso` int(11) NOT NULL,
   `pis_comunidad` int(11) NOT NULL,
   `pis_nombre` varchar(10) COLLATE utf8_bin NOT NULL,
-  `pis_porcentaje` int(11) NOT NULL DEFAULT 0,
+  `pis_porcentaje` decimal(7,3) NOT NULL DEFAULT 0.000,
   `pis_comentario` varchar(999) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -79,18 +79,18 @@ CREATE TABLE `PISO` (
 --
 
 INSERT INTO `PISO` (`pis_piso`, `pis_comunidad`, `pis_nombre`, `pis_porcentaje`, `pis_comentario`) VALUES
-(1, 1, 'LOCAL', 0, NULL),
-(2, 1, 'PISO 1A', 0, NULL),
-(3, 1, 'PISO 1B', 0, NULL),
-(4, 1, 'PISO 1C', 0, NULL),
-(5, 1, 'PISO 2A', 0, NULL),
-(6, 1, 'PISO 2B', 0, NULL),
-(7, 1, 'PISO 2C', 0, NULL),
-(8, 1, 'PISO 3A', 0, NULL),
-(9, 1, 'PISO 3B', 0, NULL),
-(10, 1, 'PISO 3C', 0, NULL),
-(11, 1, 'PISO 4A', 0, NULL),
-(12, 1, 'PISO 4B', 0, NULL);
+(1, 1, 'LOCAL', '0.000', NULL),
+(2, 1, 'PISO 1A', '0.000', NULL),
+(3, 1, 'PISO 1B', '0.000', NULL),
+(4, 1, 'PISO 1C', '0.000', NULL),
+(5, 1, 'PISO 2A', '0.000', NULL),
+(6, 1, 'PISO 2B', '0.000', NULL),
+(7, 1, 'PISO 2C', '0.000', NULL),
+(8, 1, 'PISO 3A', '0.000', NULL),
+(9, 1, 'PISO 3B', '0.000', NULL),
+(10, 1, 'PISO 3C', '0.000', NULL),
+(11, 1, 'PISO 4A', '0.000', NULL),
+(12, 1, 'PISO 4B', '0.000', NULL);
 
 -- --------------------------------------------------------
 
@@ -142,10 +142,12 @@ CREATE TABLE `SESION` (
 INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VALUES
 ('cusquiskas@gmail.com', '07ced0e7d6707425fb10336a78a8177d075347534586ad11b79ab3f9d605cc32', '2023-06-05 22:53:21', '9999-12-31 00:00:00'),
 ('antoniapons@me.com', '17b1aea8363eb3d7f6f00349a0d98097ee2b2b6ec82163997bc0195e9861ffe3', '2023-06-06 21:19:01', '2023-06-06 21:19:01'),
-('antoniapons@me.com', '21fa13d67d48dc86182b63dce71359f67a514eb74daf2da033a89e4e9d528dad', '2023-06-06 23:50:53', '2023-06-06 23:57:38'),
+('antoniapons@me.com', '21fa13d67d48dc86182b63dce71359f67a514eb74daf2da033a89e4e9d528dad', '2023-06-06 23:50:53', '2023-06-07 00:09:26'),
 ('antoniapons@me.com', '29d83f549605ffb27b7c15bb481d7ab3791b177fe898515c1ce268bf0465e33b', '2023-06-06 22:42:55', '2023-06-06 22:44:05'),
 ('antoniapons@me.com', '5dcd8aee1defae034a59fc7a4db2a6e18f9653018de743d4ddbadd4bf95e7c7c', '2023-06-05 23:06:25', '2023-06-05 23:18:59'),
 ('antoniapons@me.com', '6fd00e858c2f3bb12963cf925a8ec7383f40d6d27b8137e548d4aa2be5b43d66', '2023-06-06 22:44:34', '2023-06-06 22:48:05'),
+('antoniapons@me.com', '8a74bcc74bceb40c5b53953d0819685899ea3f60458b4618195595c7d6a00dcc', '2023-06-07 23:49:13', '2023-06-08 00:38:10'),
+('antoniapons@me.com', 'a48f0ca2ff6e2f1982fdac7d4f1d0cfca8d56a20e66906a959a63e004f1cbc9c', '2023-06-07 22:29:25', '2023-06-07 23:13:50'),
 ('antoniapons@me.com', 'b7fd4a68a289e520a190d3c1de6ae04b4deb1b6ff4a9e9221a2457ee5a2c00ef', '2023-06-06 23:27:28', '2023-06-06 23:50:14');
 
 -- --------------------------------------------------------
@@ -168,7 +170,7 @@ CREATE TABLE `USUARIO` (
 --
 
 INSERT INTO `USUARIO` (`usu_correo`, `usu_nombre`, `usu_contrasena`, `usu_errorlogin`, `usu_facceso`, `usu_fvalida`) VALUES
-('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-06 23:50:53', '2022-06-03'),
+('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-07 23:49:13', '2022-06-03'),
 ('cusquiskas@gmail.com', 'José Miguel', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-05 22:53:21', '9999-12-31');
 
 -- --------------------------------------------------------
@@ -220,7 +222,8 @@ ALTER TABLE `PISO`
 -- Indices de la tabla `PROPIETARIO`
 --
 ALTER TABLE `PROPIETARIO`
-  ADD PRIMARY KEY (`pro_propietario`);
+  ADD PRIMARY KEY (`pro_propietario`),
+  ADD UNIQUE KEY `pro_correo_ix` (`pro_correo`);
 
 --
 -- Indices de la tabla `PROPIETARIO_PISO`

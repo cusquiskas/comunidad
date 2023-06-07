@@ -10,9 +10,14 @@
     <h3>deberá contactar con correo@correo.com para solicitar el presupuesto.</h3>
 </div>
 
+<form class="xx" name="avisosComunidad" method="post" action="backend/app/avisosComunidad.php" frc-callback="avisos">
+    <input name="com_comunidad"/>
+</form>
+
 <form class="xx" name="datosPisos" method="post" action="backend/app/datosPisos.php" frc-callback="pisos">
     <input name="pis_comunidad"/>
 </form>
+
 
 <span class="xx">
 La idea es crear un mantenimiento de bolsas
@@ -23,7 +28,5 @@ Los pisos en sí, también se usarán como bolsas, cada vez que un piso haga un 
 Y luego haremos las bolsas especiales, que son los presupuestos para hacer las derramas (con fecha inicio y fin para las derramas) cuando un vecino haga 
 un ingreso, además de vincular con el piso, se puede vincular con la derrama, si hay alguna abierta
 
-La otra idea con la que quiero continuar mañana, es el de avisos de la comunidad, una llamada al principio de todo, que haga algunas validaciones y que muestre
-información de la comunidad, dependiendo del perfil, por ejemplo, a nivel de administrador, un aviso puede ser que no se ha repartido el 100% del porcentaje.
 A nivel de usuario, que va con retraso en alguna de las bolsas (posibilidad de poner vencimientos y recursividad en las bosas).
 </span>

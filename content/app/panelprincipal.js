@@ -11,11 +11,21 @@ var panelprincipal = class {
 
     addEventos (modulo) {
         $(".comboComunidad").change(function(eve){
-            let form = modulo.Forms['datosPisos'];
+            let form;
+            form = modulo.Forms['avisosComunidad'];
+            form.set({'com_comunidad':eve.currentTarget.value});
+            form.executeForm();
+            form = modulo.Forms['datosPisos'];
             form.set({'pis_comunidad':eve.currentTarget.value});
             form.executeForm();
         });
     };
+
+    avisos (s,d,e) {
+        if (!s) {
+            validaErroresCBK(d.root||d, 6000);
+        }
+    }
 
     pisos (s,d,e) {
         if (!s) {
