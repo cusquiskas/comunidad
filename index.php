@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon"       href="css/img/imagen.gif" type="image/png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo Cache::ruta('css/switch.css'); ?>">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="<?php echo Cache::ruta('css/style.css'); ?>"> -->
     <style>

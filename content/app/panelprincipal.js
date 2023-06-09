@@ -1,10 +1,10 @@
 var panelprincipal = class {
     constructor (mod, obj) {
         console.log('panelprincipal.js -> constructor');
-        let modulo = mod;
-        let object = obj;
-        this.addEventos(modulo);
-        let form = modulo.Forms['sesion'];
+        this.modulo = mod;
+        this.object = obj;
+        this.addEventos(mod);
+        let form = mod.Forms['sesion'];
         form.set({'usu_correo':sessionStorage.getItem('id')});
         form.executeForm();
     };
@@ -31,7 +31,8 @@ var panelprincipal = class {
         if (!s) {
             validaErroresCBK(d.root||d);
         } else {
-            alert('información de los pisos');
+            let form = e.form.modul.Forms['dashboard'];
+            form.set({nVecinos:d.root.Detalle.length});
         }
     }
     

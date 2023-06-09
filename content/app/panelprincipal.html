@@ -14,19 +14,187 @@
     <input name="com_comunidad"/>
 </form>
 
-<form class="xx" name="datosPisos" method="post" action="backend/app/datosPisos.php" frc-callback="pisos">
-    <input name="pis_comunidad"/>
+<form name="datosPisos" method="post" action="backend/app/datosPisos.php" frc-callback="pisos">
+    <input class="xx" name="pis_comunidad"/>
 </form>
 
+<form name="dashboard">
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div
+                            class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                            <span class="material-symbols-rounded">group</span>
+                        </div>
+                        <div class="text-end pt-1">
+                            <p class="text-sm mb-0 text-capitalize">Total Vecinos</p>
+                            <h4 class="mb-0"><frC-Graft name="nVecinos">X</frC-Graft></h4>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <p class="mb-0">&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div
+                            class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                            <span class="material-symbols-rounded">monetization_on</span>
+                        </div>
+                        <div class="text-end pt-1">
+                            <p class="text-sm mb-0 text-capitalize">Saldo en cuenta</p>
+                            <h4 class="mb-0"><frC-Graft name="saldoU">X</frC-Graft>€</h4>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder"><frC-Graft name="fondo">X</frC-Graft>€</span> En fondo</p>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div class="row mb-4">
+            <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Derramas</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Proyecto</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Importe</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Recaudado</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Completado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">Bajantes B</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 4.000€ </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 3.000€ </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="progress-wrapper w-75 mx-auto">
+                                                <div class="progress-info">
+                                                    <div class="progress-percentage">
+                                                        <span class="text-xs font-weight-bold">75%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-gradient-info w-75" role="progressbar"
+                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">Cuadro luces</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 3.500€ </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 3.500€ </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="progress-wrapper w-75 mx-auto">
+                                                <div class="progress-info">
+                                                    <div class="progress-percentage">
+                                                        <span class="text-xs font-weight-bold">100%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-gradient-info w-100" role="progressbar"
+                                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">Toma de tierra</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 2.400€ </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-xs font-weight-bold"> 360€ </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="progress-wrapper w-75 mx-auto">
+                                                <div class="progress-info">
+                                                    <div class="progress-percentage">
+                                                        <span class="text-xs font-weight-bold">15%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-gradient-info w-15" role="progressbar"
+                                                        aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</form>
 
 <span class="xx">
 La idea es crear un mantenimiento de bolsas
-agua, luz, xxx, cuota de comunidad y que se pueda indicar en cada bolsa, qué pisos participan
+agua, luz, xxx, cuota de comunidad y que se pueda indicar en cada bolsa, qué pisos participan (gastos fijos)
 La idea, es que al insertar los movimientos, se vinculen a cada bolsa, de forma que se pueda controlar que le corresponde pagar a cada pisos
 Cada una de las bolsas se pondrán distribuir a partes iguales, por porcentaje o importe fijo.
 Los pisos en sí, también se usarán como bolsas, cada vez que un piso haga un ingreso, se vinculará con esa bolsa
 Y luego haremos las bolsas especiales, que son los presupuestos para hacer las derramas (con fecha inicio y fin para las derramas) cuando un vecino haga 
-un ingreso, además de vincular con el piso, se puede vincular con la derrama, si hay alguna abierta
+un ingreso, además de vincular con el piso, se puede vincular con la derrama, si hay alguna abierta.
+Otra bolsa especial, pueden ser los pagos improvistos, que no requieren derrama y directamente restarán del fondo de la comunidad
+
 
 A nivel de usuario, que va con retraso en alguna de las bolsas (posibilidad de poner vencimientos y recursividad en las bosas).
+
+
 </span>
