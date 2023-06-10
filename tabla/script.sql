@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-06-2023 a las 00:43:21
+-- Tiempo de generación: 11-06-2023 a las 00:29:10
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -39,6 +39,30 @@ CREATE TABLE `COMUNIDAD` (
 INSERT INTO `COMUNIDAD` (`com_comunidad`, `com_nombre`) VALUES
 (1, 'CAMI SALARD, 13'),
 (2, 'VALLE BUENAVISTA, 9');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `MOVIMIENTO`
+--
+
+CREATE TABLE `MOVIMIENTO` (
+  `mov_movimiento` int(11) NOT NULL,
+  `mov_comunidad` int(11) NOT NULL,
+  `mov_detalle` varchar(200) NOT NULL,
+  `mov_fecha` date NOT NULL,
+  `mov_detalle1` varchar(200) DEFAULT NULL,
+  `mov_detalle2` varchar(200) DEFAULT NULL,
+  `mov_detalle3` varchar(200) DEFAULT NULL,
+  `mov_importe` decimal(8,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `MOVIMIENTO`
+--
+
+INSERT INTO `MOVIMIENTO` (`mov_movimiento`, `mov_comunidad`, `mov_detalle`, `mov_fecha`, `mov_detalle1`, `mov_detalle2`, `mov_detalle3`, `mov_importe`) VALUES
+(1, 1, 'Movimiento DUMMY', '2023-01-01', NULL, NULL, NULL, '75.00');
 
 -- --------------------------------------------------------
 
@@ -143,12 +167,15 @@ INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VA
 ('cusquiskas@gmail.com', '07ced0e7d6707425fb10336a78a8177d075347534586ad11b79ab3f9d605cc32', '2023-06-05 22:53:21', '9999-12-31 00:00:00'),
 ('antoniapons@me.com', '17b1aea8363eb3d7f6f00349a0d98097ee2b2b6ec82163997bc0195e9861ffe3', '2023-06-06 21:19:01', '2023-06-06 21:19:01'),
 ('antoniapons@me.com', '21fa13d67d48dc86182b63dce71359f67a514eb74daf2da033a89e4e9d528dad', '2023-06-06 23:50:53', '2023-06-07 00:09:26'),
+('antoniapons@me.com', '22155f3fe669216dbe3ba0187be8fed78aec5f7a4dfe79ac2a7be2d218fae963', '2023-06-09 22:15:58', '2023-06-09 22:39:04'),
 ('antoniapons@me.com', '29d83f549605ffb27b7c15bb481d7ab3791b177fe898515c1ce268bf0465e33b', '2023-06-06 22:42:55', '2023-06-06 22:44:05'),
 ('antoniapons@me.com', '5dcd8aee1defae034a59fc7a4db2a6e18f9653018de743d4ddbadd4bf95e7c7c', '2023-06-05 23:06:25', '2023-06-05 23:18:59'),
 ('antoniapons@me.com', '6fd00e858c2f3bb12963cf925a8ec7383f40d6d27b8137e548d4aa2be5b43d66', '2023-06-06 22:44:34', '2023-06-06 22:48:05'),
 ('antoniapons@me.com', '8a74bcc74bceb40c5b53953d0819685899ea3f60458b4618195595c7d6a00dcc', '2023-06-07 23:49:13', '2023-06-08 00:38:10'),
 ('antoniapons@me.com', 'a48f0ca2ff6e2f1982fdac7d4f1d0cfca8d56a20e66906a959a63e004f1cbc9c', '2023-06-07 22:29:25', '2023-06-07 23:13:50'),
-('antoniapons@me.com', 'b7fd4a68a289e520a190d3c1de6ae04b4deb1b6ff4a9e9221a2457ee5a2c00ef', '2023-06-06 23:27:28', '2023-06-06 23:50:14');
+('antoniapons@me.com', 'b7fd4a68a289e520a190d3c1de6ae04b4deb1b6ff4a9e9221a2457ee5a2c00ef', '2023-06-06 23:27:28', '2023-06-06 23:50:14'),
+('antoniapons@me.com', 'f1c146f4e04f7df4f6de07e8c1aafa9194398353523c87b4c2a844e996e79380', '2023-06-09 23:10:46', '2023-06-10 00:47:40'),
+('antoniapons@me.com', 'fc94e8a7c4f3157a6d084667161e7669bc3f366f6ef3f7e81c0b79d0f16e3754', '2023-06-10 23:40:37', '2023-06-11 00:25:32');
 
 -- --------------------------------------------------------
 
@@ -170,7 +197,7 @@ CREATE TABLE `USUARIO` (
 --
 
 INSERT INTO `USUARIO` (`usu_correo`, `usu_nombre`, `usu_contrasena`, `usu_errorlogin`, `usu_facceso`, `usu_fvalida`) VALUES
-('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-07 23:49:13', '2022-06-03'),
+('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-10 23:40:37', '2022-06-03'),
 ('cusquiskas@gmail.com', 'José Miguel', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-05 22:53:21', '9999-12-31');
 
 -- --------------------------------------------------------
@@ -204,6 +231,13 @@ INSERT INTO `USUARIO_COMUNIDAD` (`uco_comunidad`, `uco_correo`, `uco_perfil`, `u
 --
 ALTER TABLE `COMUNIDAD`
   ADD PRIMARY KEY (`com_comunidad`);
+
+--
+-- Indices de la tabla `MOVIMIENTO`
+--
+ALTER TABLE `MOVIMIENTO`
+  ADD PRIMARY KEY (`mov_movimiento`),
+  ADD KEY `movimiento_ix` (`mov_comunidad`,`mov_fecha`);
 
 --
 -- Indices de la tabla `PERFIL`
@@ -264,6 +298,12 @@ ALTER TABLE `COMUNIDAD`
   MODIFY `com_comunidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `MOVIMIENTO`
+--
+ALTER TABLE `MOVIMIENTO`
+  MODIFY `mov_movimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `PERFIL`
 --
 ALTER TABLE `PERFIL`
@@ -284,6 +324,12 @@ ALTER TABLE `PROPIETARIO`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `MOVIMIENTO`
+--
+ALTER TABLE `MOVIMIENTO`
+  ADD CONSTRAINT `com_mov_fk` FOREIGN KEY (`mov_comunidad`) REFERENCES `COMUNIDAD` (`com_comunidad`);
 
 --
 -- Filtros para la tabla `PISO`

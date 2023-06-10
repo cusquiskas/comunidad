@@ -29,8 +29,8 @@
 
 
     if (count($avisos) > 0) {
-        echo json_encode(['success' => false, 'root' => $avisos]);
+        echo json_encode(['success' => false, 'root' => ["avisos" => $avisos, "perfil" => $perfil]]);
     } else {
-        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => "Sin avisos"]]);
+        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => "Sin avisos", "perfil" => $perfil]]);
     }
 ?>

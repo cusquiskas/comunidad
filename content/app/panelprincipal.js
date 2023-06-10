@@ -18,12 +18,21 @@ var panelprincipal = class {
             form = modulo.Forms['datosPisos'];
             form.set({'pis_comunidad':eve.currentTarget.value});
             form.executeForm();
+            form = modulo.Forms['datosMovimiento'];
+            form.set({'mov_comunidad':eve.currentTarget.value});
+            form.executeForm();
         });
     };
 
     avisos (s,d,e) {
         if (!s) {
-            validaErroresCBK(d.root||d, 6000);
+            validaErroresCBK(d.root.avisos||d, 6000);
+        }
+        if (d.root.perfil && d.root.perfil <= 2) {
+            $("p.gestionAcceso").removeClass('xx');
+        }
+        if (d.root.perfil && d.root.perfil > 2) {
+            $("p.gestionAcceso").addClass('xx');
         }
     }
 
@@ -36,6 +45,15 @@ var panelprincipal = class {
         }
     }
     
+    movimientos (s,d,e) {
+        if (!s) {
+            validaErroresCBK(d.root||d);
+        } else {
+            let form = e.form.modul.Forms['dashboard'];
+            form.set({saldoU:d.root.Detalle.saldo, fondo:d.root.Detalle.fondo});
+        }
+    }
+
     sesion (s,d,e) {
         let headerClass = Moduls.getHeader().getScript();
         if (!s) {

@@ -14,8 +14,12 @@
     <input name="com_comunidad"/>
 </form>
 
-<form name="datosPisos" method="post" action="backend/app/datosPisos.php" frc-callback="pisos">
-    <input class="xx" name="pis_comunidad"/>
+<form class="xx" name="datosPisos" method="post" action="backend/app/datosPisos.php" frc-callback="pisos">
+    <input name="pis_comunidad"/>
+</form>
+
+<form class="xx" name="datosMovimiento" method="post" action="backend/app/datosMovimiento.php" frc-callback="movimientos">
+    <input name="mov_comunidad"/>
 </form>
 
 <form name="dashboard">
@@ -36,7 +40,8 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0">&nbsp;</p>
+                        <p class="text-start mb-0">&nbsp;</p>
+                        <p class="text-end mb-0 xx gestionAcceso">Gestión</p>
                     </div>
                 </div>
             </div>
@@ -54,7 +59,8 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder"><frC-Graft name="fondo">X</frC-Graft>€</span> En fondo</p>
+                        <p class="mb-0"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="fondo">X</frC-Graft>€</span> En fondo</p>                        
+                        <p class="mb-0 text-end xx gestionAcceso">Gestión</p>
                     </div>
                 </div>
             </div>
