@@ -1,5 +1,4 @@
 <?php    
-    session_start();
     error_reporting(E_ALL & ~E_NOTICE);
 
     header('Content-Type: application/json; charset=utf-8');
@@ -12,15 +11,13 @@
     if (!isset($_POST) || $_POST == []) 
         $_POST = json_decode(file_get_contents('php://input'), true);
 
-    require_once '../../conex/conf.php';  //información crítica del sistema
-    require_once '../../conex/dao.php';   //control de comunicación con la base de datos MySQL
-    require_once '../../tabla/controller.php';
+    require_once $_SESSION['data']['conf']['home'].'conex/conf.php';  //información crítica del sistema
+    require_once $_SESSION['data']['conf']['home'].'conex/dao.php';   //control de comunicación con la base de datos MySQL
+    require_once $_SESSION['data']['conf']['home'].'tabla/controller.php';
 
     $manSesion = ControladorDinamicoTabla::set('SESION');
-    $conf = new ConfiguracionSistema();
     $fecha = new DateTime();
-    $fecha->modify($conf->getTimeSession());
-    unset($conf);
+    $fecha->modify($_SESSION['data']['conf']['timeSession']);
     $manSesion->give(["ses_token" => $_SESSION['data']['user']['token'], "ses_ultimo_signo" => ">", "ses_ultimo" => $fecha->format('Y-m-d G:i:s')]);
     $ses = $manSesion->getArray();
     if (count($ses) == 1)  {

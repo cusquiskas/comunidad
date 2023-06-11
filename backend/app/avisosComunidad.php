@@ -1,5 +1,6 @@
 <?php
-    require_once ('../required/controlSession.php');
+    session_start();
+    require_once ($_SESSION['data']['conf']['home'].'backend/required/controlSession.php');
 
     if (!$_POST['com_comunidad'] || $_POST['com_comunidad'] == "") {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'No se ha especificado una comunidad']]]));
@@ -20,7 +21,7 @@
     }
 
     if ($perfil >= 2) { #usuario o presidente
-        require_once '../../tabla/propietario_piso.php';
+        require_once $_SESSION['data']['conf']['home'].'tabla/propietario_piso.php';
         $manPisos = new View_PROPIETARIO_PISO();
         $resu = $manPisos->lista_pisos($_SESSION['data']['user']['id'], $_POST['com_comunidad'], date_format(new DateTime(), 'Y-m-d'));
         unset($manPisos);

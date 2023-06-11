@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     require_once ('../required/initSession.php');
         
     if ($_POST['usu_contrasena'] !== $_POST['usu_contrasena2']) {
@@ -36,16 +36,18 @@
         $ses["ses_primero"] = date('Y-m-d G:i:s');
         $ses["ses_ultimo"] = '9999-12-31';
         if ($manSesion->save($ses) == 0) {
-            /*
-            $to      = 'cusquiskas@gmail.com';
-            $subject = 'Verificación de cuenta de correo';
-            $message = 'Pulsa este enlace para activar el centro de mando';
-            $headers = 'From: cusquiskas@gmail.com'       . "\r\n" .
-                       'Reply-To: cusquiskas@gmail.com' . "\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
-    
-            mail($to, $subject, $message, $headers);
-            */
+            /* */
+            mb_internal_encoding("UTF-8");
+            mb_language("uni");
+            $to      = "".$ses["ses_correo"]."";
+            $subject = "Verificación de cuenta de correo";
+            $message = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br>http://localhost/comunidad/confirmarUsuario.html?s=".$ses["ses_token"];
+            $header["Mime-Version"] = "1.0";
+            $header["Content-Type"] = "text/html; charset=UTF-8";
+            $header["From"] = "cusquiskas@gmail.com";
+            $header["X-Mailer"] = "PHP/" . phpversion();
+            mb_send_mail($to, $subject, $message, $header);
+            /* */
         } else {
             unset($ses);
             $ses = $manSesion->getListaErrores();

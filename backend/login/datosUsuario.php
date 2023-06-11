@@ -1,5 +1,6 @@
 <?php
-    require_once ('../required/controlSession.php');
+    session_start();
+    require_once ($_SESSION['data']['conf']['home'].'backend/required/controlSession.php');
 
     $manUsuario = ControladorDinamicoTabla::set('USUARIO');
 

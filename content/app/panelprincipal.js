@@ -22,6 +22,10 @@ var panelprincipal = class {
             form.set({'mov_comunidad':eve.currentTarget.value});
             form.executeForm();
         });
+
+        $("p.gestionMovimientos").click(function () {
+            Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true });
+        });
     };
 
     avisos (s,d,e) {

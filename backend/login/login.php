@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once('../required/initSession.php');
 
     if ($_POST['usu_contrasena'] == '' || $_POST['usu_correo'] == '') {
