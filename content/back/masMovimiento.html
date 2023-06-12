@@ -1,0 +1,22 @@
+<form name="movimiento" method="post" action="backend/movimiento/guardar.php" frc-callback="guardar">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="mov_fecha">Fecha:</label>
+        <input type="date" name="mov_fecha" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="mov_detalle">Descripción:</label>
+        <input type="text" name="mov_detalle" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="mov_importe">Importe:</label>
+        <input type="number" step="0.01" name="mov_importe" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4 text-center">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+    </div>
+    <input type="text" class="xx" name="mov_comunidad" value=""/>
+    <input type="number" class="xx" name="mov_movimiento" value=""/>
+</form>
