@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once ('../required/initSession.php');
+    require_once ($_SESSION['data']['conf']['home'].'backend/required/initSession.php');
         
     if ($_POST['usu_contrasena'] !== $_POST['usu_contrasena2']) {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Las contraseñas no coinciden']]]));

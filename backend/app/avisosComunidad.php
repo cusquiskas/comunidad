@@ -1,6 +1,5 @@
 <?php
-    session_start();
-    require_once ($_SESSION['data']['conf']['home'].'backend/required/controlSession.php');
+    require_once ('../required/controlSession.php');
 
     if (!$_POST['com_comunidad'] || $_POST['com_comunidad'] == "") {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'No se ha especificado una comunidad']]]));

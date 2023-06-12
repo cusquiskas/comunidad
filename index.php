@@ -1,5 +1,16 @@
 <?php
     session_start();
+    if (!isset($_SESSION['data'])) {
+        $_SESSION['data'] = [];
+    }
+    if (!isset($_SESSION['data']['conf'])) {
+        $_SESSION['data']['conf'] = [];
+    }
+    require_once 'conex/conf.php';
+    $conf = new ConfiguracionSistema();
+    $_SESSION['data']['conf']['home']        = $conf->getHome();
+    $_SESSION['data']['conf']['timeSession'] = $conf->getTimeSession();
+    unset($conf);
     require_once 'js/function.php';
 ?>
 <!DOCTYPE html>
