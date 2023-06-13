@@ -4,9 +4,12 @@ var movimiento = class {
         this.modulo = mod;
         this.object = obj;
         this.addEventos(mod);
+        let yo = this;
         let form = mod.Forms['detalleMovimientos'];
-        form.set({'mov_comunidad':$(".comboComunidad").val()});
+        form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
+        form = mod.Forms['guardar'];
+        form.set({'mov_comunidad':obj.comunidad});
         this.tablaD = new DataTable(".listaMovimientos", {
             language: dataTableIdiomaES,
             //ordering: false,
@@ -20,26 +23,45 @@ var movimiento = class {
                 },
                 { data: 'mov_detalle' },
                 { data: 'mov_movimiento' },
-                { data: 'mov_importe' }
-            ]
+                { data: 'mov_importe' },
+                { render: function (data, type, row) { 
+                                var botones = '';
+                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" class="btn border border-info movPiso"><span class="material-symbols-rounded">person</span></button>';
+                                return botones;
+                          }}
+            ],
+            drawCallback: function (set) {
+                $('button.movPiso').click(function(eve){
+                    let form = yo.modulo.Forms['guardar'];
+                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
+                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad }});
+                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, formulario:form.formulario});
+                });
+            }
         });
     };
 
     addEventos(mod) {
         let comunidad = this.object.comunidad;
         $("button[name=anadirMovimiento]").click(function(event){
-            Moduls.getModalbody().load({ url: 'content/back/masMovimiento.html', script: true, parametros:{comunidad, movimiento:null}});
+            Moduls.getModalbody().load({ url: 'content/back/masMovimiento.html', script: true, parametros:{comunidad}});
             construirModal({title:"Guardar Movimiento", w:600, h:750});
           }
         );
     }
 
+    callbackPisos() {
+        debugger;
+        let form = this.formulario;
+        form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value});
+        form.executeForm();
+    }
+
     movimiento (s,d,e) {
-        let yo = e.form.modul.getScript();
         if (!s) {
             validaErroresCBK(d.root||d);
         } else {
-            let tabla = yo.tablaD;
+            let tabla = e.form.modul.getScript().tablaD;
             tabla.clear();
             tabla.rows.add(d.root.Detalle);
             tabla.draw();

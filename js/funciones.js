@@ -297,12 +297,7 @@ String.prototype.trim = function (c) { c = c ? c.aRegExp() : '\\s'; return this.
 String.prototype.esNull = function () { return this.length == 0 }
 String.prototype.esNumero = function (ent) {
   if (!this.length) return false;
-  if (this.indexOf('.') > -1) return false;
-  let c = 0, l = this.indexOf(',');
-  if (l > -1 && ent) return false;
-  while (l > -1) { l = this.indexOf(',', l + 1); c++; }
-  if (c > 1) return false;
-  return !isNaN(this.replace(',', '.'));
+  return !isNaN(this);
 }
 String.prototype.esHora = function (f) {
   let rx = __regexpHora(f);

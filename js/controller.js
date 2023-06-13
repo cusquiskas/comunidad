@@ -198,11 +198,11 @@ class FormController {
                         obj[chd] = cad.substr(sep.length);
                     }
                 } else {
-                    if (this.parametros[chd].object.type && this.parametros[chd].object.type === "date") {
+                    /*if (this.parametros[chd].object.type && this.parametros[chd].object.type === "date") {
                         obj[chd] = (this.parametros[chd].value) ? this.parametros[chd].value.hazFecha('yyyy-mm-dd', 'dd/mm/yyyy') : '';
-                    } else {
+                    } else {*/
                         obj[chd] = this.parametros[chd].value;
-                    }
+                    //}
                 }
             }
         }

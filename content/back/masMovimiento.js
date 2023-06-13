@@ -1,7 +1,6 @@
 var masMovimiento = class {
     constructor (mod, obj) {
         console.log('masMovimiento.js -> constructor');
-        debugger;
         this.modulo = mod;
         this.object = obj;
         this.addEventos(mod);
@@ -15,6 +14,15 @@ var masMovimiento = class {
     }
 
     guardar (s,d,e) {
-        validaErroresCBK(d.root||d);
+        if (s) {
+            if (e.form.modul.name = '#modalBody') {
+                cerrarModal();
+                Moduls.getBody().Forms['detalleMovimientos'] && Moduls.getBody().Forms['detalleMovimientos'].executeForm();
+            } else {
+                e.form.modul.Forms && e.form.modul.Forms.detalleMovimientos && e.form.modul.Forms.detalleMovimientos.executeForm();
+            }
+        } else {
+            validaErroresCBK(d.root||d);
+        }
     }
 }

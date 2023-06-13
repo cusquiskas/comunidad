@@ -2,6 +2,10 @@
     <input name="mov_comunidad"/>
 </form>
 
+<form class="xx" name="guardar" method="post" action="backend/app/movimiento/guardar.php" frc-callback="guardar">
+    <input name="mov_comunidad"/><input name="mov_movimiento"/><input name="mov_piso"/>
+</form>
+
 <form name="dashboard">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <div class="container-fluid py-4">
@@ -29,6 +33,7 @@
                                 <th>Descripción</th>
                                 <th>Rel.</th>
                                 <th>Importe</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                     </table>

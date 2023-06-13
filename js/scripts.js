@@ -33,6 +33,7 @@ function validaErroresCBK(obj, time=4000) {
             obj[i].tipo = (obj[i].type == 'required' ? 'Validacion' : 'Error');
         }
         obj[i].tipo = (obj[i].tipo == 'Confirmacion' || obj[i].tipo == 'Respuesta' ? 'success' : (obj[i].tipo == 'Validacion' ? 'warning' : 'danger'));
+        if (obj[i].sqlstate) obj[i].Detalle = obj[i].error;
         if (!obj[i].Detalle) obj[i].Detalle = JSON.stringify(obj[i]);
         if (!obj[i].Campo) obj[i].Campo = "";
         $(".alertBoxMessage").append(msg.reemplazaMostachos(obj[i]));
