@@ -1,15 +1,20 @@
 var header = class {
     constructor (mod, obj) {
         console.log('header.js -> constructor');
-        let form = mod.Forms['sesion'];
-        form.set({'usu_correo':sessionStorage.getItem('id')});
-        form.executeForm();
+        this.mod = mod;
+        this.obj = obj;
+        this.validaSesion();
         this.addEventos();
     };
 
+    validaSesion() {
+        let form = this.mod.Forms['sesion'];
+        form.set({'usu_correo':sessionStorage.getItem('id')});
+        form.executeForm();
+    }
+
     addEventos () {
         $('button.loginHeader').click(function () {
-            debugger;
             Moduls.getModalbody().load({ url: 'content/app/login.html', script: true });
             construirModal({title:"Login", w:400, h:700});
         });

@@ -15,7 +15,8 @@ var login = class {
             validaErroresCBK(d.root, 1000);
             cerrarModal();
             sessionStorage.setItem('id', d.root.id);
-            Moduls.getBody().load({ url: 'content/app/panelprincipal.html', script: true });
+            //Moduls.getHeader().getScript().validaSesion();
+            Moduls.getHeader().load({ url: 'content/header.html', script: true});
         } else validaErroresCBK(d.root||d);
     }
 }
