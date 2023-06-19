@@ -1,6 +1,7 @@
 var selectPiso = class {
     constructor (mod, obj) {
         console.log('selectPiso.js -> constructor');
+        this.obj = obj;
         let form = mod.Forms.pisos;
         form.set({pis_comunidad:obj.comunidad});
         form.executeForm();
@@ -14,6 +15,7 @@ var selectPiso = class {
             for (let i=0; i<d.root.Detalle.length; i++) {
                 form.append(opcion.reemplazaMostachos(d.root.Detalle[i]));
             }
+            form[0].piso.value = e.form.modul.script.obj.piso;
         } else {
             validaErroresCBK(d.root||d);
             cerrarModal();

@@ -9,7 +9,8 @@
     if ($perfil > 1) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin permisos de escritura']]]));
     
     $manMovimiento = ControladorDinamicoTabla::set('MOVIMIENTO');
-    unset($_POST['mov_movimiento']);
+    if (isset($_POST['mov_movimiento']) && $_POST['mov_movimiento'] == "") unset($_POST['mov_movimiento']);
+    if (!isset($_POST['mov_piso'])) $_POST['mov_piso'] = null;
     
     if ($manMovimiento->save($_POST) == 0) {
         $reg = $manMovimiento->getArray();

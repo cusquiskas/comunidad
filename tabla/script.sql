@@ -15,7 +15,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8_bin */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de datos: `comunidad`
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `COMUNIDAD` (
   `com_comunidad` int(11) NOT NULL,
   `com_nombre` varchar(99) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `COMUNIDAD`
@@ -56,7 +56,7 @@ CREATE TABLE `MOVIMIENTO` (
   `mov_detalle3` varchar(200) DEFAULT NULL,
   `mov_importe` decimal(8,2) NOT NULL,
   `mov_piso` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `MOVIMIENTO`
@@ -80,7 +80,7 @@ INSERT INTO `MOVIMIENTO` (`mov_movimiento`, `mov_comunidad`, `mov_detalle`, `mov
 CREATE TABLE `PERFIL` (
   `per_perfil` int(11) NOT NULL,
   `per_nombre` varchar(99) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `PERFIL`
@@ -100,10 +100,10 @@ INSERT INTO `PERFIL` (`per_perfil`, `per_nombre`) VALUES
 CREATE TABLE `PISO` (
   `pis_piso` int(11) NOT NULL,
   `pis_comunidad` int(11) NOT NULL,
-  `pis_nombre` varchar(10) COLLATE utf8_bin NOT NULL,
+  `pis_nombre` varchar(10)  NOT NULL,
   `pis_porcentaje` decimal(7,3) NOT NULL DEFAULT 0.000,
-  `pis_comentario` varchar(999) COLLATE utf8_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `pis_comentario` varchar(999)  DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 --
 -- Volcado de datos para la tabla `PISO`
@@ -131,13 +131,13 @@ INSERT INTO `PISO` (`pis_piso`, `pis_comunidad`, `pis_nombre`, `pis_porcentaje`,
 
 CREATE TABLE `PROPIETARIO` (
   `pro_propietario` int(11) NOT NULL,
-  `pro_nombre` varchar(50) COLLATE utf8_bin NOT NULL,
-  `pro_apellidos` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `pro_dni` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `pro_nombre` varchar(50)  NOT NULL,
+  `pro_apellidos` varchar(50)  DEFAULT NULL,
+  `pro_dni` varchar(20)  DEFAULT NULL,
   `pro_fnacimiento` date DEFAULT NULL,
-  `pro_correo` varchar(99) COLLATE utf8_bin DEFAULT NULL,
-  `pro_telefono` varchar(20) COLLATE utf8_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `pro_correo` varchar(99)  DEFAULT NULL,
+  `pro_telefono` varchar(20)  DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -151,7 +151,7 @@ CREATE TABLE `PROPIETARIO_PISO` (
   `ppi_desde` date NOT NULL,
   `ppi_hasta` date NOT NULL,
   `ppi_inquilino` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -160,11 +160,11 @@ CREATE TABLE `PROPIETARIO_PISO` (
 --
 
 CREATE TABLE `SESION` (
-  `ses_correo` varchar(99) CHARACTER SET utf8_bin NOT NULL,
-  `ses_token` varchar(99) COLLATE utf8_bin NOT NULL,
+  `ses_correo` varchar(99) CHARACTER SET utf8 NOT NULL,
+  `ses_token` varchar(99)  NOT NULL,
   `ses_primero` datetime NOT NULL,
   `ses_ultimo` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 --
 -- Volcado de datos para la tabla `SESION`
@@ -198,12 +198,12 @@ INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VA
 
 CREATE TABLE `USUARIO` (
   `usu_correo` varchar(99) NOT NULL,
-  `usu_nombre` varchar(99) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `usu_nombre` varchar(99) CHARACTER SET utf8  NOT NULL,
   `usu_contrasena` varchar(99) NOT NULL,
   `usu_errorlogin` int(11) NOT NULL,
   `usu_facceso` datetime NOT NULL,
   `usu_fvalida` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `USUARIO`
@@ -225,7 +225,7 @@ CREATE TABLE `USUARIO_COMUNIDAD` (
   `uco_perfil` int(11) NOT NULL,
   `uco_desde` date NOT NULL,
   `uco_hasta` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `USUARIO_COMUNIDAD`

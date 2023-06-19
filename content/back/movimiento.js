@@ -26,7 +26,7 @@ var movimiento = class {
                 { data: 'mov_importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" class="btn border border-info movPiso"><span class="material-symbols-rounded">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn border border-info movPiso"><span class="material-symbols-rounded">person</span></button>';
                                 return botones;
                           }}
             ],
@@ -34,8 +34,8 @@ var movimiento = class {
                 $('button.movPiso').click(function(eve){
                     let form = yo.modulo.Forms['guardar'];
                     form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
-                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad }});
-                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, formulario:form.formulario});
+                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad, piso: eve.currentTarget.getAttribute('data-piso')}});
+                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos});
                 });
             }
         });
@@ -51,10 +51,18 @@ var movimiento = class {
     }
 
     callbackPisos() {
-        debugger;
-        let form = this.formulario;
+        let form = Moduls.getBody().Forms.guardar;
         form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value});
         form.executeForm();
+    }
+
+    guardarPiso (s,d,e) {
+        if (s) {
+            cerrarModal();
+            e.form.modul.Forms.detalleMovimientos.executeForm();
+        } else {
+            validaErroresCBK(d.root||d);
+        }
     }
 
     movimiento (s,d,e) {
