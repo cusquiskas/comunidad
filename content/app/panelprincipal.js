@@ -21,6 +21,10 @@ var panelprincipal = class {
         $("p.gestionMovimientos").click(function () {
             Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad} });
         });
+
+        $("p.gestionPisos").click(function() {
+            Moduls.getBody().load({ url: 'content/back/gestionPiso.html', script: true, parametros:{comunidad} });
+        });
     };
 
     avisos (s,d,e) {
@@ -49,7 +53,13 @@ var panelprincipal = class {
             validaErroresCBK(d.root||d);
         } else {
             let form = e.form.modul.Forms['dashboard'];
-            form.set({saldoU:d.root.Detalle.saldo, fondo:d.root.Detalle.fondo});
+            let fila = '<tr><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}}</h6></div></div></td><td class="align-middle text-center text-sm"><span class="text-xs font-weight-bold">{{saldo}}</span></td></tr>';
+            form.set({saldoU:d.root.Detalle.saldoCuenta, fondo:d.root.Detalle.fondoCuenta});
+            let tabla = $('tbody.listaSaldoPisos');
+            tabla.empty();
+            for (let i=0; i<d.root.Detalle.saldoPiso.length; i++) {
+                tabla.append(fila.reemplazaMostachos(d.root.Detalle.saldoPiso[i]));
+            }
         }
     }
 

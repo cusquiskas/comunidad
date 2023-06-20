@@ -14,6 +14,18 @@
     
     unset($manPisos);
 
+    require_once $_SESSION['data']['conf']['home'].'tabla/propietario_piso.php';
+    $manPisos = new View_PROPIETARIO_PISO();
+    for ($i=0; $i<count($reg); $i++) {
+        $resu = $manPisos->lista_pisos(null, $_POST['com_comunidad'], date_format(new DateTime(), 'Y-m-d'), $reg[$i]['pis_piso']);
+        if (count($resu) > 0) {
+            $reg[$i]['propietario'] = $resu;
+        } else {
+            
+        }
+    }
+    unset($manPisos);
+
 
     echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
 ?>

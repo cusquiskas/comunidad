@@ -14,12 +14,18 @@
     $suma  = 0;
     $fondo = 0;
     for ($i=0; $i<count($reg); $i++) {
-        $suma += $reg[0]['mov_importe'];
-        $fondo+= $reg[0]['mov_importe'];
+        $suma += $reg[$i]['mov_importe'];
+        $fondo+= $reg[$i]['mov_importe'];
     }
     unset($reg);
     unset($manMovimiento);
 
+    require_once $_SESSION['data']['conf']['home'].'tabla/movimiento_piso.php';
+    $manMovPiso = new View_MOVIMIENTO_PISO();
+    $saldo = $manMovPiso->saldo_pisos($_POST['mov_comunidad']);
 
-    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => ['saldo' => $suma, 'fondo' => $fondo]]]);
+    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => ['saldoCuenta' => round($suma,2), 'fondoCuenta' => round($fondo,2), 'saldoPiso' => $saldo]]]);
+
+    unset($saldo);
+    unset($manMovimiento);
 ?>

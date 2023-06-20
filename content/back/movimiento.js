@@ -26,7 +26,7 @@ var movimiento = class {
                 { data: 'mov_importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn border border-info movPiso"><span class="material-symbols-rounded">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn border border-info movPiso"><span class="material-symbols-'+(!row.mov_piso?'rounded':'outlined')+'">person</span></button>';
                                 return botones;
                           }}
             ],

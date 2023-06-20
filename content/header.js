@@ -22,6 +22,10 @@ var header = class {
         $(".comboComunidad").change(function(eve){
             Moduls.getBody().load({ url: 'content/app/panelprincipal.html', script: true, parametros:{comunidad:eve.currentTarget.value}});
         });
+
+        $("a.iconoHome").click(function(eve) {
+            $(".comboComunidad").change();
+        });
     }
 
     setUser(name) {
