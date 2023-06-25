@@ -9,6 +9,8 @@
     if ($perfil > 1) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin permisos de escritura']]]));
     
     $manMovimiento = ControladorDinamicoTabla::set('MOVIMIENTO');
+    #require_once $_SESSION['data']['conf']['home'].'tabla/MOVIMIENTO.php';
+    $manMovimiento = new Tabla_MOVIMIENTO();
     if (isset($_POST['mov_movimiento']) && $_POST['mov_movimiento'] == "") unset($_POST['mov_movimiento']);
     if (!isset($_POST['mov_piso'])) $_POST['mov_piso'] = null;
     

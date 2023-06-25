@@ -26,7 +26,7 @@ var movimiento = class {
                 { data: 'mov_importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn border border-info movPiso"><span class="material-symbols-'+(!row.mov_piso?'rounded':'outlined')+'">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn btn-'+(row.mov_piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
                                 return botones;
                           }}
             ],
@@ -35,7 +35,7 @@ var movimiento = class {
                     let form = yo.modulo.Forms['guardar'];
                     form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
                     Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad, piso: eve.currentTarget.getAttribute('data-piso')}});
-                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos});
+                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
                 });
             }
         });
@@ -53,6 +53,12 @@ var movimiento = class {
     callbackPisos() {
         let form = Moduls.getBody().Forms.guardar;
         form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value});
+        form.executeForm();
+    }
+
+    callbackPisosBorrar() {
+        let form = Moduls.getBody().Forms.guardar;
+        form.set({mov_piso:null});
         form.executeForm();
     }
 
