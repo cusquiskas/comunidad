@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-06-2023 a las 00:28:34
+-- Tiempo de generación: 27-06-2023 a las 00:12:55
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 7.4.16
 
@@ -63,6 +63,25 @@ INSERT INTO `GASTO` (`gas_comunidad`, `gas_gasto`, `gas_nombre`, `gas_reparto`) 
 (1, 3, 'Administración', 1),
 (1, 4, 'Limpieza', 1),
 (1, 5, 'Seguro', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `GASTO_PISO`
+--
+
+CREATE TABLE `GASTO_PISO` (
+  `gpi_gasto` int(11) NOT NULL,
+  `gpi_piso` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `GASTO_PISO`
+--
+
+INSERT INTO `GASTO_PISO` (`gpi_gasto`, `gpi_piso`) VALUES
+(1, 2),
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -227,6 +246,7 @@ INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VA
 ('antoniapons@me.com', '54d9e72ce27942c5e7c1d3f49cdffcb4a1f8195ddb097d160aee267600aad13d', '2023-06-19 23:35:47', '2023-06-19 23:56:58'),
 ('antoniapons@me.com', '69386590a7aab222036c8535c9dfd49ea45ca0d27ede0e079bb4b227af095fff', '2023-06-12 00:17:02', '2023-06-12 01:13:16'),
 ('antoniapons@me.com', '7504211e5d63bbc0f0f6983950eeeef4525573a22e47a74f6ba3a63a406dfd96', '2023-06-11 23:17:08', '2023-06-11 23:17:08'),
+('antoniapons@me.com', '76469ac721808156b9756b8699aa53084a40cb01d79f084b54e737bf64e68e8b', '2023-06-26 22:57:51', '2023-06-26 22:57:51'),
 ('antoniapons@me.com', '772581ac76a4164d32888aa362ab870e0d7bb472c925174bb0bdd082567dc25c', '2023-06-11 23:16:13', '2023-06-11 23:16:13'),
 ('antoniapons@me.com', '77467842121ee7f84b92a1f363c3cbe89db40ae955a8765b933f51301d4c4477', '2023-06-25 22:31:22', '2023-06-26 00:09:29'),
 ('antoniapons@me.com', '7a7539f69a546bcf315b7cbf6af1a5b69105fcac5be60ac302f5998228f7c950', '2023-06-19 22:29:38', '2023-06-19 23:16:51'),
@@ -238,6 +258,7 @@ INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VA
 ('antoniapons@me.com', 'b6c79122a5f9321d2922939d23747ce4e4291b12bd908252534926a89afea8ab', '2023-06-19 17:25:30', '2023-06-19 17:25:30'),
 ('antoniapons@me.com', 'be3c4393f9205656f2586020884b430406a9cb98f6f3141409c964cb13381250', '2023-06-12 17:17:49', '2023-06-12 17:17:49'),
 ('antoniapons@me.com', 'c7eb0542b691409143abc1647419d77fc7b3286c89dc89ea4b6306fc9a5c2a26', '2023-06-13 16:37:44', '2023-06-13 16:43:50'),
+('antoniapons@me.com', 'efb860f8844b46eaf9f2f7935a6858ee5ef5b5909ba4cdd24b51244e1c429cc7', '2023-06-26 22:58:19', '2023-06-27 00:10:54'),
 ('antoniapons@me.com', 'f39ff89f607ff9b700580ebb87422f277f20b9c9121ef14d6953e1cd5dbc0452', '2023-06-13 16:36:38', '2023-06-13 16:36:57'),
 ('antoniapons@me.com', 'f497770ae6733b94e8a6491d3eae16f89029a4878eb42810375056cf028c1816', '2023-06-12 17:19:20', '2023-06-12 17:19:20'),
 ('antoniapons@me.com', 'fc94e8a7c4f3157a6d084667161e7669bc3f366f6ef3f7e81c0b79d0f16e3754', '2023-06-10 23:40:37', '2023-06-11 00:25:32');
@@ -262,7 +283,7 @@ CREATE TABLE `USUARIO` (
 --
 
 INSERT INTO `USUARIO` (`usu_correo`, `usu_nombre`, `usu_contrasena`, `usu_errorlogin`, `usu_facceso`, `usu_fvalida`) VALUES
-('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-25 22:31:22', '2022-06-03'),
+('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-26 22:58:19', '2022-06-03'),
 ('cusquiskas@gmail.com', 'José Miguel', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-11 23:13:28', '9999-12-31');
 
 -- --------------------------------------------------------
@@ -304,6 +325,13 @@ ALTER TABLE `GASTO`
   ADD PRIMARY KEY (`gas_gasto`),
   ADD KEY `gas_comunidad` (`gas_comunidad`),
   ADD KEY `gas_rep_fk` (`gas_reparto`);
+
+--
+-- Indices de la tabla `GASTO_PISO`
+--
+ALTER TABLE `GASTO_PISO`
+  ADD PRIMARY KEY (`gpi_piso`,`gpi_gasto`),
+  ADD KEY `gpi_gas_fk` (`gpi_gasto`);
 
 --
 -- Indices de la tabla `MOVIMIENTO`
@@ -417,6 +445,13 @@ ALTER TABLE `PROPIETARIO`
 ALTER TABLE `GASTO`
   ADD CONSTRAINT `gas_com_fk` FOREIGN KEY (`gas_comunidad`) REFERENCES `COMUNIDAD` (`com_comunidad`),
   ADD CONSTRAINT `gas_rep_fk` FOREIGN KEY (`gas_reparto`) REFERENCES `REPARTO` (`rep_reparto`);
+
+--
+-- Filtros para la tabla `GASTO_PISO`
+--
+ALTER TABLE `GASTO_PISO`
+  ADD CONSTRAINT `gpi_gas_fk` FOREIGN KEY (`gpi_gasto`) REFERENCES `GASTO` (`gas_gasto`),
+  ADD CONSTRAINT `gpi_pis_fk` FOREIGN KEY (`gpi_piso`) REFERENCES `PISO` (`pis_piso`);
 
 --
 -- Filtros para la tabla `MOVIMIENTO`

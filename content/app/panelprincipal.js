@@ -25,6 +25,10 @@ var panelprincipal = class {
         $("p.gestionPisos").click(function() {
             Moduls.getBody().load({ url: 'content/back/gestionPiso.html', script: true, parametros:{comunidad} });
         });
+
+        $("p.gestionGastos").click(function() {
+            Moduls.getBody().load({ url: 'content/back/gestionGastos.html', script: true, parametros:{comunidad} });
+        });
     };
 
     avisos (s,d,e) {
