@@ -1,5 +1,9 @@
-<form class="xx" name="pisos" method="post" action="backend/app/piso/listado.php" frc-callback="listado">
-    <input name="pis_comunidad"/>
+<form class="xx" name="gastos" method="post" action="backend/app/gasto/listado.php" frc-callback="listado">
+    <input name="gas_comunidad"/>
+</form>
+
+<form class="xx" name="guardar" method="post" action="backend/app/gsto/guardar.php" frc-callback="guardarGasto">
+    <input name="gas_comunidad"/><input name="gas_gasto"/><input name="gas_piso"/>
 </form>
 
 <form name="dashboard">
@@ -7,11 +11,8 @@
         <div class="container-fluid py-4">
             <div class="row xx">
                 <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
-                    <button class="icon btn btn-primary" name="anadirMovimiento">
-                        <span class="material-symbols-rounded">add_circle</span> Añadir Movimiento
-                    </button>
-                    <button class="icon btn btn-primary" name="cargarMovimiento">
-                        <span class="material-symbols-rounded">upload_file</span> Cargar Movimientos
+                    <button class="icon btn btn-primary" name="anadirGasto">
+                        <span class="material-symbols-rounded">add_circle</span> Nuevo Gasto
                     </button>
                 </div>
             </div>
@@ -22,7 +23,7 @@
             </div>
             <div class="row">
                 <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
-                    <table class="dataTable listaPisos">
+                    <table class="dataTable listaGastos">
                         <thead>
                             <tr>
                                 <th>Gasto</th>

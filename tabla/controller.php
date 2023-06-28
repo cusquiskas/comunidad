@@ -233,6 +233,7 @@ class ControladorDinamicoTabla
         }
 
         $updateDatos = substr($updateDatos, 1);
+        if (strlen($updateDatos)==0) $updateDatosPK = substr($updateDatosPK, 1);
         $updateColumn = substr($updateColumn, 1);
         $insertExtraVal .= "\nif (count(\$this->error) > 0) {\$link->close(); return 1;}\n";
 
@@ -474,7 +475,7 @@ class ControladorDinamicoTabla
             $cadena .= self::fncDelete($array, $tabla);
             $cadena .= self::fncConstruct();
             $cadena .= "}\n";
-            #echo var_dump($cadena, true);
+            #if ($tabla == 'GASTO_PISO') echo var_dump($cadena, true);
             eval($cadena);
         }
 
