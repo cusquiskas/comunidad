@@ -1,11 +1,26 @@
 var selectPiso = class {
     constructor (mod, obj) {
         console.log('selectPiso.js -> constructor');
+        this.mod = mod;
         this.obj = obj;
         if (!this.obj.type || this.obj.type == "") this.obj.type = "radio"; 
         let form = mod.Forms.pisos;
         form.set({pis_comunidad:obj.comunidad});
         form.executeForm();
+    }
+
+    getValor() {
+        let resultado;
+        if (this.obj.type == "radio") {
+            resultado = this.mod.Forms.listaPisos.piso.value;
+        } else {
+            let inp = this.mod.Forms.listaPisos.formulario.querySelectorAll('input');
+            resultado = [];
+            inp.forEach(e=>{
+                if (e.checked==true)resultado.push(e.value);
+            });
+        }
+        return resultado;
     }
 
     listado (s,d,e) {
@@ -20,9 +35,7 @@ var selectPiso = class {
             if (yo.obj.type == 'radio')
                 form[0].piso.value = piso;
             else
-                piso.forEach(e => {
-                    document.getElementById('piso'+e).checked = true;
-                });
+                piso.forEach(e => { document.getElementById('piso'+e).checked = true; });
         } else {
             validaErroresCBK(d.root||d);
             cerrarModal();
