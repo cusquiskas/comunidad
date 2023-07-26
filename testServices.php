@@ -5,7 +5,8 @@
     require_once 'conex/conf.php';  //información crítica del sistema
     require_once 'conex/dao.php';   //control de comunicación con la base de datos MySQL
     require_once 'tabla/controller.php';   //genera la clase de una tabla dinámicamente bajo petición
-    require_once 'conex/sesion.php';
+    require_once 'conex/smtp.php';
+    #require_once 'conex/sesion.php';
 
     header('Content-Type: application/json; charset=utf-8');
 
@@ -23,7 +24,7 @@
     die(json_encode($datos));
     */
 
-    $manejador = ControladorDinamicoTabla::set('ARTICULO');
+    $manejador = ControladorDinamicoTabla::set('USUARIO');
     /*if ($manejador->delete(['art_codart' => 4]) > 0) {
         die(json_encode(['success' => false, 'root' => $manejador->getListaErrores()]));
     }*/
@@ -33,7 +34,7 @@
     }
     //die(json_encode($manejador->getListaErrores()));
 
-    $listaArticulo = $manejador->getArray();
+    #$listaUsuario = $manejador->getArray();
 
     //die(json_encode($listaArticulo));
 
@@ -60,9 +61,21 @@
         }
     }*/
 
-    echo json_encode(['success' => true, 'root' => $listaArticulo]);
-
+    #echo json_encode(['success' => true, 'root' => $listaUsuario]);
+    $smtp = new SMTP();
+    $smtp->setDebugger(true);
+    $smtp->setPara("cusquiskas@gmail.com");
+    $smtp->setAsunto("Prueba definitiva 31");
+    $smtp->setCuerpo("<h1>CONSEGUIDO</h1><p>Visita el enlace a <a href='https://cusquiskas.com' target='_blank'>CusQuisKas</a></p><p>Tengo cañón & otras €</p>");
+    if ($smtp->sendMail()) {
+        echo json_encode(['success' => true, 'root' => "correo enviado correctamente"]);
+    } else {
+        echo json_encode(['success' => false, 'root' => $smtp->getError()]);
+    }
+    
+    
     unset($manejador);
+    unset($smtp);
     unset($manFamilia);
     unset($manIVA);
 
