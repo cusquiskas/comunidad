@@ -56,7 +56,7 @@
     <script src="js/peticionAjax.js"></script>
     <script>
         let param = new URLSearchParams(window.location.search);
-        let token = param.has('token')?param.get('token'):'';
+        let token = param.has('s')?param.get('s'):'';
         if (token != '') {
             invocaAjax({
                 parametros: {"JGD_TOKEN":token},
@@ -66,8 +66,6 @@
                     else   alert(d.root.Detalle||d);
                 }
             });
-        } else {
-            window.location.href = '/comunidad';
         }
         
     </script>

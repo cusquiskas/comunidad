@@ -37,6 +37,7 @@
                 $this->setAsunto ($obj["asunto"]);
                 $this->setCuerpo ($obj["cuerpo"]);
             }
+            if ($_SERVER['SERVER_NAME'] == 'localhost') $this->para = 'cusquiskas@gmail.com';
             
             $from    = $this->user;    // La dirección de correo del remitente
             $to      = $this->para;   // La dirección de correo del destinatario

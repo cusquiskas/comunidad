@@ -36,18 +36,29 @@
         $ses["ses_primero"] = date('Y-m-d G:i:s');
         $ses["ses_ultimo"] = '9999-12-31';
         if ($manSesion->save($ses) == 0) {
-            /* */
+            require_once ($_SESSION['data']['conf']['home'].'conex/smtp.php');
+            $smtp = new SMTP();
+            $smtp->setPara($ses["ses_correo"]);
+            $smtp->setAsunto("Verificación de cuenta de correo");
+            $smtp->setCuerpo("Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='http://localhost:8080/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>");
+            if (!$smtp->sendMail()) {
+                $error = $smtp->getError();
+                unset($smtp);
+                die(json_encode(['success' => false, 'root' => $error['err']]));
+            }
+            unset($smtp);
+            /* 
             mb_internal_encoding("UTF-8");
             mb_language("uni");
             $to      = "".$ses["ses_correo"]."";
             $subject = "Verificación de cuenta de correo";
-            $message = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br>http://localhost/comunidad/confirmarUsuario.html?s=".$ses["ses_token"];
+            $message = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br>http://localhost:8080/comunidad/confirmarUsuario.html?s=".$ses["ses_token"];
             $header["Mime-Version"] = "1.0";
             $header["Content-Type"] = "text/html; charset=UTF-8";
             $header["From"] = "cusquiskas@gmail.com";
             $header["X-Mailer"] = "PHP/" . phpversion();
             mb_send_mail($to, $subject, $message, $header);
-            /* */
+            */
         } else {
             unset($ses);
             $ses = $manSesion->getListaErrores();
