@@ -30,19 +30,33 @@
             <h1>VecinApp</h1>
             <h4>Activación de cuenta y/o recuperación de contraseña</h4>
             <br/><br/>
-            <div class=" inicial container-fluid xx">
+            <div class="desbloqueado container-fluid xx">
                 <h6>
-                    Bienvenido al juego, ahora tu colonia ya está registrada, hemos podido verificar que eres el propietario de la cuenta de correo y no volveremos a mandarte ningún otro a no ser que necesites recuperar la contraseña por olvido o bloqueo.
+                    Hemos registrado su nueva contraseña y desbloqueado la cuenta.
                 </h6>
             </div>
-            <div class="contraseña container-fluid xx">
+            <div class=" inicial container-fluid xx">
                 <h6>
-                    Parece que la cuenta está bloqueada, es posible que hayas intentado acceder sin haber activado la cuenta o simplemente te has equivocado unas cuantas veces escribiendo la contraseña, en cualquier caso, pon una contraseña nueva acontinuación para poder gestionar tu colonia. Si anteriormente no habías activado el registro, en este mismo paso quedará activado.
+                    Hemos podido verificar que eres el propietario de la cuenta de correo puedes iniciar sesión para acceder a la información de tu comunidad.
                 </h6>
-                <form name="activar">
-                    <input type="password"><br/>
-                    <input type="password"><br/>
-                    <button type="button">Guardar</button>
+            </div>
+            <div class="contrasena container-fluid xx">
+                <h6>
+                    Hemos podido identificar su cuenta<span class="detalleUsuario"></span>.
+                </h6>
+                <p>Establezca una nueva contraseña desde el siguiente formulario</p>
+                <form method="post" name="activar" width="100px">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="usu_contrasena1">Contraseña:</label>
+                        <input type="password" name="usu_contrasena1" class="form-control form-control-lg" required/>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="usu_contrasena2">Vuelve a escribirla:</label>
+                        <input type="password" name="usu_contrasena2" class="form-control form-control-lg" required/>
+                    </div>
+                    <div class="form-outline mb-4 text-center">
+                        <button class="btn btn-primary btn-lg btn-block cambiarContrasena" type="button">Guardar</button>
+                    </div>
                 </form> 
             </div>
         </div>
@@ -57,17 +71,44 @@
     <script>
         let param = new URLSearchParams(window.location.search);
         let token = param.has('s')?param.get('s'):'';
+        let timeOut = null;
         if (token != '') {
             invocaAjax({
-                parametros: {"JGD_TOKEN":token},
+                parametros: {"SES_TOKEN":token},
                 direccion: '/comunidad/backend/login/activado.php',
                 retorno: function (s,d,e) {
-                    if (s) alert(d.root.Detalle);
-                    else   alert(d.root.Detalle||d);
+                    if (s) {
+                        if (d.root.Code == 1) {
+                            $(".inicial").removeClass('xx');
+                            timeOut = setTimeout(function () {window.location.href = "/comunidad/";}, 3000);
+                        } else {
+                            $(".detalleUsuario").html(d.root.Detalle);
+                            $(".contrasena").removeClass('xx');
+                        }
+                    } else alert(d.root.Detalle);
                 }
             });
         }
         
+        $(".cambiarContrasena").click(function () {
+            invocaAjax({
+                parametros: {
+                            "SES_TOKEN":token, 
+                            "USU_PASSWORD1":document.forms.activar.usu_contrasena1.value,
+                            "USU_PASSWORD2":document.forms.activar.usu_contrasena2.value
+                        },
+                direccion: '/comunidad/backend/login/cambiaPass.php',
+                retorno: function (s,d,e) {
+                    if (s) {
+                        $(".contrasena").addClass('xx');
+                        $(".desbloqueado").removeClass('xx');
+                        timeOut = setTimeout(function () {window.location.href = "/comunidad/";}, 3000);
+                    } else {
+                        alert(d.root.Detalle);
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

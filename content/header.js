@@ -58,7 +58,8 @@ var header = class {
             sessionStorage.setItem('nombre',d.root.Detalle.usu_nombre);
             $(".PanelDeComunidad").toggleClass('xx');
             if (d.root.Comunidades.length == 0) {
-                $(".SinComunidad").toggleClass('xx');
+                //$(".SinComunidad").toggleClass('xx');
+                Moduls.getBody().load({ url: 'content/app/sinComunidad.html', script: false});
             } else {
                 let combo = $(".comboComunidad");
                 combo.toggleClass('xx');

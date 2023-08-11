@@ -16,54 +16,51 @@
 
     header('Content-Type: application/json; charset=utf-8');
 
-    if (!$_POST['JGD_TOKEN'] || $_POST['JGD_TOKEN'] == '') {
-        die(json_encode(['success' => false, 'root' => ['tipo' => 'Sesion', 'Detalle' => 'No se ha encontrado Token']]));
+    if (!$_POST['SES_TOKEN'] || $_POST['SES_TOKEN'] == '') {
+        die(json_encode(['success' => false, 'root' => ['tipo' => 'Sesion', 'Detalle' => 'No se ha informado Token']]));
     }
     
-    if ($_POST['JGD_PASSWORD'] && $_POST['JGD_PASSWORD'] != "" && $_POST['JGD_PASSWORD'] != $_POST['JGD_PASSWORD2']) {
-        die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Las contraseñas no coinciden']]]));
-    }
+    $return = ['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => "El token no es válido", 'Code' => 0]];
 
-    if ($_POST['JGD_PASSWORD'] && $_POST['JGD_PASSWORD'] != "") $_POST['JGD_PASSWORD'] = md5($_POST['JGD_PASSWORD']);
-
-    $objeto = [];
-    $objeto["JGD_TOKEN"] = $_POST['JGD_TOKEN'];
-
-    
-    $manJugador = ControladorDinamicoTabla::set('JUGADOR');
-
-    if ($manJugador->give($objeto) == 0) {
-        $reg = $manJugador->getArray();
-        if (count($reg) == 1) {
-            if ($reg[0]['JGD_ERRLOGIN'] < 7) {
-                $_SESSION['data']['user']['id'] = $reg[0]['JGD_JUGADOR'];
-                $_SESSION['data']['user']['nombre'] = $reg[0]['JGD_NOMBRE'];
-                
-                $reg[0]['JGD_TOKEN'] = null;
-                $reg[0]['JGD_FVALIDA'] = date('Y-m-d');
-                $reg[0]['JGD_ERRLOGIN'] = 0;
-                if ($manJugador->save($reg[0]) == 0) {
-                    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Cuenta activada correctamente', 'id' => $reg[0]['JGD_JUGADOR'], 'nombre' => $reg[0]['JGD_NOMBRE']]]);
-                } else {
-                    $error = $manJugador->getListaErrores();
-                    echo json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $error[0]['Campo'].' '.$error[0]['Detalle']]]);
-                }
+    // comprobamos que la sesión existe y si existe la fecha de caducidad
+    $manSesion = ControladorDinamicoTabla::set('SESION');
+    $manSesion->give(['ses_token' => $_POST['SES_TOKEN']]);
+    $ses = $manSesion->getArray();
+    if (count($ses) == 1) {
+        $ses = $ses[0];
+        if ($ses['ses_ultimo'] == '9999-12-31 00:00:00') {
+            //activar la sesión y nada más
+            $manUsuario = ControladorDinamicoTabla::set('USUARIO');
+            $manUsuario->give(['usu_correo' => $ses['ses_correo']]);
+            $usu = $manUsuario->getArray();
+            $usu = $usu[0];
+            $usu['usu_fvalida'] = date('Y-m-d');
+            $usu['usu_errorlogin'] = 0;
+            if ($manUsuario->save($usu) == 0) {
+                $manSesion->delete($ses);
+                $return['success'] = true;
+                $return['root']['Detalle'] = 'Usuario activado correctamente';
+                $return['root']['Code']    = 1;
             } else {
-                if (!$_POST['JGD_PASSWORD'] || $_POST['JGD_PASSWORD'] == "") {
-                    echo json_encode(['success' => false, 'root' => ['tipo' => 'Sesión', 'Detalle' => 'Cambio de contraseña', code => -1]]);
-                } else {
-                    $reg[0]['JGD_TOKEN'] = null;
-                    $reg[0]['JGD_FVALIDA'] = date('Y-m-d');
-                    $reg[0]['JGD_ERRLOGIN'] = 0;
-                    if ($manJugador->save($reg[0]) == 0) {
-                        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Cuenta activada correctamente', 'id' => $reg[0]['JGD_JUGADOR'], 'nombre' => $reg[0]['JGD_NOMBRE']]]);
-                    } else {
-                        $error = $manJugador->getListaErrores();
-                        echo json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $error[0]['Campo'].' '.$error[0]['Detalle']]]);
-                    }
-                }
+                $return['root']['Detalle'] = $manUsuario->getListaErrores();
             }
+            unset($usu);
+            unset($manUsuario);
             
+        } elseif ($ses['ses_ultimo'] == '9999-12-30 00:00:00') {
+            //desbloqueo o cambio de contraseña, resuelvo cambiando la contraseña siempre
+            $return['success'] = true;
+            $return['root']['Detalle'] = ', hemos detectado que cuenta bloqueada.';
+            $return['root']['Code'] = 2;
+        } else {
+            //desbloqueo o cambio de contraseña, resuelvo cambiando la contraseña siempre
+            $return['success'] = true;
+            $return['root']['Detalle'] = ', vamos a cambiar la contraseña.';
+            $return['root']['Code'] = 3;
         }
     }
+    unset($ses);
+    unset($manSesion);
+    die (json_encode($return));
+
 ?>

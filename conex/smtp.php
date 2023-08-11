@@ -2,7 +2,7 @@
     class SMTP {
         // Configurar los datos del servidor SMTP
         private $user = "noreply@cusquiskas.com";       // El nombre de usuario SMTP
-        private $pass = "";                             // La contraseña SMTP
+        private $pass = "Qwerty1234!";                             // La contraseña SMTP
         private $host = "ssl://smtp.hostinger.com";     // El nombre del host SMTP
         private $port = 465;                            // El puerto SMTP
         private $errstr = "";

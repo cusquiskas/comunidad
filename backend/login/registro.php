@@ -5,7 +5,7 @@
     if ($_POST['usu_contrasena'] !== $_POST['usu_contrasena2']) {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Las contraseñas no coinciden']]]));
     }
-
+    
     $_POST['usu_contrasena'] = md5($_POST['usu_contrasena']);
 
     $_POST['usu_facceso'] = date('Y-m-d G:i:s');
@@ -35,12 +35,13 @@
         $ses["ses_correo"] = $reg['usu_correo'];
         $ses["ses_primero"] = date('Y-m-d G:i:s');
         $ses["ses_ultimo"] = '9999-12-31';
+
         if ($manSesion->save($ses) == 0) {
             require_once ($_SESSION['data']['conf']['home'].'conex/smtp.php');
             $smtp = new SMTP();
             $smtp->setPara($ses["ses_correo"]);
             $smtp->setAsunto("Verificación de cuenta de correo");
-            $smtp->setCuerpo("Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='http://localhost:8080/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>");
+            $smtp->setCuerpo("Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>");
             if (!$smtp->sendMail()) {
                 $error = $smtp->getError();
                 unset($smtp);
@@ -66,7 +67,7 @@
             unset($manUsuario);
             die(json_encode(['success' => false, 'root' => $ses]));
         }
-        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Registro realizado correctamente', 'id' => $reg['usu_correo'], 'nombre' => $reg['usu_nombre']]]);
+        echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Registro realizado correctamente, acceda a su buzón de correo antes de hacer login', 'id' => $reg['usu_correo'], 'nombre' => $reg['usu_nombre']]]);
         
     } else {
         $reg = $manUsuario->getListaErrores();
