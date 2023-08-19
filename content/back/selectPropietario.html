@@ -1,0 +1,84 @@
+<form class="panelBuscar" name="buscaPropietario" method="post" action="backend/app/propietario/buscador.php" frc-callback="buscaPropietario">
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <div class="row respira">
+                <div class="col-12">
+                    <p>Indica uno de los siguientes campos para ver si el propietario está en la base de datos:</p>
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-12">
+                    <label for="pro_correo">Correo Electrónico:</label>
+                    <input type="text" class="form-control" name="pro_correo" />
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-12">
+                    <label for="pro_dni">DNI:</label>
+                    <input type="text" class="form-control" name="pro_dni" />
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xx">
+        <input name="com_comunidad">
+    </div>
+</form>
+
+<div class="panelConfirmarCrear xx">
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-12">
+                    <p>No se ha encontrado. ¿Deseas crearlo?</p>
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-12 text-end">
+                    <button class="btnNo btn btn-danger" type="button">No</button>
+                    <button class="btnSi btn btn-primary" type="button">Sí</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="panelCrear xx" name="crearPropietario" method="post" action="backend/app/propietario/guardar.php" frc-callback="crearPropietario">
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <div class="row respira">
+                <div class="col-12">
+                    <label for="pro_correo">Correo Electrónico:</label>
+                    <input type="text" class="form-control" name="pro_correo" />
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-4">
+                    <label for="pro_nombre">Nombre:</label>
+                    <input type="text" class="form-control" name="pro_nombre" required/>
+                </div>
+                <div class="col-4">
+                    <label for="pro_apellidos">Apellidos:</label>
+                    <input type="text" class="form-control" name="pro_apellidos" />
+                </div>
+                <div class="col-4">
+                    <label for="pro_dni">DNI:</label>
+                    <input type="text" class="form-control" name="pro_dni" required />
+                </div>
+            </div>
+            <div class="row respira">
+                <div class="col-12 text-end">
+                    <button class="btnSi btn btn-primary" type="submit">Guardar y Vincular</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xx">
+        <input name="com_comunidad"><input name="pro_propietario"><input name="pis_piso">
+    </div>
+</form>
