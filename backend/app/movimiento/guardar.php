@@ -13,7 +13,10 @@
     #$manMovimiento = new Tabla_MOVIMIENTO();
     if (isset($_POST['mov_movimiento']) && $_POST['mov_movimiento'] == "") unset($_POST['mov_movimiento']);
     if (!isset($_POST['mov_piso'])) $_POST['mov_piso'] = null;
-    
+    if (!isset($_POST['mov_gasto'])) $_POST['mov_gasto'] = null;
+    if (isset($_POST['mov_piso']) && $_POST['mov_piso'] == "-1") unset($_POST['mov_piso']);
+    if (isset($_POST['mov_gasto']) && $_POST['mov_gasto'] == "-1") unset($_POST['mov_gasto']);
+
     if ($manMovimiento->save($_POST) == 0) {
         $reg = $manMovimiento->getArray();
         echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);

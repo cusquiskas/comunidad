@@ -27,6 +27,7 @@ var movimiento = class {
                 { render: function (data, type, row) { 
                                 var botones = '';
                                 botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn btn-'+(row.mov_piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-gasto="'+row.mov_gasto+'" class="btn btn-'+(row.mov_gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
                                 return botones;
                           }}
             ],
@@ -36,6 +37,12 @@ var movimiento = class {
                     form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
                     Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad, piso: eve.currentTarget.getAttribute('data-piso')}});
                     construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
+                });
+                $('button.movGasto').click(function(eve){
+                    let form = yo.modulo.Forms['guardar'];
+                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
+                    Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, gasto: eve.currentTarget.getAttribute('data-gasto')}});
+                    construirModal({title:"Gastos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackGastos, canceltext:'Borrar', cancelfunction:yo.callbackGastosBorrar});
                 });
             }
         });
@@ -52,13 +59,25 @@ var movimiento = class {
 
     callbackPisos() {
         let form = Moduls.getBody().Forms.guardar;
-        form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value});
+        form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value, mov_gasto:-1});
         form.executeForm();
     }
 
     callbackPisosBorrar() {
         let form = Moduls.getBody().Forms.guardar;
-        form.set({mov_piso:null});
+        form.set({mov_piso:null, mov_gasto:-1});
+        form.executeForm();
+    }
+
+    callbackGastos() {
+        let form = Moduls.getBody().Forms.guardar;
+        form.set({mov_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, mov_piso:-1});
+        form.executeForm();
+    }
+
+    callbackGastosBorrar() {
+        let form = Moduls.getBody().Forms.guardar;
+        form.set({mov_gasto:null, mov_piso:-1});
         form.executeForm();
     }
 
