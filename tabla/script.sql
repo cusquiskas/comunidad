@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 01-05-2024 a las 23:32:12
+-- Tiempo de generación: 03-05-2024 a las 00:27:45
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -177,11 +177,11 @@ INSERT INTO `MOVIMIENTO` (`mov_movimiento`, `mov_comunidad`, `mov_detalle`, `mov
 (1, 1, 'Movimiento DUMMY', '2023-01-01', NULL, NULL, NULL, '75.00', 7, NULL),
 (2, 1, 'Movimiento DUMMY 2', '2023-02-10', NULL, NULL, NULL, '75.00', 6, NULL),
 (3, 1, 'Movimiento DUMMY 3', '2023-03-05', NULL, NULL, NULL, '75.00', 5, NULL),
-(4, 1, 'Movimiento DUMMY 4', '2023-06-11', NULL, NULL, NULL, '75.00', 3, NULL),
-(5, 1, 'Movimiento DUMMY 3.5', '2023-06-10', NULL, NULL, NULL, '75.00', 3, NULL),
-(6, 1, 'Movimiento YUPPY', '2023-06-01', NULL, NULL, NULL, '-55.50', NULL, NULL),
-(7, 1, 'Movimiento YUPPY 2', '2023-06-02', NULL, NULL, NULL, '-35.65', NULL, NULL),
-(8, 1, 'Movimiento YUPPY -1', '2023-06-19', NULL, NULL, NULL, '-100.00', NULL, NULL);
+(4, 1, 'Movimiento DUMMY 4', '2023-06-11', NULL, NULL, NULL, '75.00', NULL, NULL),
+(5, 1, 'Movimiento DUMMY 3.5', '2023-06-10', NULL, NULL, NULL, '75.00', 12, NULL),
+(6, 1, 'Movimiento YUPPY', '2023-06-01', NULL, NULL, NULL, '-55.50', NULL, 2),
+(7, 1, 'Movimiento YUPPY 2', '2023-06-02', NULL, NULL, NULL, '-35.65', NULL, 1),
+(8, 1, 'Movimiento YUPPY -1', '2023-06-19', NULL, NULL, NULL, '-100.00', NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -303,8 +303,9 @@ CREATE TABLE `SESION` (
 --
 
 INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VALUES
+('cusquiskas@gmail.com', '665e669a2d439ddb26edb2348eb69422141a0ec52188245600607e112b7fe21a', '2024-05-02 21:35:19', '2024-05-03 00:27:27'),
 ('cusquiskas@gmail.com', '905a9704c815740312e031ebb68721c72cfe698bc47e23eb97fd07af51a482a7', '2024-05-01 22:28:50', '2024-05-01 22:29:27'),
-('cusquiskas@gmail.com', 'e830a32a14de45cb8e09c6adad82ea9fb5f408a6c4b86b60ac7d44beeb03d0c9', '2024-05-01 22:29:50', '2024-05-01 23:28:21');
+('cusquiskas@gmail.com', 'e830a32a14de45cb8e09c6adad82ea9fb5f408a6c4b86b60ac7d44beeb03d0c9', '2024-05-01 22:29:50', '2024-05-02 00:09:26');
 
 -- --------------------------------------------------------
 
@@ -314,13 +315,22 @@ INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VA
 
 CREATE TABLE `SPLIT` (
   `spl_split` int(11) NOT NULL COMMENT 'id del split',
+  `spl_comunidad` int(11) NOT NULL COMMENT 'id de la comunidad',
   `spl_movimiento` int(11) NOT NULL COMMENT 'id del movimiento',
   `spl_fecha` date NOT NULL COMMENT 'fecha del movimiento',
-  `spl_descripcion` varchar(300) NOT NULL COMMENT 'descripción del movimiento',
+  `spl_detalle` varchar(300) NOT NULL COMMENT 'descripción del movimiento',
   `spl_importe` decimal(7,3) NOT NULL COMMENT 'importe del movimiento',
-  `spl_piso` int(11) NOT NULL,
-  `spl_gasto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `spl_piso` int(11) DEFAULT NULL,
+  `spl_gasto` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `SPLIT`
+--
+
+INSERT INTO `SPLIT` (`spl_split`, `spl_comunidad`, `spl_movimiento`, `spl_fecha`, `spl_detalle`, `spl_importe`, `spl_piso`, `spl_gasto`) VALUES
+(1, 1, 4, '2023-06-11', 'DUMMY 4 Sub 1', '35.000', NULL, NULL),
+(2, 1, 4, '2023-06-11', 'DUMMY 4 Sub 2', '40.000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -343,7 +353,7 @@ CREATE TABLE `USUARIO` (
 
 INSERT INTO `USUARIO` (`usu_correo`, `usu_nombre`, `usu_contrasena`, `usu_errorlogin`, `usu_facceso`, `usu_fvalida`) VALUES
 ('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-26 22:58:19', '2022-06-03'),
-('cusquiskas@gmail.com', 'José Miguel', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2024-05-01 22:29:50', '2024-05-01');
+('cusquiskas@gmail.com', 'José Miguel', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2024-05-02 21:35:19', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -449,7 +459,8 @@ ALTER TABLE `SPLIT`
   ADD PRIMARY KEY (`spl_split`),
   ADD KEY `mov_spl_fk` (`spl_movimiento`),
   ADD KEY `pis_spl_fk` (`spl_piso`),
-  ADD KEY `gas_spl_fk` (`spl_gasto`);
+  ADD KEY `gas_spl_fk` (`spl_gasto`),
+  ADD KEY `spl_split_comunidad` (`spl_comunidad`);
 
 --
 -- Indices de la tabla `USUARIO`
@@ -509,7 +520,7 @@ ALTER TABLE `PROPIETARIO`
 -- AUTO_INCREMENT de la tabla `SPLIT`
 --
 ALTER TABLE `SPLIT`
-  MODIFY `spl_split` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del split';
+  MODIFY `spl_split` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del split', AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -560,6 +571,7 @@ ALTER TABLE `SESION`
 -- Filtros para la tabla `SPLIT`
 --
 ALTER TABLE `SPLIT`
+  ADD CONSTRAINT `com_spl_fk` FOREIGN KEY (`spl_comunidad`) REFERENCES `COMUNIDAD` (`com_comunidad`),
   ADD CONSTRAINT `gas_spl_fk` FOREIGN KEY (`spl_gasto`) REFERENCES `GASTO` (`gas_gasto`),
   ADD CONSTRAINT `mov_spl_fk` FOREIGN KEY (`spl_movimiento`) REFERENCES `MOVIMIENTO` (`mov_movimiento`),
   ADD CONSTRAINT `pis_spl_fk` FOREIGN KEY (`spl_piso`) REFERENCES `PISO` (`pis_piso`);

@@ -8,41 +8,44 @@ var movimiento = class {
         let form = mod.Forms['detalleMovimientos'];
         form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
-        form = mod.Forms['guardar'];
-        form.set({'mov_comunidad':obj.comunidad});
+        //form = mod.Forms['guardar'];
+        //form.set({'mov_comunidad':obj.comunidad});
         this.tablaD = new DataTable(".listaMovimientos", {
             language: dataTableIdiomaES,
             //ordering: false,
             order: [[0, 'desc']],
             columns: [
-                {   data: 'mov_fecha',
+                {   data: 'fecha',
                     render: function(data, type, row) {
                     if (type == 'display' || type == 'filter') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy');
                     return data;
                     }
                 },
-                { data: 'mov_detalle' },
-                { data: 'mov_movimiento' },
-                { data: 'mov_importe' },
+                { data: 'detalle' },
+                { data: 'movimiento' },
+                { data: 'importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-piso="'+row.mov_piso+'" class="btn btn-'+(row.mov_piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
-                                botones+= '<button type="button" data-movimiento="'+row.mov_movimiento+'" data-gasto="'+row.mov_gasto+'" class="btn btn-'+(row.mov_gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" data-piso="'+row.piso+'" class="btn btn-'+(row.piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" data-gasto="'+row.gasto+'" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
                                 return botones;
                           }}
             ],
             drawCallback: function (set) {
                 $('button.movPiso').click(function(eve){
-                    let form = yo.modulo.Forms['guardar'];
-                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
-                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.object.comunidad, piso: eve.currentTarget.getAttribute('data-piso')}});
+                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split'), piso: eve.currentTarget.getAttribute('data-piso')}});
                     construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
                 });
                 $('button.movGasto').click(function(eve){
-                    let form = yo.modulo.Forms['guardar'];
-                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
-                    Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, gasto: eve.currentTarget.getAttribute('data-gasto')}});
+                    Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento: eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split'), gasto: eve.currentTarget.getAttribute('data-gasto')}});
                     construirModal({title:"Gastos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackGastos, canceltext:'Borrar', cancelfunction:yo.callbackGastosBorrar});
+                });
+                $('button.movSplit').click(function(eve){
+                    let form = yo.modulo.Forms['guardarSplit'];
+                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
+                    Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split')}});
+                    construirModal({title:"Split", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackSplit, canceltext:'Borrar', cancelfunction:yo.callbackSplitBorrar});
                 });
             }
         });
@@ -58,30 +61,71 @@ var movimiento = class {
     }
 
     callbackPisos() {
-        let form = Moduls.getBody().Forms.guardar;
-        form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value, mov_gasto:-1});
+        debugger;
+        let obj = Moduls.getModalbody().getScript().obj;
+        let form;
+        if (obj.split && obj.split != null) {
+            form = Moduls.getBody().Forms.guardarSpl;
+            form.set({spl_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value, spl_gasto:-1, spl_comunidad: obj.comunidad, spl_split: obj.split});
+        } else {
+            form = Moduls.getBody().Forms.guardarMov;
+            form.set({mov_piso:Moduls.getModalbody().Forms['listaPisos'].formulario.piso.value, mov_gasto:-1, mov_comunidad: obj.comunidad, mov_movimiento: obj.movimiento});
+        }
         form.executeForm();
     }
 
     callbackPisosBorrar() {
-        let form = Moduls.getBody().Forms.guardar;
-        form.set({mov_piso:null, mov_gasto:-1});
+        let obj = Moduls.getModalbody().getScript().obj;
+        let form;
+        if (obj.split && obj.split != null) {
+            form = Moduls.getBody().Forms.guardarSpl;
+            form.set({spl_piso:null, spl_gasto:-1, spl_comunidad:obj.comunidad, spl_split:obj.split});
+        } else {
+            form = Moduls.getBody().Forms.guardarMov;
+            form.set({mov_piso:null, mov_gasto:-1, mov_comunidad:obj.comunidad, mov_movimiento:obj.movimiento});
+        }
         form.executeForm();
     }
 
     callbackGastos() {
-        let form = Moduls.getBody().Forms.guardar;
-        form.set({mov_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, mov_piso:-1});
+        let obj = Moduls.getModalbody().getScript().obj;
+        let form;
+        if (obj.split && obj.split != null) {
+            form = Moduls.getBody().Forms.guardarSpl;
+            form.set({spl_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, spl_piso:-1, spl_comunidad:obj.comunidad, spl_split:obj.split});
+        } else {
+            form = Moduls.getBody().Forms.guardarMov;
+            form.set({mov_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, mov_piso:-1, mov_comunidad:obj.comunidad, mov_movimiento:obj.movimiento});
+        }
         form.executeForm();
     }
 
     callbackGastosBorrar() {
-        let form = Moduls.getBody().Forms.guardar;
+        let obj = Moduls.getModalbody().getScript().obj;
+        let form;
+        if (obj.split && obj.split != null) {
+            form = Moduls.getBody().Forms.guardarSpl;
+            form.set({spl_gasto:null, spl_piso:-1, spl_comunidad:obj.comunidad, spl_split:obj.split});
+        } else {
+            form = Moduls.getBody().Forms.guardarMov;
+            form.set({mov_gasto:null, mov_piso:-1, mov_comunidad:obj.comunidad, mov_movimiento:obj.movimiento});
+        }
+        form.executeForm();
+    }
+
+    callbackSplit() {
+        let form = Moduls.getBody().Forms.guardarSplit;
+        form.set({mov_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, mov_piso:-1});
+        form.executeForm();
+    }
+
+    callbackSplitBorrar() {
+        let form = Moduls.getBody().Forms.guardarSplit;
         form.set({mov_gasto:null, mov_piso:-1});
         form.executeForm();
     }
 
-    guardarPiso (s,d,e) {
+    guardar (s,d,e) {
         if (s) {
             cerrarModal();
             e.form.modul.Forms.detalleMovimientos.executeForm();

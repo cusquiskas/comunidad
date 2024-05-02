@@ -2,8 +2,16 @@
     <input name="mov_comunidad"/>
 </form>
 
-<form class="xx" name="guardar" method="post" action="backend/app/movimiento/guardar.php" frc-callback="guardarPiso">
+<form class="xx" name="guardarMov" method="post" action="backend/app/movimiento/guardar.php" frc-callback="guardar">
     <input name="mov_comunidad"/><input name="mov_movimiento"/><input name="mov_piso"/><input name="mov_gasto"/>
+</form>
+
+<form class="xx" name="guardarSpl" method="post" action="backend/app/split/guardar.php" frc-callback="guardar">
+    <input name="spl_comunidad"/><input name="spl_split"/><input name="spl_piso"/><input name="spl_gasto"/>
+</form>
+
+<form class="xx" name="guardarSplit" method="post" action="backend/app/split/guardar.php" frc-callback="guardar">
+    <input name="mov_comunidad"/><input name="mov_movimiento"/>
 </form>
 
 <form name="dashboard">
