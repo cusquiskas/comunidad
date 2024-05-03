@@ -26,9 +26,9 @@ var movimiento = class {
                 { data: 'importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" data-piso="'+row.piso+'" class="btn btn-'+(row.piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" data-gasto="'+row.gasto+'" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+row.split+'" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" data-piso="'+(row.piso||'')+'" class="btn btn-'+(row.piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" data-gasto="'+(row.gasto||'')+'" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
                                 return botones;
                           }}
             ],
@@ -43,7 +43,7 @@ var movimiento = class {
                 });
                 $('button.movSplit').click(function(eve){
                     let form = yo.modulo.Forms['guardarSplit'];
-                    form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
+                    form.set({spl_comunidad: obj.comunidad, spl_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
                     Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split')}});
                     construirModal({title:"Split", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackSplit, canceltext:'Borrar', cancelfunction:yo.callbackSplitBorrar});
                 });
@@ -61,7 +61,6 @@ var movimiento = class {
     }
 
     callbackPisos() {
-        debugger;
         let obj = Moduls.getModalbody().getScript().obj;
         let form;
         if (obj.split && obj.split != null) {
@@ -115,13 +114,13 @@ var movimiento = class {
 
     callbackSplit() {
         let form = Moduls.getBody().Forms.guardarSplit;
-        form.set({mov_gasto:Moduls.getModalbody().Forms['listaGastos'].formulario.gasto.value, mov_piso:-1});
+        form.set({spl_detalle:Moduls.getModalbody().Forms['listaSplit'].formulario.detalle.value});
         form.executeForm();
     }
 
     callbackSplitBorrar() {
         let form = Moduls.getBody().Forms.guardarSplit;
-        form.set({mov_gasto:null, mov_piso:-1});
+        form.set({spl_detalle:'DEL'});
         form.executeForm();
     }
 
