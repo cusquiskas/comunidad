@@ -41,6 +41,7 @@ var split = class {
     }
 
     getValor() {
+        debugger;
         let resultado;
         let inp = this.mod.Forms.listaSplit.formulario.querySelectorAll('input');
         resultado = [];

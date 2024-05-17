@@ -21,9 +21,18 @@
         unset($link);
 
         echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Split borrado']]);
-    } else {
+    } elseif () {
     
         $manMovimiento = ControladorDinamicoTabla::set('SPLIT');
+        $manMovimiento->give(["mov_movimiento" => $_POST["spl_movimiento"]]);
+        $movi = $manMovimiento->getArray();
+        unset($manMovimiento);
+        $movi = $movi[0];
+
+        $_POST["spl_fecha"] = $movi["mov_fecha"];
+        $_POST
+
+        $manSplit = ControladorDinamicoTabla::set('SPLIT');
         #require_once $_SESSION['data']['conf']['home'].'tabla/MOVIMIENTO.php';
         #$manMovimiento = new Tabla_MOVIMIENTO();
         if (isset($_POST['spl_split']) && $_POST['spl_split'] == "") unset($_POST['spl_split']);
@@ -32,13 +41,13 @@
         if (isset($_POST['spl_piso']) && $_POST['splpiso'] == "-1") unset($_POST['spl_piso']);
         if (isset($_POST['spl_gasto']) && $_POST['spl_gasto'] == "-1") unset($_POST['spl_gasto']);
 
-        if ($manMovimiento->save($_POST) == 0) {
-            $reg = $manMovimiento->getArray();
+        if ($manMmanSplitovimiento->save($_POST) == 0) {
+            $reg = $manSplit->getArray();
             echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
         } else {
-            $reg = $manMovimiento->getListaErrores();
+            $reg = $manSplit->getListaErrores();
             echo json_encode(['success' => false, 'root' => $reg]);
         }
-        unset($manMovimiento);
+        unset($manSplit);
     }
 ?>
