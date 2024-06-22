@@ -41,12 +41,11 @@ var split = class {
     }
 
     getValor() {
-        debugger;
         let resultado;
         let inp = this.mod.Forms.listaSplit.formulario.querySelectorAll('input');
         resultado = [];
         inp.forEach(e=>{
-            if (e.value!="")resultado.push(e.value);
+            resultado.push(e.value);
         });
         return resultado;
     }
@@ -56,7 +55,7 @@ var split = class {
             let yo = e.form.modul.getScript();
             let form = $('form[name=listaSplit]');
             let opcion0 = '<div class="row" data-id="filaS"><div class="col col-7"><input type="text" class="form-control" name="splitDesc" data-split="{{spl_split}}" value="{{spl_detalle}}" autocomplete="off"></div><div class="col col-3"><input type="number" class="form-control text-end" name="splitImp" data-split="{{spl_split}}" value="{{spl_importe}}" autocomplete="off" disabled></div><div class="col"><button type="button" class="btn btn-primary anadirSplit">+</button></div></div>';
-            let opcionN = '<div class="row" data-id="filaS"><div class="col col-7"><input type="text" class="form-control" name="splitDesc" data-split="{{spl_split}}" value="{{spl_detalle}}" autocomplete="off"></div><div class="col col-3"><input type="number" class="form-control text-end" name="splitImp" data-split="{{spl_split}}" value="{{spl_importe}}" autocomplete="off"</div><div class="col"><button type="button" class="btn btn-danger borrarSplit">-</button></div></div>';
+            let opcionN = '<div class="row" data-id="filaS"><div class="col col-7"><input type="text" class="form-control" name="splitDesc" data-split="{{spl_split}}" value="{{spl_detalle}}" autocomplete="off"></div><div class="col col-3"><input type="number" class="form-control text-end" name="splitImp" data-split="{{spl_split}}" value="{{spl_importe}}" autocomplete="off">         </div><div class="col"><button type="button" class="btn btn-danger  borrarSplit">-</button></div></div>';
             for (let i=0; i<d.root.Detalle.length; i++) {
                 yo.importe += d.root.Detalle[i].spl_importe * 1;
                 if (i > 0) form.append(opcionN.reemplazaMostachos(d.root.Detalle[i]));

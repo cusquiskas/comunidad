@@ -113,9 +113,9 @@ var movimiento = class {
     }
 
     callbackSplit() {
-        debugger;
         let form = Moduls.getBody().Forms.guardarSplit;
-        form.set({spl_detalle:Moduls.getModalbody().getScript().getValor()});
+        let datos = Moduls.getModalbody().getScript().getValor();
+        form.set({spl_detalle:JSON.stringify(datos)});
         form.executeForm();
     }
 

@@ -226,7 +226,6 @@ class ControladorDinamicoTabla
         $dependencias = '';
         foreach ($referencias as &$valor) {
             $dependencias .= "if (!is_null(\$this->".$valor['columnaOri'].")) {";
-            #$dependencias .= "echo 'select count(0) as cuenta from ".$valor['tablaRef'].' where '.$valor['columnaRef']." = \''.\$this->".$valor['columnaOri'].".'\'';";
             $dependencias .= "\$key = \$link->consulta('select count(0) as cuenta from ".$valor['tablaRef'].' where '.$valor['columnaRef']." = \''.\$this->".$valor['columnaOri'].".'\'', []);\n";
             $dependencias .= "if (\$key[0][\"cuenta\"] < 1) {\$this->error[] = ['tipo'=>'Validacion', 'Campo'=>'".$valor['columnaOri']."', 'Detalle' => 'Referencia no encontrada en ".$valor['tablaRef']."'];}\n";
             $dependencias .= "}";
@@ -274,14 +273,22 @@ class ControladorDinamicoTabla
         return "public function save(\$array)
         {
             \$insert = true;
+            \$comprobar = true;
             \$this->emptyClass();
             \$this->clearArray();
             \$this->clearError();
             \$arrayUpdate = [$cadena];
-            if (\$this->give(\$arrayUpdate) == 0) {
-                if (count(\$this->getArray()) == 1) { \$this->setDatos(\$this->getArray()[0]); \$insert = false; }
-            } else {
-                return 1;
+            
+            foreach (\$arrayUpdate as \$clave => \$valor) {
+                if (!array_key_exists(\$clave, \$array) || \$array[\$clave] == null) { \$comprobar = false; }
+            }
+            
+            if (\$comprobar) {
+                if (\$this->give(\$arrayUpdate) == 0) {
+                    if (count(\$this->getArray()) == 1) { \$this->setDatos(\$this->getArray()[0]); \$insert = false; }
+                } else {
+                    return 1;
+                }
             }
             
             \$this->setDatos(\$array);
@@ -431,13 +438,12 @@ class ControladorDinamicoTabla
         $i = -1;
         foreach ($datos as &$valor) {
             ++$i;
-            //$datos[$i]['Type2'] = $datos[$i]['Type'];
-            $datos[$i]['Type2'] = substr($valor['Type'], 0, stripos($valor['Type'], '('));
+            $datos[$i]['Type2'] = substr($valor['Type'], 0, (stripos($valor['Type'], '(')?stripos($valor['Type'], '('):99));
             if ($datos[$i]['Type2'] == 'int' || $datos[$i]['Type2'] == 'tinyint') {
                 $datos[$i]['Type3'] = 'i';
                 $datos[$i]['Type2'] = 'int';
             }
-            if ($datos[$i]['Type2'] == 'varchar' || $datos[$i]['Type'] == 'date' || $datos[$i]['Type'] == 'datetime') {
+            if ($datos[$i]['Type2'] == 'varchar' || $datos[$i]['Type2'] == 'text' || $datos[$i]['Type'] == 'date' || $datos[$i]['Type'] == 'datetime') {
                 $datos[$i]['Type3'] = 's';
                 $datos[$i]['Type2'] = 'string';
             }
@@ -475,7 +481,7 @@ class ControladorDinamicoTabla
             $cadena .= self::fncDelete($array, $tabla);
             $cadena .= self::fncConstruct();
             $cadena .= "}\n";
-            #if ($tabla == 'GASTO_PISO') echo var_dump($cadena, true);
+            #if ($tabla == 'SPLIT') echo var_dump($cadena, true);
             eval($cadena);
         }
 

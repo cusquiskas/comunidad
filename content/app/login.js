@@ -12,6 +12,8 @@ var login = class {
             send.set({usu_correo:mod.Forms.login.parametros.usu_correo.value});
             send.executeForm();
         });
+        $("input.txtContraseña").keydown(function(event){ if (event.key === 'Enter') { $("button.btnEntrar").click(); }});
+        $("input.txtUsuario")   .keydown(function(event){ if (event.key === 'Enter') { $("button.btnEntrar").click(); }});
     };
 
     login (s,d,e) {
