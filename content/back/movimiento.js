@@ -10,6 +10,62 @@ var movimiento = class {
         form.executeForm();
         //form = mod.Forms['guardar'];
         //form.set({'mov_comunidad':obj.comunidad});
+        /*
+        function inicializaTablaPacks() {
+            var tablaDinamicaPacks = $('#tablaListadoPacks').DataTable({
+                searching: true, 
+                dom: 'lfrBtip',
+                buttons: [
+                        {text: 'Nuevo Precio Pack',
+                        action: function ( e, dt, node, config ) {
+                                    abreModalPackTarifa();
+                                }
+                        }
+                    ],
+                data:[],
+                order:[[2, "asc"]],
+                language: {
+                    "emptyTable": "No hay informaci&oacute;n",
+                    "info": "Mostrando START a END de TOTAL Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de MAX total entradas)",
+                    "infoPostFix": "",
+                    "lengthMenu": "Mostrar MENU Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                    "first": "Primero",
+                    "last": "&Uacute;ltimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"}
+                },
+                columnDefs: [
+                                { "targets": 1, "render": function (data, type, row, meta) { return '<span style="color: '+(row.PRECIO_POST && row.PRECIO_POST > 0 ? "red" : "black")+';">' + $.fn.dataTable.render.date('YYYYMMDD', 'DD/MM/YYYY').display(data) + '</span>' } },
+                            //{ "targets": [2,3], "render": $.fn.dataTable.render.text() },
+                                { "targets": 4, "className": "dt-body-right"},
+                                { "targets": 4, "render": $.fn.dataTable.render.number('', ',', 2, '', '&nbsp;&euro;')} 
+                            ],
+                columns: [
+                    {render: function (data, type, row, meta ) { 
+                        var cadena = '';
+                            //cadena+= '<button style="cursor:pointer" class="borrar" type="button"><span class="material-icons">delete</span></button>';
+                            cadena+= '<button style="cursor:pointer" class="editarPack" type="button"><span class="material-icons">edit_square</span></button>';
+                            return cadena;
+                    }},
+                    {data:"FECVIGENCI"},
+                    {data:"TXPACK"},
+                    {data:"TXLOCATA"},
+                    {data:"TARIFA"}
+                ]
+            });
+            tablaDinamicaPacks.on('click', 'button.editarPack', function (eve) { 
+                let data = $('#tablaListadoPacks').DataTable().row($(this).closest('tr')).data();
+                abreModalPackTarifa(data);
+            });
+        }
+        */
         this.tablaD = new DataTable(".listaMovimientos", {
             language: dataTableIdiomaES,
             //ordering: false,
@@ -26,29 +82,34 @@ var movimiento = class {
                 { data: 'importe' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" data-piso="'+(row.piso||'')+'" class="btn btn-'+(row.piso!=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" data-gasto="'+(row.gasto||'')+'" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
-                                botones+= '<button type="button" data-movimiento="'+row.movimiento+'" data-split="'+(row.split||'')+'" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
+                                botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                                botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                                botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
                                 return botones;
                           }}
-            ],
+            ]/*,
             drawCallback: function (set) {
-                $('button.movPiso').click(function(eve){
-                    Moduls.getModalbody().load({ url: 'content/back/selectPiso.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split'), piso: eve.currentTarget.getAttribute('data-piso')}});
-                    construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
-                });
-                $('button.movGasto').click(function(eve){
-                    Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento: eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split'), gasto: eve.currentTarget.getAttribute('data-gasto')}});
-                    construirModal({title:"Gastos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackGastos, canceltext:'Borrar', cancelfunction:yo.callbackGastosBorrar});
-                });
-                $('button.movSplit').click(function(eve){
-                    let form = yo.modulo.Forms['guardarSplit'];
-                    form.set({spl_comunidad: obj.comunidad, spl_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
-                    Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:eve.currentTarget.getAttribute('data-movimiento'), split:eve.currentTarget.getAttribute('data-split')}});
-                    construirModal({title:"Split", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackSplit, canceltext:'Borrar', cancelfunction:yo.callbackSplitBorrar});
-                });
-            }
+                
+            }*/
         });
+        this.tablaD.on('click', 'button.movPiso', function (eve) { 
+            let data = $(this).data();
+            Moduls.getModalbody().load({ url: 'content/back/selectPiso.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, split:(data.split||''), piso: (data.piso||'')}});
+            construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
+        });
+        this.tablaD.on('click', 'button.movGasto', function(eve){
+            let data = $(this).data();
+            Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, split:(data.split||''), gasto:(data.gasto||'')}});
+            construirModal({title:"Gastos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackGastos, canceltext:'Borrar', cancelfunction:yo.callbackGastosBorrar});
+        });
+        this.tablaD.on('click', 'button.movSplit', function(eve){
+            let data = $(this).data();
+            let form = yo.modulo.Forms['guardarSplit'];
+            form.set({spl_comunidad: obj.comunidad, spl_movimiento:data.movimiento});
+            Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:data.movimiento, split:data.split}});
+            construirModal({title:"Split", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackSplit, canceltext:'Borrar', cancelfunction:yo.callbackSplitBorrar});
+        });
+        
     };
 
     addEventos(mod) {

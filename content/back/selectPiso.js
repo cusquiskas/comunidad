@@ -29,6 +29,7 @@ var selectPiso = class {
             let piso = e.form.modul.script.obj.piso;
             let form = $('form[name=listaPisos]');
             let opcion = '<input type="'+yo.obj.type+'" class="btn-check" name="piso" id="piso{{pis_piso}}" value="{{pis_piso}}" autocomplete="off"><label class="btn btn-light" for="piso{{pis_piso}}">{{pis_nombre}}</label>';
+            form.empty();
             for (let i=0; i<d.root.Detalle.length; i++) {
                 form.append(opcion.reemplazaMostachos(d.root.Detalle[i]));
             }

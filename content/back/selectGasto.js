@@ -29,6 +29,7 @@ var selectGasto = class {
             let gasto = e.form.modul.script.obj.gasto;
             let form = $('form[name=listaGastos]');
             let opcion = '<input type="'+yo.obj.type+'" class="btn-check" name="gasto" id="gasto{{gas_gasto}}" value="{{gas_gasto}}" autocomplete="off"><label class="btn btn-light" for="gasto{{gas_gasto}}">{{gas_nombre}}</label>';
+            form.empty();
             for (let i=0; i<d.root.Detalle.length; i++) {
                 form.append(opcion.reemplazaMostachos(d.root.Detalle[i]));
             }
