@@ -70,40 +70,40 @@ var movimiento = class {
             language: dataTableIdiomaES,
             //ordering: false,
             order: [[0, 'desc']],
+            columnDefs: [
+                { "targets": 0, "render"   : function (data, type) { if (type == 'display') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy'); else return data; } },
+                { "targets": 3, "className": "dt-body-right"},
+                { "targets": 3, "render"   : function (data, type) { if (type == 'display') return formatoEsp(data, 2) + ' &euro;';          else return data; } }
+            ],
             columns: [
-                {   data: 'fecha',
-                    render: function(data, type, row) {
-                    if (type == 'display' || type == 'filter') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy');
-                    return data;
-                    }
-                },
-                { data: 'detalle' },
+                { data: 'fecha'      },
+                { data: 'detalle'    },
                 { data: 'movimiento' },
-                { data: 'importe' },
+                { data: 'importe'    },
                 { render: function (data, type, row) { 
-                                var botones = '';
-                                botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
-                                botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
-                                botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
-                                return botones;
-                          }}
+                    var botones = '';
+                    botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                    botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                    botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
+                    return botones;
+                }}
             ]/*,
             drawCallback: function (set) {
                 
             }*/
         });
         this.tablaD.on('click', 'button.movPiso', function (eve) { 
-            let data = $(this).data();
+            let data = yo.tablaD.row($(this).closest('tr')).data();
             Moduls.getModalbody().load({ url: 'content/back/selectPiso.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, split:(data.split||''), piso: (data.piso||'')}});
             construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Borrar', cancelfunction:yo.callbackPisosBorrar});
         });
         this.tablaD.on('click', 'button.movGasto', function(eve){
-            let data = $(this).data();
+            let data = yo.tablaD.row($(this).closest('tr')).data();
             Moduls.getModalbody().load({ url: 'content/back/selectGasto.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, split:(data.split||''), gasto:(data.gasto||'')}});
             construirModal({title:"Gastos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackGastos, canceltext:'Borrar', cancelfunction:yo.callbackGastosBorrar});
         });
         this.tablaD.on('click', 'button.movSplit', function(eve){
-            let data = $(this).data();
+            let data = yo.tablaD.row($(this).closest('tr')).data();
             let form = yo.modulo.Forms['guardarSplit'];
             form.set({spl_comunidad: obj.comunidad, spl_movimiento:data.movimiento});
             Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:data.movimiento, split:data.split}});
