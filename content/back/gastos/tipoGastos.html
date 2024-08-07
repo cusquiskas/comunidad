@@ -1,0 +1,40 @@
+<form class="xx" name="gastos" method="post" action="backend/app/gasto/listado.php" frc-callback="listado">
+    <input name="gas_comunidad"/>
+</form>
+
+<form class="xx" name="guardar" method="post" action="backend/app/gasto/guardarPisos.php" frc-callback="guardarGasto">
+    <input name="gas_comunidad"/><input name="gas_gasto"/><input name="gas_piso"/>
+</form>
+
+<form name="dashboard">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <div class="container-fluid py-4">
+            <div class="row xx">
+                <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
+                    <button class="icon btn btn-primary" name="anadirGasto">
+                        <span class="material-symbols-rounded">add_circle</span> Nuevo Gasto
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
+                    <table class="dataTable listaGastos">
+                        <thead>
+                            <tr>
+                                <th>Gasto</th>
+                                <th>Reparto</th>
+                                <th>Pisos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</form>

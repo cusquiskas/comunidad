@@ -1,40 +1,30 @@
-<form class="xx" name="gastos" method="post" action="backend/app/gasto/listado.php" frc-callback="listado">
-    <input name="gas_comunidad"/>
-</form>
+<div class="container mt-5">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target=".div-tab1" type="button"
+                role="tab" aria-controls="tab1" aria-selected="true">Tipo de Gasto</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target=".div-tab2" type="button" role="tab"
+                aria-controls="tab2" aria-selected="false">Promesas de Pago</button>
+        </li>
+        <li class="nav-item disabled" role="presentation" disabled>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target=".div-tab3" type="button" role="tab"
+                aria-controls="tab3" aria-selected="false">...</button>
+        </li>
+    </ul>
 
-<form class="xx" name="guardar" method="post" action="backend/app/gasto/guardarPisos.php" frc-callback="guardarGasto">
-    <input name="gas_comunidad"/><input name="gas_gasto"/><input name="gas_piso"/>
-</form>
-
-<form name="dashboard">
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container-fluid py-4">
-            <div class="row xx">
-                <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
-                    <button class="icon btn btn-primary" name="anadirGasto">
-                        <span class="material-symbols-rounded">add_circle</span> Nuevo Gasto
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    &nbsp;
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
-                    <table class="dataTable listaGastos">
-                        <thead>
-                            <tr>
-                                <th>Gasto</th>
-                                <th>Reparto</th>
-                                <th>Pisos</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+    <!-- Tab panes -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active div-tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <template id="tipoGasto"></template>
         </div>
-    </main>
-</form>
+        <div class="tab-pane fade div-tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <template id="promesasPago"></template>
+        </div>
+        <div class="tab-pane fade div-tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <template id="vacio"></template>
+        </div>
+    </div>
+</div>
