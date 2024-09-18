@@ -69,16 +69,17 @@ var movimiento = class {
         this.tablaD = new DataTable(".listaMovimientos", {
             language: dataTableIdiomaES,
             //ordering: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             columnDefs: [
-                { "targets": 0, "render"   : function (data, type) { if (type == 'display') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy'); else return data; } },
-                { "targets": 3, "className": "dt-body-right"},
-                { "targets": 3, "render"   : function (data, type) { if (type == 'display') return formatoEsp(data, 2) + ' &euro;';          else return data; } }
+                { "targets": 1, "render"   : function (data, type) { if (type == 'display') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy'); else return data; } },
+                { "targets": 4, "className": "dt-body-right"},
+                { "targets": 4, "render"   : function (data, type) { if (type == 'display') return formatoEsp(data, 2) + ' &euro;';          else return data; } }
             ],
             columns: [
+                { data: 'movimiento' },
                 { data: 'fecha'      },
                 { data: 'detalle'    },
-                { data: 'movimiento' },
+                { data: 'gastoX'     },
                 { data: 'importe'    },
                 { render: function (data, type, row) { 
                     var botones = '';
