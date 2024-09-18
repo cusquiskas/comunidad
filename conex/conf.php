@@ -8,6 +8,7 @@ class ConfiguracionSistema
     private $apli = 'comunidad';
 
     private $home = '/opt/lampp/htdocs/comunidad/';
+    private $subidas = 'backend/documentosSubidos/';
     private $timeSession = "-30 minute";
 
     public function getHost()
@@ -37,5 +38,9 @@ class ConfiguracionSistema
 
     public function getTimeSession() {
         return $this->timeSession;
+    }
+
+    public function getSubidas() {
+        return $this->subidas;
     }
 }

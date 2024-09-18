@@ -6,6 +6,10 @@
     <input name="mov_comunidad"/><input name="mov_movimiento"/><input name="mov_piso"/><input name="mov_gasto"/>
 </form>
 
+<form class="xx" name="guardarAdjunto" method="post" action="backend/app/movimiento/adjunto.php" frc-callback="guardarAdjunto">
+    <input name="mov_comunidad"/><input name="mov_movimiento"/><input name="spl_split"/><input name="doc_documento"/>
+</form>
+
 <form class="xx" name="guardarSpl" method="post" action="backend/app/split/guardar.php" frc-callback="guardar">
     <input name="spl_comunidad"/><input name="spl_split"/><input name="spl_piso"/><input name="spl_gasto"/>
 </form>

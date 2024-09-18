@@ -21,7 +21,8 @@
                                    mov_fecha      fecha,
                                    mov_importe    importe,
                                    mov_piso       piso,
-                                   mov_gasto      gasto
+                                   mov_gasto      gasto,
+                                   mov_documento  documento
                               from MOVIMIENTO
                              where mov_comunidad = ?
                                and mov_movimiento NOT IN  (select spl_movimiento
@@ -34,7 +35,8 @@
                                    spl_fecha      fecha,
                                    spl_importe    importe,
                                    spl_piso       piso,
-                                   spl_gasto      gasto
+                                   spl_gasto      gasto,
+                                   spl_documento  documento
                               from SPLIT
                              where spl_comunidad = ?
                              order

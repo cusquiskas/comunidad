@@ -1,0 +1,11 @@
+<form name="guardarDocumento" Content-Type="multipart/form-data" method="post" action="backend/app/documento/guardar.php" frc-callback="guardar">
+    <input type="hidden" name="doc_documento" value=""> 
+    <input type="hidden" name="doc_comunidad" value="">
+    <div class="mb-3">
+        <label for="doc_real" class="form-label">Seleccionar Archivo</label>
+        <input class="form-control" type="file" name="doc_real" required>
+    </div>
+    <div class="mb-3 d-flex justify-content-end">
+        <button type="button" name="subir" class="btn btn-primary">Subir</button>
+    </div>
+</form>

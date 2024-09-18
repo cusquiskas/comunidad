@@ -86,6 +86,8 @@ var movimiento = class {
                     botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
                     botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
                     botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
+                    if (row.gasto != null) 
+                        botones+= '<button type="button" class="btn btn-'+(row.documento!=null?'success':'ligth')+' border border-info movAdjunto"><span class="material-symbols-outlined">attach_file</span></button>';
                     return botones;
                 }}
             ]/*,
@@ -109,6 +111,18 @@ var movimiento = class {
             form.set({spl_comunidad: obj.comunidad, spl_movimiento:data.movimiento});
             Moduls.getModalbody().load({ url: 'content/back/split.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento:data.movimiento, split:data.split}});
             construirModal({title:"Split", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackSplit, canceltext:'Borrar', cancelfunction:yo.callbackSplitBorrar});
+        });
+        this.tablaD.on('click', 'button.movAdjunto', function(eve) {
+            let data = yo.tablaD.row($(this).closest('tr')).data();
+            let form = yo.modulo.Forms['guardarAdjunto'];
+            form.set({doc_comunidad: obj.comunidad});
+            if (data.documento == "" || data.documento == null) {
+                Moduls.getModalbody().load({ url: 'content/back/documento/addDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad}});
+                construirModal({title:"Documento", w:600, h:750, canceltext:'Cerrar', cancelfunction:cerrarModal});
+            } else {
+                Moduls.getModalbody().load({ url: 'content/back/documento/viewDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, documento:data.documento}});
+                construirModal({title:"Documento", w:600, h:750, canceltext:'Cerrar', cancelfunction:cerrarModal});
+            }
         });
         
     };

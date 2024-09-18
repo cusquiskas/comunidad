@@ -10,6 +10,7 @@
     $conf = new ConfiguracionSistema();
     $_SESSION['data']['conf']['home']        = $conf->getHome();
     $_SESSION['data']['conf']['timeSession'] = $conf->getTimeSession();
+    $_SESSION['data']['conf']['subidas']     = $conf->getSubidas();
     unset($conf);
     require_once 'js/function.php';
 ?>
