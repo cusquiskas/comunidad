@@ -1,0 +1,2 @@
+# Deshabilitar la indexación de directorios en todo el sitio
+Options -Indexes

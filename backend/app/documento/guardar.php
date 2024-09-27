@@ -11,14 +11,23 @@
     $manDocumento = ControladorDinamicoTabla::set('DOCUMENTO');
     unset($manDocumento);
 
-    echo var_export($_FILES, true);
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+    $allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    
     if (isset($_FILES['doc_real']) && $_FILES['doc_real']['error'] == 0) {
+        if (!in_array(strtolower($_FILES['doc_real']['type']), $allowedMimeTypes)) {
+            die(json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'El tipo de archivo no está soportado.']]));
+        }
+        if (!in_array(pathinfo(strtolower($_FILES['doc_real']['name']), PATHINFO_EXTENSION), $allowedExtensions)) {
+            die(json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'El tipo de archivo no está soportado.']]));
+        }
         $nombreArchivo     = $_FILES['doc_real']['name'];
         $ubicacionTemporal = $_FILES['doc_real']['tmp_name'];
         $ubicacionDestino  = $_SESSION['data']['conf']['home'] . $_SESSION['data']['conf']['subidas'] . $nombreArchivo;
         
-        if (move_uploaded_file($ubicacionTemporal, $ubicacionDestino)) {
-            echo json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Archivo subido con éxito.']]);
+        @move_uploaded_file($ubicacionTemporal, $ubicacionDestino);
+        if (file_exists($ubicacionDestino)) {
+            echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Archivo subido con éxito.', 'datosArchivo' => $_FILES]]);
         } else {
             echo json_encode(['success' => false, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Error al mover el archivo.']]);
         }
