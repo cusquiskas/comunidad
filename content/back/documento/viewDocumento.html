@@ -1,0 +1,15 @@
+<form class="xx" name="detalleDocumento" method="post" action="backend/app/documento/datos.php" frc-callback="documento">
+    <input name="doc_comunidad"/> <input name="doc_documento"/>
+</form>
+
+<form name="descargaDocumento" method="get" action="backend/app/documento/archivo.php" target="_blank">
+    <div class="mb-3">
+        <label for="doc_real" class="form-label">Archivo:</label>
+        <input class="form-control disabled" type="text" name="doc_real" disabled readonly>
+        <input type="hidden" name="doc_comunidad">
+        <input type="hidden" name="doc_documento">
+    </div>
+    <div class="mb-3 d-flex justify-content-end">
+        <button type="button" name="descargar" class="btn btn-primary">Descargar</button>
+    </div>
+</form>
