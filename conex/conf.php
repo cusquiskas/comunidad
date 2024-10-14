@@ -43,4 +43,22 @@ class ConfiguracionSistema
     public function getSubidas() {
         return $this->subidas;
     }
+
+    public function __construct() {
+        $clave = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
+        $clave = $clave["comunidad"];
+        
+        $url = "https://cusquiskas.com/secretos";
+        $options = array(
+            'http' => array(
+                'method'  => 'GET',
+                'header'  => "Authorization: Bearer $clave\r\n" .
+                "Content-Type: application/json\r\n"
+            )
+        );
+        $context = stream_context_create($options);
+        
+        $config  = json_decode(file_get_contents($url, false, $context), true);
+    
+    }
 }
