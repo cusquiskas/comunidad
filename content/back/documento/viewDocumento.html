@@ -1,6 +1,9 @@
 <form class="xx" name="detalleDocumento" method="post" action="backend/app/documento/datos.php" frc-callback="documento">
     <input name="doc_comunidad"/> <input name="doc_documento"/>
 </form>
+<form class="xx" name="borraDocumento" method="post" action="backend/app/documento/borrar.php" frc-callback="documentoDel">
+    <input name="doc_comunidad"/> <input name="doc_documento"/>
+</form>
 
 <form name="descargaDocumento" method="get" action="backend/app/documento/archivo.php" target="_blank">
     <div class="mb-3">
@@ -11,5 +14,6 @@
     </div>
     <div class="mb-3 d-flex justify-content-end">
         <button type="button" name="descargar" class="btn btn-primary">Descargar</button>
+        <button type="button" name="eliminar" class="btn btn-danger">Borrar</button>
     </div>
 </form>

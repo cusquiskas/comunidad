@@ -117,10 +117,10 @@ var movimiento = class {
             let form = yo.modulo.Forms['guardarAdjunto'];
             form.set({doc_comunidad: obj.comunidad});
             if (data.documento == "" || data.documento == null) {
-                Moduls.getModalbody().load({ url: 'content/back/documento/addDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, callback:yo.guardar, moduloRemoto:yo.modulo}});
+                Moduls.getModalbody().load({ url: 'content/back/documento/addDocumento.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, callback:yo.guardar, moduloRemoto:yo.modulo}});
                 construirModal({title:"Subir Documento", w:600, h:750});
             } else {
-                Moduls.getModalbody().load({ url: 'content/back/documento/viewDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, documento:data.documento}});
+                Moduls.getModalbody().load({ url: 'content/back/documento/viewDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, documento:data.documento,    callback:yo.guardar, moduloRemoto:yo.modulo}});
                 construirModal({title:"Descargar Documento", w:600, h:750});
             }
         });
