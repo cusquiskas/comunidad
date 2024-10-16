@@ -24,10 +24,11 @@
             $smtp->setPara($ses["ses_correo"]);
             $smtp->setAsunto("Desbloqueo de cuenta de correo");
             $smtp->setCuerpo("Sigue el enlace indicado a continuación para desbloquear tu usuario y cambiar la contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Desbloquear cuenta</a>");
+            $smtp->setDebugger(true);
             if (!$smtp->sendMail()) {
                 $error = $smtp->getError();
                 unset($smtp);
-                die(json_encode(['success' => false, 'root' => $error['err']]));
+                die(json_encode(['success' => false, 'root' => $error]));
             }
             unset($smtp);
         } else {

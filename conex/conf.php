@@ -27,7 +27,8 @@ class ConfiguracionSistema
 
     public function __construct   () {
         if ($this->host == null) {
-            $config = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
+            #$config = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
+            $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
             
             $config = $config["comunidad"];
             

@@ -1,10 +1,10 @@
 <?php    
     class SMTP {
         // Configurar los datos del servidor SMTP
-        private $user = "noreply@cusquiskas.com";       // El nombre de usuario SMTP
-        private $pass = "";                             // La contraseña SMTP
-        private $host = "ssl://smtp.hostinger.com";     // El nombre del host SMTP
-        private $port = 465;                            // El puerto SMTP
+        private $user = null; // El nombre de usuario SMTP
+        private $pass = null; // La contraseña SMTP
+        private $host = null; // El nombre del host SMTP
+        private $port = null; // El puerto SMTP
         private $errstr = "";
         private $errnun = 0;
         private $result = [];
@@ -15,6 +15,16 @@
         private $cuerpo = "";
 
         public function __construct($obj=null) {
+            if ($this->host == null) {
+                $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
+                $config = $config["SMTP"];
+                
+                $this->host = $config["host"];
+                $this->user = $config["user"];
+                $this->pass = $config["pass"];
+                $this->port = $config["port"];
+            }
+            
             if ($obj!=null) {
                 $this->setPara   ($obj["para"]  );
                 $this->setAsunto ($obj["asunto"]);
@@ -68,98 +78,60 @@
                 echo "body: $body\r\n";
             }
 
-            // Crear una conexión SMTP con autenticación
-            @$smtp = fsockopen($this->host, $this->port, $this->errnun, $this->errstr); // Abrir un socket TCP al servidor SMTP
-            if ($this->errstr != "") return false;
-            fwrite($smtp, "EHLO $this->host\r\n"); // Enviar el comando HELO al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "AUTH LOGIN\r\n"); // Enviar el comando AUTH LOGIN al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            if (substr($tempo, 0, 3) != "250") {
-                $this->errnum = substr($tempo, 0, 3) * 1;
-                $this->errstr = $tempo;
-                fclose($smtp);
-                return false;
-            }
-            fwrite($smtp, base64_encode($this->user) . "\r\n"); // Enviar el nombre de usuario codificado en base64 al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, base64_encode($this->pass) . "\r\n"); // Enviar la contraseña codificada en base64 al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
             
-            // Enviar el correo electrónico
-            fwrite($smtp, "MAIL FROM: <$from>\r\n"); // Enviar el comando MAIL FROM al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "RCPT TO: <$to>\r\n"); // Enviar el comando RCPT TO al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "DATA\r\n"); // Enviar el comando DATA al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "From: $from\r\n"); // Escribir la cabecera From del correo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "To: $to\r\n"); // Escribir la cabecera To del correo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "Subject: $subject\r\n"); // Escribir la cabecera Subject del correo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "MIME-Version: 1.0\r\n");
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "Content-type: text/html; charset=utf8\r\n"); // Escribir en la cabecera que el correo será HTML y en codificación UTF8
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, "\r\n"); // Escribir una línea en blanco para separar las cabeceras del cuerpo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            if (substr($tempo, 0, 3) != "235") {
-                $this->errnum = substr($tempo, 0, 3) * 1;
-                $this->errstr = $tempo;
+                // Crear una conexión SMTP con autenticación
+                @$smtp = fsockopen($this->host, $this->port, $this->errnum, $this->errstr, 30);
+                if (!$smtp) {
+                    die("Error de conexión: $this->errstr ($this->errnum)");
+                }
+                
+                // Iniciar la conexión SSL si es necesario
+                // stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT); // Omitido si ya está configurado
+                
+                $this->sendCommand($smtp, "EHLO $this->host\r\n");
+                $this->sendCommand($smtp, "AUTH LOGIN\r\n");
+                $this->sendCommand($smtp, base64_encode($this->user) . "\r\n");
+                $this->sendCommand($smtp, base64_encode($this->pass) . "\r\n");
+                
+                $this->sendCommand($smtp, "MAIL FROM: <$from>\r\n");
+                $this->sendCommand($smtp, "RCPT TO: <$to>\r\n");
+                $this->sendCommand($smtp, "DATA\r\n");
+                
+                // Escribir las cabeceras del correo
+                $this->sendCommand($smtp, "From: $from\r\n");
+                $this->sendCommand($smtp, "To: $to\r\n");
+                $this->sendCommand($smtp, "Subject: $subject\r\n");
+                $this->sendCommand($smtp, "MIME-Version: 1.0\r\n");
+                $this->sendCommand($smtp, "Content-type: text/html; charset=utf8\r\n");
+                $this->sendCommand($smtp, "\r\n"); // Línea en blanco entre cabeceras y cuerpo
+                
+                // Escribir el cuerpo del correo
+                $this->sendCommand($smtp, "$body\r\n");
+                
+                // Indicar el final del mensaje
+                $response = $this->sendCommand($smtp, ".\r\n");
+                /*if (substr($response, 0, 3) != "250") {
+                    $this->errnum = 1;
+                    $this->errstr = $response;
+                    fclose($smtp);
+                    return false;
+                }*/
+                
+                $this->sendCommand($smtp, "QUIT\r\n");
+                
+                // Cerrar la conexión SMTP
                 fclose($smtp);
-                return false;
-            }
-            fwrite($smtp, "$body\r\n"); // Escribir el cuerpo del correo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            fwrite($smtp, ".\r\n"); // Enviar el punto final para indicar el fin del correo
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-            if (substr($tempo, 0, 3) != "250") {
-                $this->errnum = substr($tempo, 0, 3) * 1;
-                $this->errstr = $tempo;
-                fclose($smtp);
-                return false;
-            }@fwrite($smtp, "QUIT\r\n"); // Enviar el comando QUIT al servidor SMTP
-            $tempo = fgets($smtp);
-            if ($this->debugger === true) echo $tempo;
-            array_push($this->result, $tempo);
-
-            // Cerrar la conexión SMTP
-            fclose($smtp); // Cerrar el socket TCP
-            if ($this->debugger === true) echo "close\r\n";
+                if ($this->debugger === true) echo "close\r\n";
+    
             return true;
         }
 
+        private function sendCommand($smtp, $command) {
+            fwrite($smtp, $command);
+            $response = fgets($smtp, 4096); // Leer la respuesta del servidor
+            if ($this->debugger === true) echo $response;
+            array_push($this->result, $response);
+            return $response;
+        }
     }
 ?>
