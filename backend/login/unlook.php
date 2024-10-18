@@ -19,14 +19,13 @@
             $ses["ses_ultimo"] = '9999-12-29';
 
         if ($manSesion->save($ses) == 0) {
-            require_once ($_SESSION['data']['conf']['home'].'conex/smtp.php');
-            $smtp = new SMTP();
-            $smtp->setPara($ses["ses_correo"]);
-            $smtp->setAsunto("Desbloqueo de cuenta de correo");
-            $smtp->setCuerpo("Sigue el enlace indicado a continuación para desbloquear tu usuario y cambiar la contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Desbloquear cuenta</a>");
-            $smtp->setDebugger(true);
-            if (!$smtp->sendMail()) {
-                $error = $smtp->getError();
+            require_once ($_SESSION['data']['conf']['home'].'conex/correo.php');
+            $smtp = new Correo();
+            $smtp->destinatario($ses["ses_correo"], null);
+            $smtp->asunto = "Desbloqueo de cuenta de correo";
+            $smtp->cuerpo = "Sigue el enlace indicado a continuación para desbloquear tu usuario y cambiar la contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Desbloquear cuenta</a>";
+            if (!$smtp->mandaMail()) {
+                $error = $smtp->error;
                 unset($smtp);
                 die(json_encode(['success' => false, 'root' => $error]));
             }

@@ -37,29 +37,17 @@
         $ses["ses_ultimo"] = '9999-12-31';
 
         if ($manSesion->save($ses) == 0) {
-            require_once ($_SESSION['data']['conf']['home'].'conex/smtp.php');
-            $smtp = new SMTP();
-            $smtp->setPara($ses["ses_correo"]);
-            $smtp->setAsunto("Verificación de cuenta de correo");
-            $smtp->setCuerpo("Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>");
-            if (!$smtp->sendMail()) {
-                $error = $smtp->getError();
+            require_once ($_SESSION['data']['conf']['home'].'conex/correo.php');
+            $smtp = new Correo();
+            $smtp->destinatario($ses["ses_correo"]);
+            $smtp->asunto = "Verificación de cuenta de correo";
+            $smtp->cuerpo = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>";
+            if (!$smtp->mandaMail()) {
+                $error = $smtp->error;
                 unset($smtp);
-                die(json_encode(['success' => false, 'root' => $error['err']]));
+                die(json_encode(['success' => false, 'root' => $error]));
             }
             unset($smtp);
-            /* 
-            mb_internal_encoding("UTF-8");
-            mb_language("uni");
-            $to      = "".$ses["ses_correo"]."";
-            $subject = "Verificación de cuenta de correo";
-            $message = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br>http://localhost:8080/comunidad/confirmarUsuario.html?s=".$ses["ses_token"];
-            $header["Mime-Version"] = "1.0";
-            $header["Content-Type"] = "text/html; charset=UTF-8";
-            $header["From"] = "cusquiskas@gmail.com";
-            $header["X-Mailer"] = "PHP/" . phpversion();
-            mb_send_mail($to, $subject, $message, $header);
-            */
         } else {
             unset($ses);
             $ses = $manSesion->getListaErrores();

@@ -2,12 +2,12 @@
 
 class ConfiguracionSistema
 {
-    private $host        = null;
-    private $user        = null;
-    private $pass        = null;
-    private $apli        = null;
-    private $home        = null;
+    private $host = null;
+    private $user = null;
+    private $pass = null;
+    private $apli = null;
 
+    private $home = null;
     private $subidas     = null;
     private $timeSession = null;
 
@@ -26,9 +26,8 @@ class ConfiguracionSistema
     public function getSubidas    () { return $this->subidas;     }
 
     public function __construct   () {
-        if ($this->host == null) {
-            #$config = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
-            $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
+        if (file_exists('/opt/lampp/claves.json')) {
+            $config = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
             
             $config = $config["comunidad"];
             
