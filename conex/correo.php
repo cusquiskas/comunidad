@@ -49,7 +49,7 @@
             $this->mail->isHTML(true);                                  //Set email format to HTML
         }
         public function destinatario($correo, $nombre=null) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
+            if (file_exists('/opt/lampp/htdocs/claves.json')) 
                 $this->mail->addAddress('cusquiskas@gmail.com');
             else
                 $this->mail->addAddress($correo, $nombre);
@@ -63,21 +63,21 @@
             $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
         }
 
-        public function destinatarioCC($correo, $nombre) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
+        public function destinatarioCC($correo, $nombre=null) {
+            if (file_exists('/opt/lampp/htdocs/claves.json')) 
                 $this->mail->addCC('cusquiskas@gmail.com');
             else
                 $this->mail->addCC($correo, $nombre);
         }
 
-        public function destinaratioCO($correo, $nombre) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
+        public function destinaratioCO($correo, $nombre=null) {
+            if (file_exists('/opt/lampp/htdocs/claves.json')) 
                 $this->mail->addBCC('cusquiskas@gmail.com');
             else
                 $this->mail->addBCC($correo, $nombre);
         }
 
-        public function adjunto ($origen, $nombre) {
+        public function adjunto ($origen, $nombre=null) {
             $this->mail->addAttachment($origen, $nombre);
         }
 

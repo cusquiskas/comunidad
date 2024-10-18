@@ -26,8 +26,8 @@ class ConfiguracionSistema
     public function getSubidas    () { return $this->subidas;     }
 
     public function __construct   () {
-        if (file_exists('/opt/lampp/claves.json')) {
-            $config = json_decode(file_get_contents('/opt/lampp/claves.json'), true);
+        if (file_exists('/opt/lampp/htdocs/claves.json')) {
+            $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
             
             $config = $config["comunidad"];
             
