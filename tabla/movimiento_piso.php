@@ -19,6 +19,12 @@
                                                from SPLIT, PISO
                                               where spl_comunidad = ?
                                                and spl_piso       = pis_piso
+                                              UNION
+                                             SELECT dud_importe saldo,
+                                                    pis_nombre PISO
+                                               from DEUDA, PISO
+                                              WHERE dud_comunidad = ?
+                                                and  dud_piso = pis_piso
                                             ) datos
                                       group 
                                         by piso
@@ -26,7 +32,8 @@
                                         by piso", 
                                     [0 => ['tipo' => 'i', 'dato' => $comunidad],
                                      1 => ['tipo' => 'i', 'dato' => $comunidad],
-                                     2 => ['tipo' => 'i', 'dato' => $comunidad]
+                                     2 => ['tipo' => 'i', 'dato' => $comunidad],
+                                     3 => ['tipo' => 'i', 'dato' => $comunidad]
                                     ]);
             $link->close();
             unset($link);

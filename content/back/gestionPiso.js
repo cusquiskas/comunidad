@@ -19,11 +19,11 @@ var gestionPiso = class {
             columns: [
                 { data: 'pis_nombre' },
                 { data: 'pis_porcentaje' },
-                { data: 'pis_propietario' },
+                { data: 'pis_propietario_nombre' },
                 { data: 'pis_comentario' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button type="button" data-piso="'+row.pis_piso+'" data-propietario="'+(row.pis_propietario||'')+'"><span class="material-icons asignarPropietario">person</span></button>';
+                                botones+= '<button class="asignarPropietario" type="button" data-piso="'+row.pis_piso+'" data-propietario="'+(row.pis_propietario||'')+'"><span class="material-icons">person</span></button>';
                                 return botones;
                 }}
             ],

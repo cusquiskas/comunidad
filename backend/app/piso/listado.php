@@ -14,18 +14,30 @@
     
     unset($manPisos);
 
-    require_once $_SESSION['data']['conf']['home'].'tabla/propietario_piso.php';
-    $manPisos = new View_PROPIETARIO_PISO();
+    
+    $manPropiePiso = ControladorDinamicoTabla::set('PROPIETARIO_PISO');
+    $manPropietario = ControladorDinamicoTabla::set('PROPIETARIO');
+    
     for ($i=0; $i<count($reg); $i++) {
-        $resu = $manPisos->lista_pisos(null, $_POST['com_comunidad'], date_format(new DateTime(), 'Y-m-d'), $reg[$i]['pis_piso']);
-        if (count($resu) > 0) {
-            $reg[$i]['propietario'] = $resu;
+        $mag = ["ppi_piso" => $reg[$i]["pis_piso"], "ppi_hasta_signo" => ">=", "ppi_hasta" => date("Y-m-d"), "ppi_desde_signo" => "<=", "ppi_desde" => date("Y-m-d")];
+        $manPropiePiso->give($mag);
+        $mog = $manPropiePiso->getArray();
+        if (count($mog) > 0) {
+            $rog = ["pro_propietario" => $mog[0]["ppi_propietario"]];
+            $manPropietario->give($rog);
+            $meg = $manPropietario->getArray();
+            
+            $reg[$i]["pro_propietario"]        = $mog[0]["ppi_propietario"];
+            $reg[$i]['pis_propietario_nombre'] = $meg[0]["pro_nombre"] . " " . $meg[0]["pro_apellidos"];
         } else {
+            $reg[$i]["pro_propietario"]        = "";
+            $reg[$i]['pis_propietario_nombre'] = "Sin Especificar";
             
         }
     }
-    unset($manPisos);
-
+    
+    unset($manPropietario);
+    unset($manPropiePiso);
 
     echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
 ?>
