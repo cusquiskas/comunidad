@@ -1,4 +1,12 @@
 <?php    
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '\/comunidad\/',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict' // O 'Lax' o 'None'
+    ]);
+    
     session_start();
     error_reporting(E_ALL & ~E_NOTICE);
 
@@ -6,12 +14,13 @@
     
     if (!isset($_SESSION['data']['user']['id']) || $_SESSION['data']['user']['id'] == "") {
         unset($_SESSION);
+        http_response_code(401);
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Sesión no válida']]]));
     }
     
     if (!isset($_POST) || $_POST == []) 
         $_POST = json_decode(file_get_contents('php://input'), true);
-
+    
     require_once $_SESSION['data']['conf']['home'].'conex/conf.php';  //información crítica del sistema
     require_once $_SESSION['data']['conf']['home'].'conex/dao.php';   //control de comunicación con la base de datos MySQL
     require_once $_SESSION['data']['conf']['home'].'tabla/controller.php';
@@ -28,11 +37,13 @@
             $ses = $manSesion->getListaErrores();
             unset($manSesion);
             unset($_SESSION);
+            http_response_code(401);
             die(json_encode(['success' => false, 'root' => $ses]));
         }
     } else {
         unset($manSesion);
         unset($_SESSION);
+        http_response_code(401);
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Token no válido']]]));
     }
     unset($manSesion);

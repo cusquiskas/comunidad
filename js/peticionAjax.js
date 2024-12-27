@@ -14,11 +14,15 @@ function peticionAjax() {
         var http = (dato.asincrono) ? this : this.xmlhttp;
         if (http.readyState == 4) {
             dato.extra.xxhttpresponsecodexx = http.status;
+            if (http.status === 401) {
+                document.location.href = '/comunidad/exit.php';
+                return;
+            }
             var resultado = '';
             if (http.responseType != "arraybuffer") {
                 if (http.responseText == "" || http.responseText == null) {
                     try { dato.retorno(false, 'La llamada no ha devuelto datos'); } catch (e) { }
-                    return; //Ha llegado una cadena vac�a del servidor, abortamos el resto de comprobaciones y devolvemos la situaci�n
+                    return; //Ha llegado una cadena vacía del servidor, abortamos el resto de comprobaciones y devolvemos la situación
                 }
             }
             resultado = (typeof JSON != 'undefined') ? JSON.parse(http.responseText) : eval("(function(){return " + http.responseText + ";})()");

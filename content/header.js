@@ -8,9 +8,11 @@ var header = class {
     };
 
     validaSesion() {
-        let form = this.mod.Forms['sesion'];
-        form.set({'usu_correo':sessionStorage.getItem('id')});
-        form.executeForm();
+        if (sessionStorage.getItem('id') && sessionStorage.getItem('id') !== "") {
+            let form = this.mod.Forms['sesion'];
+            form.set({'usu_correo':sessionStorage.getItem('id')});
+            form.executeForm();
+        }
     }
 
     addEventos () {
@@ -49,10 +51,14 @@ var header = class {
     sesion (s,d,e) {
         let headerClass = e.form.modul.getScript();
         if (!s) {
-            if (sessionStorage.getItem('id')) validaErroresCBK(d.root||d);
+            if (sessionStorage.getItem('id')) {
+                validaErroresCBK(d.root||d);
+                document.location.href = "/comunidad/";
+            }
             sessionStorage.setItem('id','');
             sessionStorage.setItem('nombre','');
-            Moduls.getBody().load({ url: 'content/app/intro.html', script: true });
+            //Moduls.getBody().load({ url: 'content/app/intro.html', script: true });
+            
         } else {
             sessionStorage.setItem('id',d.root.Detalle.usu_correo);
             sessionStorage.setItem('nombre',d.root.Detalle.usu_nombre);

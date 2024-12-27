@@ -1,4 +1,12 @@
 <?php
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '\/comunidad\/',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict' // O 'Lax' o 'None'
+    ]);
+    
     session_start();
     require_once ($_SESSION['data']['conf']['home'].'backend/required/initSession.php');
         

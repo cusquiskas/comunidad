@@ -1,6 +1,15 @@
 <?php
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '\/comunidad\/',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict' // O 'Lax' o 'None'
+    ]);
+    
     session_start();
-    require_once ($_SESSION['data']['conf']['home'].'backend/required/initSession.php');
+   #require_once ($_SESSION['data']['conf']['home'].'backend/required/initSession.php');
+    require_once ('../required/initSession.php');
 
     if ($_POST['usu_contrasena'] == '' || $_POST['usu_correo'] == '') {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Sesion', 'Detalle' => 'Usuario o contraseña no válido']]]));
