@@ -13,6 +13,7 @@
     $reg = $manMovimiento->getArray();
     $suma  = 0;
     $fondo = 0;
+    $fecha = $reg[count($reg)-1]["mov_fecha"];
     for ($i=0; $i<count($reg); $i++) {
         $suma += $reg[$i]['mov_importe'];
         $fondo+= $reg[$i]['mov_importe'];
@@ -24,7 +25,7 @@
     $manMovPiso = new View_MOVIMIENTO_PISO();
     $saldo = $manMovPiso->saldo_pisos($_POST['mov_comunidad']);
 
-    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => ['saldoCuenta' => round($suma,2), 'fondoCuenta' => round($fondo,2), 'saldoPiso' => $saldo]]]);
+    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => ['ultimoMovimiento' => $fecha, 'saldoCuenta' => round($suma,2), 'fondoCuenta' => round($fondo,2), 'saldoPiso' => $saldo]]]);
 
     unset($saldo);
     unset($manMovimiento);

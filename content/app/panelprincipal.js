@@ -58,7 +58,7 @@ var panelprincipal = class {
         } else {
             let form = e.form.modul.Forms['dashboard'];
             let fila = '<tr><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}}</h6></div></div></td><td class="align-middle text-center text-sm"><span class="text-xs font-weight-bold">{{saldo}}</span></td></tr>';
-            form.set({saldoU:d.root.Detalle.saldoCuenta, fondo:d.root.Detalle.fondoCuenta});
+            form.set({saldoU:formatoEsp(d.root.Detalle.saldoCuenta,2), fondo:formatoEsp(d.root.Detalle.fondoCuenta,2), fechaU:d.root.Detalle.ultimoMovimiento.hazFecha('yyyy-mm-dd','dd/mm/yyyy')});
             let tabla = $('tbody.listaSaldoPisos');
             tabla.empty();
             for (let i=0; i<d.root.Detalle.saldoPiso.length; i++) {

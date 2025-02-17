@@ -12,11 +12,17 @@
 
     if ($perfil <= 2) { #presidente o administrador
         $manPisos = ControladorDinamicoTabla::set('PISO');
-        $manPisos->give($_POST);
+        $manPisos->give(["pis_comunidad" => $_POST["com_comunidad"]]);
         $reg = $manPisos->getArray();
         unset($manPisos);
-        $sum = 0; for ($i = 0; $i < count($reg); $i++) { $sum += ($reg[0]["pis_porcentaje"] * 1); }
-        if ($sum != 100) $avisos[] = ["tipo" =>"Mensaje", "Campo"=>"Porcentaje Pisos", "Detalle" => "La suma total de los pocentajes de los pisos es ".($suma*1)."%"];
+        $sum = 0; 
+        for ($i = 0; $i < count($reg); $i++) { 
+            $sum += ($reg[$i]["pis_porcentaje"] * 1); 
+        }
+        
+        if (round($sum,2) != 100.00) {
+            $avisos[] = ["tipo" =>"Mensaje", "Campo"=>"Porcentaje Pisos", "Detalle" => "La suma total de los pocentajes de los pisos es $sum%"];
+        }
     }
 
     if ($perfil >= 2) { #usuario o presidente
