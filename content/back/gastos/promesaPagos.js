@@ -35,7 +35,7 @@ var promesaPagos = class {
                 $('button.psmPiso').click(function(eve){
                     let form = yo.modulo.Forms['guardar'];
                     yo.promesa = eve.currentTarget.getAttribute('data-promesa');
-                    form.set({gas_gasto:eve.currentTarget.getAttribute('data-promesa')});
+                    form.set({psm_promesa:eve.currentTarget.getAttribute('data-promesa')});
                     Moduls.getModalbody().load({ url: 'content/back/selectPiso.html', script: true, parametros:{comunidad:yo.obj.comunidad, gasto: eve.currentTarget.getAttribute('data-promesa'), piso: JSON.parse(eve.currentTarget.getAttribute('data-piso')), type:'checkbox'}});
                     construirModal({title:"Pisos", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPisos});
                 });
@@ -44,7 +44,7 @@ var promesaPagos = class {
     }
 
     callbackPisos (valor) {
-        let modulo = Moduls.getBody();
+        let modulo = Moduls.getPromesaspago();
         let script = modulo.getScript();
         let form = modulo.Forms.guardar;
         form.set({psm_promesa:script.promesa, psm_piso:Moduls.getModalbody().getScript().getValor()});
@@ -63,5 +63,13 @@ var promesaPagos = class {
         }
     }
 
+    guardarPromesa (s,d,e) {
+        if (s) {
+            e.form.modul.Forms.promesa.executeForm();
+            cerrarModal();
+        } else {
+            validaErroresCBK(d.root||d);
+        }
+    }
 
 }

@@ -42,7 +42,7 @@ var tipoGastos = class {
     }
 
     callbackPisos (valor) {
-        let modulo = Moduls.getBody();
+        let modulo = Moduls.getTipogasto();
         let script = modulo.getScript();
         let form = modulo.Forms.guardar;
         form.set({gas_gasto:script.gasto, gas_piso:Moduls.getModalbody().getScript().getValor()});

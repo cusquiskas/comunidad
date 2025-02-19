@@ -1,6 +1,16 @@
 <?php
     require_once ('../required/controlSession.php');
 
+    function compararPorClave($clave, $orden = 'asc') {
+        return function ($a, $b) use ($clave, $orden) {
+            if ($orden === 'asc') {
+                return $a[$clave] <=> $b[$clave];
+            } else {
+                return $b[$clave] <=> $a[$clave];
+            }
+        };
+    }
+    
     if (!$_POST['com_comunidad'] || $_POST['com_comunidad'] == "") {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'No se ha especificado una comunidad']]]));
     }
@@ -33,10 +43,77 @@
         if (count($resu) == 0) $avisos[] = ["tipo" =>"Mensaje", "Campo"=>"Propietario", "Detalle" => "No está incluido como propietario en ningún piso"];
     }
 
-
+    #ejecutamos las promesas que estén pendientes, da igual con qué perfil se acceda, se tiene que recalcular para la comunidad
+    $manDeuda    = ControladorDinamicoTabla::set('DEUDA');
+    $manPisos    = ControladorDinamicoTabla::set('PROMESA_PISO');
+    $manPromesas = ControladorDinamicoTabla::set('PROMESA');
+    #-recuperamos todas las promesas activas en la comunidad
+    $manPromesas->give([
+                    "psm_comunidad"    => $_POST["com_comunidad"], 
+                    "psm_fdesde"       => date("Y-m-d"), 
+                    "psm_hasta"        => date("Y-m-d"), 
+                    "psm_fdesde_signo" => "<=", 
+                    "psm_fhasta_signo" => ">="
+                ]);
+    $promesas = $manPromesas->getArray();
+    #-recorremos las promesas
+    for ($i = 0; $i < count($promesas); $i++) {
+        #echo "\nPROMESAS $i\n";
+        #echo var_export($promesas[$i], true);
+        #--buscando sus pisos
+        $manPisos->give(["prp_promesa" => $promesas[$i]["psm_promesa"]]);
+        $pisos = $manPisos->getArray();
+        for ($z = 0; $z < count($pisos); $z++) {
+            #echo "\nPISOS $z\n";
+            #echo var_export($pisos[$z], true);
+            #---buscamos los registros que ya tengamos asignados de esta deuda
+            $manDeuda->give([
+                "dud_comunidad" => $_POST["com_comunidad"],
+                "dud_piso"      => $pisos[$z]["prp_piso"],
+                "dud_promesa"   => $pisos[$z]["prp_promesa"]
+            ]);
+            $deudas = $manDeuda->getArray();
+            #echo "\nDEUDAS anteriores\n";
+            #echo var_export($deudas, true);
+            #---ahora tenemos que definir los registros a crear
+            if (count($deudas) > 0) {
+                uasort($deudas, compararPorClave('dud_fecha', 'desc'));
+                $fechaDesde = new DateTime($deudas[0]["dud_fecha"]);
+            } else {
+                #---si no hay deuda anterior, es la fecha de inicio de la promesa
+                $fechaDesde = new DateTime($promesas[$i]["psm_fdesde"]);
+                $fechaDesde->sub(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
+            }
+            #--- la fecha de finalización será la de hoy (sino, no estaríamos revisando la promesa)
+            $fechaHasta = new DateTime();
+            #--- esta será la nueva fecha a grabar, si es que ya ha llegado el día
+            
+            $fechaDesde->add(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
+            #echo "\nFECHAS antes de entrar en el bucle\n";
+            #echo $fechaDesde->format('Y-m-d') . " - " . $fechaHasta->format('Y-m-d') . "\n";
+            while ($fechaDesde < $fechaHasta) {
+                $manDeuda->save([
+                    "dud_comunidad" => $_POST["com_comunidad"] * 1,
+                    "dud_piso"      => $pisos[$z]["prp_piso"] * 1,
+                    "dud_promesa"   => $pisos[$z]["prp_promesa"] * 1,
+                    "dud_fecha"     => $fechaDesde->format('Y-m-d'),
+                    "dud_importe"   => $promesas[$i]["psm_importe"] * 1
+                ]);
+                #echo "\nERRORES al guardar\n";
+                #echo var_export($manDeuda->getListaErrores(), true);
+                $fechaDesde->add(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
+                #echo "\nFECHAS dentro del bucle\n";
+                #echo $fechaDesde->format('Y-m-d') . " - " . $fechaHasta->format('Y-m-d') . "\n";
+            }
+        }
+    }
     if (count($avisos) > 0) {
         echo json_encode(['success' => false, 'root' => ["avisos" => $avisos, "perfil" => $perfil]]);
     } else {
         echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => "Sin avisos", "perfil" => $perfil]]);
     }
+
+    unset($manDeuda);
+    unset($manPisos);
+    unset($manPromesas);
 ?>
