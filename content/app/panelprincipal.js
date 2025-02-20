@@ -13,6 +13,9 @@ var panelprincipal = class {
         form = mod.Forms['datosMovimiento'];
         form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
+        form = mod.Forms['datosGasto'];
+        form.set({'mov_comunidad':obj.comunidad});
+        form.executeForm();
     };
 
     addEventos (modulo) {
@@ -51,7 +54,16 @@ var panelprincipal = class {
             form.set({nVecinos:d.root.Detalle.length});
         }
     }
-    
+
+    gastos (s,d,e) {
+        if (!s) {
+            validaErroresCBK(d.root||d);
+        } else {
+            let form = e.form.modul.Forms['dashboard'];
+            form.set({gastoEjercicio:formatoEsp(d.root.Detalle.ejercicio,2), gastoAnterior:formatoEsp(d.root.Detalle.anterior,2)});
+        }
+    }
+
     movimientos (s,d,e) {
         if (!s) {
             validaErroresCBK(d.root||d);

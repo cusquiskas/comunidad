@@ -73,25 +73,26 @@
                 "dud_promesa"   => $pisos[$z]["prp_promesa"]
             ]);
             $deudas = $manDeuda->getArray();
-            #echo "\nDEUDAS anteriores\n";
-            #echo var_export($deudas, true);
             #---ahora tenemos que definir los registros a crear
+            $dia = "";
             if (count($deudas) > 0) {
+                #-- si ya hay deuda grabada, cogemos la última y empezamos a contar desde ahí
                 uasort($deudas, compararPorClave('dud_fecha', 'desc'));
                 $fechaDesde = new DateTime($deudas[0]["dud_fecha"]);
+                $dia = ($fechaDesde->format('d') == $fechaDesde->format('t'))?"last day of this month":"+".$fechaDesde->format('d')." day";
+                $fechaDesde->modify('first day of this month')
+                           ->modify('+'.$promesas[$i]["psm_periodo"].' month')
+                           ->modify($dia);
             } else {
                 #---si no hay deuda anterior, es la fecha de inicio de la promesa
                 $fechaDesde = new DateTime($promesas[$i]["psm_fdesde"]);
-                $fechaDesde->sub(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
+                $dia = ($fechaDesde->format('d') == $fechaDesde->format('t'))?"last day of this month":"+".$fechaDesde->format('d')." day";
             }
             #--- la fecha de finalización será la de hoy (sino, no estaríamos revisando la promesa)
             $fechaHasta = new DateTime();
             #--- esta será la nueva fecha a grabar, si es que ya ha llegado el día
             
-            $fechaDesde->add(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
-            #echo "\nFECHAS antes de entrar en el bucle\n";
-            #echo $fechaDesde->format('Y-m-d') . " - " . $fechaHasta->format('Y-m-d') . "\n";
-            while ($fechaDesde < $fechaHasta) {
+            while ($fechaDesde <= $fechaHasta) {
                 $manDeuda->save([
                     "dud_comunidad" => $_POST["com_comunidad"] * 1,
                     "dud_piso"      => $pisos[$z]["prp_piso"] * 1,
@@ -99,11 +100,9 @@
                     "dud_fecha"     => $fechaDesde->format('Y-m-d'),
                     "dud_importe"   => $promesas[$i]["psm_importe"] * 1
                 ]);
-                #echo "\nERRORES al guardar\n";
-                #echo var_export($manDeuda->getListaErrores(), true);
-                $fechaDesde->add(new DateInterval('P'.$promesas[$i]["psm_periodo"].'M'));
-                #echo "\nFECHAS dentro del bucle\n";
-                #echo $fechaDesde->format('Y-m-d') . " - " . $fechaHasta->format('Y-m-d') . "\n";
+                $fechaDesde->modify('first day of this month')
+                           ->modify('+'.$promesas[$i]["psm_periodo"].' month')
+                           ->modify($dia);
             }
         }
     }
