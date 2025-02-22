@@ -3,6 +3,30 @@ var panelprincipal = class {
         console.log('panelprincipal.js -> constructor');
         this.modulo = mod;
         this.object = obj;
+        this.ctx = document.getElementById('gastosChart').getContext('2d');
+        this.gastosChart = 
+            new Chart(this.ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ene. Feb.', 'Mar. Abr.', 'May. Jun.', 'Jul. Ago.', 'Sep. Oct.', 'Nov. Dic.'],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                        stacked: true
+                        },
+                        y: {
+                        beginAtZero: true,
+                        stacked: true
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: true,
+                  }
+            });
         this.addEventos(mod);
         let form = mod.Forms['avisosComunidad'];
         form.set({'com_comunidad':obj.comunidad});
@@ -21,6 +45,8 @@ var panelprincipal = class {
     addEventos (modulo) {
         
         let comunidad = this.object.comunidad;
+        let grafico   = this.gastosChart;
+        let forms     = this.modulo.Forms;
         $("p.gestionMovimientos").click(function () {
             Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad} });
         });
@@ -31,6 +57,12 @@ var panelprincipal = class {
 
         $("p.gestionGastos").click(function() {
             Moduls.getBody().load({ url: 'content/back/gestionGastos.html', script: true, parametros:{comunidad} });
+        });
+
+        $("p.detalleGastos").click(function() {
+            let form = forms['detalleGasto'];
+            form.set({'mov_comunidad':comunidad});
+            form.executeForm();
         });
     };
 
@@ -61,6 +93,16 @@ var panelprincipal = class {
         } else {
             let form = e.form.modul.Forms['dashboard'];
             form.set({gastoEjercicio:formatoEsp(d.root.Detalle.ejercicio,2), gastoAnterior:formatoEsp(d.root.Detalle.anterior,2)});
+        }
+    }
+
+    detalleGastos (s,d,e) {
+        if (s) {
+            debugger;
+            e.form.modul.script.gastosChart.data.datasets = d.root.datos;
+            e.form.modul.script.gastosChart.update();
+        } else {
+            validaErroresCBK(d.root||d);
         }
     }
 

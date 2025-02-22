@@ -10,7 +10,11 @@
     <input name="mov_comunidad"/>
 </form>
 
-<form class="xx" name="datosGasto" method="post" action="backend/app/datosGasto.php" frc-callback="gastos">
+<form class="xx" name="datosGasto" method="post" action="backend/app/gasto/datosGasto.php" frc-callback="gastos">
+    <input name="mov_comunidad"/>
+</form>
+
+<form class="xx" name="detalleGasto" method="post" action="backend/app/gasto/detalleGasto.php" frc-callback="detalleGastos">
     <input name="mov_comunidad"/>
 </form>
 
@@ -71,7 +75,10 @@
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
                         <p class="mb-0"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="gastoAnterior">X</frC-Graft>€</span> Ejercicio Anterior</p>                        
-                        <p class="mb-0 text-end xx gestionAcceso gestionGastos" style="cursor: pointer;">Gestión</p>
+                        <div class="d-flex justify-content-between w-100">
+                            <p class="mb-0 text-end gestionAcceso detalleGastos d-inline-block w-50" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#gastosModal">Detalle</p>
+                            <p class="mb-0 text-end xx gestionAcceso gestionGastos d-inline-block w-50" style="cursor: pointer;">Gestión</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -233,6 +240,22 @@
     </div>
 </main>
 </form>
+<div class="modal fade" id="gastosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gráfico de Gastos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="gastosChart" width="400" height="200"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <span class="xx">
 La idea es crear un mantenimiento de bolsas

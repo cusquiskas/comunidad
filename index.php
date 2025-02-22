@@ -47,6 +47,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script>let session = "<?php echo session_id(); ?>";</script>
     <script src="<?php echo Cache::ruta('js/funciones.js'); ?>"></script>
