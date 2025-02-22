@@ -8,7 +8,7 @@ var panelprincipal = class {
             new Chart(this.ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Ene. Feb.', 'Mar. Abr.', 'May. Jun.', 'Jul. Ago.', 'Sep. Oct.', 'Nov. Dic.'],
+                    labels:   [],
                     datasets: []
                 },
                 options: {
@@ -98,8 +98,8 @@ var panelprincipal = class {
 
     detalleGastos (s,d,e) {
         if (s) {
-            debugger;
             e.form.modul.script.gastosChart.data.datasets = d.root.datos;
+            e.form.modul.script.gastosChart.data.labels   = d.root.control.bimestres;
             e.form.modul.script.gastosChart.update();
         } else {
             validaErroresCBK(d.root||d);
@@ -111,7 +111,7 @@ var panelprincipal = class {
             validaErroresCBK(d.root||d);
         } else {
             let form = e.form.modul.Forms['dashboard'];
-            let fila = '<tr><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}} # {{propietario}}</h6></div></div></td><td class="align-middle text-end text-sm"><span class="font-monospace text-xs text-{{color}} font-weight-bold">{{saldo}}€</span></td></tr>';
+            let fila = '<tr><td><div class="d-flex px-1 py-1"><div class="d-flex flex-column justify-content-center"><span class="material-icons btn" style="margin-top: -10px; height:10px">info</span></div></div></td><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}} # {{propietario}}</h6></div></div></td><td class="align-middle text-end text-sm"><span class="font-monospace text-xs text-{{color}} font-weight-bold">{{saldo}}€</span></td></tr>';
             form.set({saldoU:formatoEsp(d.root.Detalle.saldoCuenta,2), fondo:formatoEsp(d.root.Detalle.fondoCuenta,2), fechaU:d.root.Detalle.ultimoMovimiento.hazFecha('yyyy-mm-dd','dd/mm/yyyy')});
             let tabla = $('tbody.listaSaldoPisos');
             tabla.empty();
