@@ -20,9 +20,9 @@
     $dot = $dos->modify('first day of this month')->modify("-$td month")->modify('-1 day')->format('Y-m-d');
     $bimestres = [];
     while ($uno < $dos) {
-      $cad = Fecha::$nombreMesCorto[$uno->format('m')] . '. ';
+      $cad = Fecha::nombreMesCorto($uno->format('m')) . '. ';
       $uno->modify('+1 month');
-      $cad .= Fecha::$nombreMesCorto[$uno->format('m')] . '. ';
+      $cad .= Fecha::nombreMesCorto($uno->format('m')) . '. ';
       $cad .= $uno->format("'y");
       $bimestres[] = $cad;
       $uno->modify('+1 month');

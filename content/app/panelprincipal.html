@@ -6,6 +6,10 @@
     <input name="pis_comunidad"/>
 </form>
 
+<form class="xx" name="detallePiso" method="post" action="backend/app/piso/detallePisos.php" frc-callback="detallePisos">
+    <input name="pis_comunidad"/> <input name="pis_piso"/>
+</form>
+
 <form class="xx" name="datosMovimiento" method="post" action="backend/app/datosMovimiento.php" frc-callback="movimientos">
     <input name="mov_comunidad"/>
 </form>
@@ -247,6 +251,35 @@
             </div>
             <div class="modal-body">
                 <canvas id="gastosChart" width="400" height="200"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detallePisosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalle de los movimientos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Motivo</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Importe</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Saldo</th>                                
+                            </tr>
+                        </thead>
+                        <tbody class="listaMovimientosPiso">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -40,12 +40,14 @@ var panelprincipal = class {
         form = mod.Forms['datosGasto'];
         form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
+        form = mod.Forms['detallePiso'];
+        form.set({'pis_comunidad':obj.comunidad});
+        
     };
 
     addEventos (modulo) {
         
         let comunidad = this.object.comunidad;
-        let grafico   = this.gastosChart;
         let forms     = this.modulo.Forms;
         $("p.gestionMovimientos").click(function () {
             Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad} });
@@ -64,6 +66,14 @@ var panelprincipal = class {
             form.set({'mov_comunidad':comunidad});
             form.executeForm();
         });
+
+        // para los elementos que aun no se han pintado, los capturará el tbody
+        $("tbody.listaSaldoPisos").on("click", "span.btn", function() {
+            let form = forms['detallePiso'];
+            form.set({"pis_piso":$(this).attr("piso")});
+            form.executeForm();
+        });
+
     };
 
     avisos (s,d,e) {
@@ -84,6 +94,24 @@ var panelprincipal = class {
         } else {
             let form = e.form.modul.Forms['dashboard'];
             form.set({nVecinos:d.root.Detalle.length});
+        }
+    }
+
+    detallePisos (s,d,e) {
+        if (!s) {
+            validaErroresCBK(d.root||d);
+        } else {
+            let fila = '<tr><td>{{detalle}}</td><td>{{fecha}}</td><td class="text-end"><span class="font-monospace text-xs text-{{color1}} font-weight-bold">{{importe}}€</span></td><td class="text-end"><span class="font-monospace text-end text-xs text-{{color2}} font-weight-bold">{{sumatorio}}€</span></td></tr>';
+            let tabla = $('tbody.listaMovimientosPiso');
+            tabla.empty();
+            for (let i=d.root.Detalle.length-1; i>=0; i--) {
+                d.root.Detalle[i].color1    = (d.root.Detalle[i].importe  <0)?'danger':'primary';
+                d.root.Detalle[i].color2    = (d.root.Detalle[i].sumatorio<0)?'danger':'primary';
+                d.root.Detalle[i].importe   = formatoEsp(d.root.Detalle[i].importe,   2);
+                d.root.Detalle[i].sumatorio = formatoEsp(d.root.Detalle[i].sumatorio, 2);
+                d.root.Detalle[i].fecha     = d.root.Detalle[i].fecha.hazFecha('yyyy-mm-dd','dd/mm/yyyy');
+                tabla.append(fila.reemplazaMostachos(d.root.Detalle[i]));
+            }
         }
     }
 
@@ -111,14 +139,14 @@ var panelprincipal = class {
             validaErroresCBK(d.root||d);
         } else {
             let form = e.form.modul.Forms['dashboard'];
-            let fila = '<tr><td><div class="d-flex px-1 py-1"><div class="d-flex flex-column justify-content-center"><span class="material-icons btn" style="margin-top: -10px; height:10px">info</span></div></div></td><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}} # {{propietario}}</h6></div></div></td><td class="align-middle text-end text-sm"><span class="font-monospace text-xs text-{{color}} font-weight-bold">{{saldo}}€</span></td></tr>';
+            let fila = '<tr><td><div class="d-flex px-1 py-1"><div class="d-flex flex-column justify-content-center"><span  data-bs-toggle="modal" data-bs-target="#detallePisosModal" class="material-icons btn" piso="{{cpiso}}" style="margin-top: -10px; height:10px">info</span></div></div></td><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}} # {{propietario}}</h6></div></div></td><td class="align-middle text-end text-sm"><span class="font-monospace text-xs text-{{color}} font-weight-bold">{{importe}}€</span></td></tr>';
             form.set({saldoU:formatoEsp(d.root.Detalle.saldoCuenta,2), fondo:formatoEsp(d.root.Detalle.fondoCuenta,2), fechaU:d.root.Detalle.ultimoMovimiento.hazFecha('yyyy-mm-dd','dd/mm/yyyy')});
             let tabla = $('tbody.listaSaldoPisos');
             tabla.empty();
             for (let i=0; i<d.root.Detalle.saldoPiso.length; i++) {
                 //d.root.Detalle.saldoPiso[i].propietario = '';
-                d.root.Detalle.saldoPiso[i].color = (d.root.Detalle.saldoPiso[i].saldo<0)?'danger':'primary';
-                d.root.Detalle.saldoPiso[i].saldo = formatoEsp(d.root.Detalle.saldoPiso[i].saldo, 2);
+                d.root.Detalle.saldoPiso[i].color = (d.root.Detalle.saldoPiso[i].importe<0)?'danger':'primary';
+                d.root.Detalle.saldoPiso[i].importe = formatoEsp(d.root.Detalle.saldoPiso[i].importe, 2);
                 tabla.append(fila.reemplazaMostachos(d.root.Detalle.saldoPiso[i]));
             }
         }
