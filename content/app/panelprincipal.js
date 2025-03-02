@@ -81,10 +81,10 @@ var panelprincipal = class {
             validaErroresCBK(d.root.avisos||d, 6000);
         }
         if (d.root.perfil && d.root.perfil <= 2) {
-            $("p.gestionAcceso").removeClass('xx');
+            $(".gestionAcceso").removeClass('xx');
         }
         if (d.root.perfil && d.root.perfil > 2) {
-            $("p.gestionAcceso").addClass('xx');
+            $(".gestionAcceso").addClass('xx');
         }
     }
 

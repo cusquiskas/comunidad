@@ -12,6 +12,7 @@
 
     $link = new ConexionSistema();
     
+    
     $uno = new DateTime();
     $dos = new DateTime();
     $tm  = ($uno->format('m')*1 % 2 == 0?'13':'12');
@@ -19,7 +20,16 @@
     $unt = $uno->modify('first day of this month')->modify("-$tm month")->format('Y-m-d');
     $dot = $dos->modify('first day of this month')->modify("-$td month")->modify('-1 day')->format('Y-m-d');
     $bimestres = [];
+    $control   = [];
     while ($uno < $dos) {
+      switch ($uno->format('m')) {
+        case "01": $control[] = $uno->format("Y")."0"; break;
+        case "03": $control[] = $uno->format("Y")."1"; break;
+        case "05": $control[] = $uno->format("Y")."2"; break;
+        case "07": $control[] = $uno->format("Y")."3"; break;
+        case "09": $control[] = $uno->format("Y")."4"; break;
+        case "11": $control[] = $uno->format("Y")."5";
+      }
       $cad = Fecha::nombreMesCorto($uno->format('m')) . '. ';
       $uno->modify('+1 month');
       $cad .= Fecha::nombreMesCorto($uno->format('m')) . '. ';
@@ -27,7 +37,8 @@
       $bimestres[] = $cad;
       $uno->modify('+1 month');
   }
-    $datos = $link->consulta("
+    
+  $datos = $link->consulta("
 select sum(importe) importe, servicio, bimestre
   from (
      select gas_nombre as servicio,
@@ -48,7 +59,7 @@ select sum(importe) importe, servicio, bimestre
         and mov_fecha <= STR_TO_DATE('$dot', '%Y-%m-%d')
         and mov_movimiento NOT IN  (select spl_movimiento from SPLIT where spl_comunidad = ?)
         and gas_periodico = 1
-      UNION 
+      UNION ALL
       select gas_nombre as servicio,
             CASE 
               WHEN MONTH(spl_fecha) IN ( 1,  2) THEN CONCAT(YEAR(spl_fecha),'0')
@@ -75,10 +86,13 @@ select sum(importe) importe, servicio, bimestre
     
     $reg = [];
     $dataset = [];
+    $servicio = "";
+    $iControl = 0;
     for ($i = 0; $i < count($datos); $i++) {
       if ($servicio == $datos[$i]["servicio"]) {
-        while (count($reg["data"]) < (int)substr($datos[$i]["bimestre"],-1)) $reg["data"][count($reg["data"])] = 0;
+        while ($control[$iControl] != $datos[$i]["bimestre"] && $iControl < 6) { $reg["data"][count($reg["data"])] = 0; $iControl++; }
         $reg["data"][count($reg["data"])] = $datos[$i]["importe"]*-1;
+        $iControl++;
       } else {
         if ($reg != []) {
           while (count($reg["data"]) < 6) $reg["data"][count($reg["data"])] = 0;
@@ -89,13 +103,16 @@ select sum(importe) importe, servicio, bimestre
         $reg["borderWidth"] = 1;
         $reg["stack"] = 'Stack 0';
         $reg["data"] = [];
-        while (count($reg["data"]) < (int)substr($datos[$i]["bimestre"],-1)) $reg["data"][count($reg["data"])] = 0;
+        $iControl = 0;
+        while ($control[$iControl] != $datos[$i]["bimestre"] && $iControl < 6) { $reg["data"][count($reg["data"])] = 0; $iControl++; }
         $reg["data"][count($reg["data"])] = $datos[$i]["importe"]*-1;
+        $iControl++;
       }
     }
     while (count($reg["data"]) < 6) $reg["data"][count($reg["data"])] = 0;
     $dataset[count($dataset)] = $reg;
-    
+   
+
     $datos = $link->consulta("
 select sum(importe) importe, bimestre
   from (
@@ -115,7 +132,7 @@ select sum(importe) importe, bimestre
         and mov_fecha >= STR_TO_DATE('$unt', '%Y-%m-%d')
         and mov_fecha <= STR_TO_DATE('$dot', '%Y-%m-%d')
         and mov_movimiento NOT IN  (select spl_movimiento from SPLIT where spl_comunidad = ?)
-      UNION 
+      UNION ALL
       select CASE 
               WHEN MONTH(spl_fecha) IN ( 1,  2) THEN CONCAT(YEAR(spl_fecha),'0')
               WHEN MONTH(spl_fecha) IN ( 3,  4) THEN CONCAT(YEAR(spl_fecha),'1')
@@ -143,9 +160,11 @@ select sum(importe) importe, bimestre
     $reg["borderWidth"] = 1;
     $reg["stack"] = 'Stack 1';
     $reg["data"] = [];
+    $iControl = 0;
     for ($i = 0; $i < count($datos); $i++) {
-      while (count($reg["data"]) < (int)substr($datos[$i]["bimestre"],-1)) $reg["data"][count($reg["data"])] = 0;
+      while ($control[$iControl] != $datos[$i]["bimestre"] && $iControl < 6) { $reg["data"][count($reg["data"])] = 0; $iControl++; }
       $reg["data"][count($reg["data"])] = $datos[$i]["importe"];
+      $iControl++;
     }
     while (count($reg["data"]) < 6) $reg["data"][count($reg["data"])] = 0;
     $dataset[count($dataset)] = $reg;

@@ -40,8 +40,10 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="text-start mb-0">&nbsp;</p>
-                        <p class="text-end mb-0 xx gestionAcceso gestionPisos" style="cursor: pointer;">Gestión</p>
+                        <div class="d-flex justify-content-between w-100">
+                            <p class="text-start mb-0">&nbsp;</p>
+                            <p class="text-end mb-0 xx gestionAcceso gestionPisos" style="cursor: pointer;">Gestión</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,8 +61,10 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="fondo">X</frC-Graft>€</span> En fondo</p>                        
-                        <p class="mb-0 text-end xx gestionAcceso gestionMovimientos" style="cursor: pointer;">Gestión</p>
+                        <div class="d-flex justify-content-between w-100">
+                            <p class="mb-0 text-start"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="fondo">X</frC-Graft>€</span> En fondo</p>                        
+                            <p class="mb-0 text-end xx gestionAcceso gestionMovimientos" style="cursor: pointer;">Gestión</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,10 +82,11 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="gastoAnterior">X</frC-Graft>€</span> Ejercicio Anterior</p>                        
+                                                
                         <div class="d-flex justify-content-between w-100">
-                            <p class="mb-0 text-end gestionAcceso detalleGastos d-inline-block w-50" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#gastosModal">Detalle</p>
-                            <p class="mb-0 text-end xx gestionAcceso gestionGastos d-inline-block w-50" style="cursor: pointer;">Gestión</p>
+                            <p class="mb-0 text-start d-inline-block w-50"><span class="text-success text-sm-start font-weight-bolder"><frC-Graft name="gastoAnterior">X</frC-Graft>€</span> Ejercicio Anterior</p>
+                            <p class="mb-0 text-end detalleGastos w-25" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#gastosModal">Detalle</p>
+                            <p class="mb-0 text-end xx gestionAcceso gestionGastos w-25" style="cursor: pointer;">Gestión</p>
                         </div>
                     </div>
                 </div>
