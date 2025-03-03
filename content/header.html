@@ -1,4 +1,4 @@
-<nav class="bannerHeader navbar navbar-expand-sm navbar-ligth bg-ligth text-black">
+<!-- <nav class="bannerHeader navbar navbar-expand-sm navbar-ligth bg-ligth text-black">
   <div class="container-fluid">
     <a class="navbar-brand iconoHome" href="#"><img src="css/img/imagen.gif" width="45px" height="45px" alt=""></a>
     <div class="collapse navbar-collapse">
@@ -15,6 +15,28 @@
       <form class="d-flex" name="salir" method="post" action="backend/login/logout.php" frc-callback="salir">
         <button class="xx exitHeader btn btn-ligth" type="submit">Salir</button>
         <button class="loginHeader btn btn-ligth" type="button">Acceder</button> 
+      </form>
+    </div>
+  </div>
+</nav> -->
+<nav class="bannerHeader navbar navbar-expand-sm navbar-light bg-light text-black">
+  <div class="container-fluid">
+    <a class="navbar-brand iconoHome" href="#"><img src="css/img/imagen.gif" width="45px" height="45px" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <span name="nombre" class="nav-link"></span>
+        </li>
+      </ul>
+      <div class="d-flex justify-content-center flex-grow-1">
+        <select class="xx form-select comboComunidad" style="width: 100%; max-width: 400px; border: 0px;" name="com_comunidad"></select>
+      </div>
+      <form class="d-flex" name="salir" method="post" action="backend/login/logout.php" frc-callback="salir">
+        <button class="xx exitHeader btn btn-light me-2" type="submit">Salir</button>
+        <button class="loginHeader btn btn-light" type="button">Acceder</button> 
       </form>
     </div>
   </div>

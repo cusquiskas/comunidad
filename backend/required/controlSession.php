@@ -48,6 +48,19 @@
     }
     unset($manSesion);
 
+    $manAuditoria = ControladorDinamicoTabla::set('AUDITORIA');
+    $audit = [
+        "aud_token"      => $_SESSION['data']['user']['token'],
+        "aud_usuario"    => $_SESSION['data']['user']['id'],
+        "aud_peticion"   => strtok($_SERVER['REQUEST_URI'], '?'),
+        "aud_parametros" => ($_POST == [])?"GET:\n" . var_export($_GET, true) : "POST:\n" . var_export($_POST, true),
+        "aud_IP"         => $_SERVER['REMOTE_ADDR'],
+        "aud_agente"     => $_SERVER['HTTP_USER_AGENT'],
+        "aud_cuando"     => date('Y-m-d G:i:s')
+    ];
+    @$manAuditoria->save($audit);
+    unset($manAuditoria);
+    
     function controlPerfil($comunidad) {
         $perfil = 0;
         $manValidador = ControladorDinamicoTabla::set('USUARIO_COMUNIDAD');

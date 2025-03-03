@@ -96,7 +96,7 @@ class ConexionSistema extends mysqli
 
     private function conecta()
     {
-        $this->conex = mysqli_connect($this->host, $this->user, $this->pass, $this->apli);
+        $this->conex = mysqli_connect("p:".$this->host, $this->user, $this->pass, $this->apli);
     }
 
     public function get()
@@ -142,7 +142,7 @@ class ConexionSistema extends mysqli
     public function close()
     {
         if (!isset($this->conex)) {
-            mysqli_close($this->conex);
+            #mysqli_close($this->conex);
         }
     }
 

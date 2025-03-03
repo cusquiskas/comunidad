@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 19-02-2025 a las 22:30:10
+-- Tiempo de generación: 03-03-2025 a las 23:31:45
 -- Versión del servidor: 10.11.10-MariaDB
 -- Versión de PHP: 7.2.34
 
@@ -20,6 +20,45 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `u164639268_comunidad`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `AUDITORIA`
+--
+
+CREATE TABLE `AUDITORIA` (
+  `aud_auditoria` int(11) NOT NULL,
+  `aud_token` varchar(99) NOT NULL,
+  `aud_usuario` varchar(99) NOT NULL,
+  `aud_peticion` varchar(999) NOT NULL,
+  `aud_parametros` varchar(999) NOT NULL,
+  `aud_cuando` datetime NOT NULL DEFAULT current_timestamp(),
+  `aud_IP` varchar(99) NOT NULL,
+  `aud_agente` varchar(999) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `AUDITORIA`
+--
+
+INSERT INTO `AUDITORIA` (`aud_auditoria`, `aud_token`, `aud_usuario`, `aud_peticion`, `aud_parametros`, `aud_cuando`, `aud_IP`, `aud_agente`) VALUES
+(51, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/login/datosUsuario.php', 'POST:\narray (\n  \'usu_correo\' => \'cusquiskas@gmail.com\',\n)', '2025-03-03 23:30:09', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(52, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/avisosComunidad.php', 'POST:\narray (\n  \'com_comunidad\' => \'1\',\n)', '2025-03-03 23:30:10', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(53, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosMovimiento.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:30:10', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(54, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/gasto/datosGasto.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:30:10', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(55, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosPisos.php', 'POST:\narray (\n  \'pis_comunidad\' => \'1\',\n)', '2025-03-03 23:30:10', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(56, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/gasto/listado.php', 'POST:\narray (\n  \'gas_comunidad\' => \'1\',\n)', '2025-03-03 23:30:50', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(57, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/promesa/listado.php', 'POST:\narray (\n  \'psm_comunidad\' => \'1\',\n)', '2025-03-03 23:30:50', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(58, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/avisosComunidad.php', 'POST:\narray (\n  \'com_comunidad\' => \'1\',\n)', '2025-03-03 23:30:55', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(59, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosPisos.php', 'POST:\narray (\n  \'pis_comunidad\' => \'1\',\n)', '2025-03-03 23:30:55', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(60, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/gasto/datosGasto.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:30:55', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(61, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosMovimiento.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:30:56', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(62, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/movimiento/listado.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:30:58', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(63, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/avisosComunidad.php', 'POST:\narray (\n  \'com_comunidad\' => \'1\',\n)', '2025-03-03 23:31:03', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(64, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosPisos.php', 'POST:\narray (\n  \'pis_comunidad\' => \'1\',\n)', '2025-03-03 23:31:03', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(65, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/datosMovimiento.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:31:03', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0'),
+(66, '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', 'cusquiskas@gmail.com', '/comunidad/backend/app/gasto/datosGasto.php', 'POST:\narray (\n  \'mov_comunidad\' => \'1\',\n)', '2025-03-03 23:31:03', '213.94.41.93', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0');
 
 -- --------------------------------------------------------
 
@@ -60,29 +99,29 @@ CREATE TABLE `DEUDA` (
 
 INSERT INTO `DEUDA` (`dud_comunidad`, `dud_piso`, `dud_promesa`, `dud_fecha`, `dud_importe`) VALUES
 (1, 1, 0, '2024-12-31', 2529.80),
-(1, 1, 3, '2025-01-01', -140.00),
+(1, 1, 3, '2025-02-28', -140.00),
 (1, 2, 0, '2024-12-31', 40.00),
-(1, 2, 1, '2025-01-01', -120.00),
+(1, 2, 1, '2025-02-28', -120.00),
 (1, 3, 0, '2024-12-31', -195.58),
-(1, 3, 1, '2025-01-01', -120.00),
+(1, 3, 1, '2025-02-28', -120.00),
 (1, 4, 0, '2024-12-31', -160.00),
-(1, 4, 2, '2025-01-01', -65.00),
+(1, 4, 2, '2025-02-28', -65.00),
 (1, 5, 0, '2024-12-31', 40.00),
-(1, 5, 1, '2025-01-01', -120.00),
+(1, 5, 1, '2025-02-28', -120.00),
 (1, 6, 0, '2024-12-31', -223.00),
-(1, 6, 1, '2025-01-01', -120.00),
+(1, 6, 1, '2025-02-28', -120.00),
 (1, 7, 0, '2024-12-31', -240.00),
-(1, 7, 1, '2025-01-01', -120.00),
+(1, 7, 1, '2025-02-28', -120.00),
 (1, 8, 0, '2024-12-31', 0.00),
-(1, 8, 1, '2025-01-01', -120.00),
+(1, 8, 1, '2025-02-28', -120.00),
 (1, 9, 0, '2024-12-31', -530.58),
-(1, 9, 1, '2025-01-01', -120.00),
+(1, 9, 1, '2025-02-28', -120.00),
 (1, 10, 0, '2024-12-31', -40.00),
-(1, 10, 1, '2025-01-01', -120.00),
+(1, 10, 1, '2025-02-28', -120.00),
 (1, 11, 0, '2024-12-31', -244.80),
-(1, 11, 1, '2025-01-01', -120.00),
+(1, 11, 1, '2025-02-28', -120.00),
 (1, 12, 0, '2024-12-31', 40.00),
-(1, 12, 1, '2025-01-01', -120.00);
+(1, 12, 1, '2025-02-28', -120.00);
 
 -- --------------------------------------------------------
 
@@ -142,22 +181,23 @@ CREATE TABLE `GASTO` (
   `gas_comunidad` int(11) NOT NULL,
   `gas_gasto` int(11) NOT NULL,
   `gas_nombre` varchar(99) NOT NULL,
-  `gas_reparto` int(11) NOT NULL
+  `gas_reparto` int(11) NOT NULL,
+  `gas_periodico` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 --
 -- Volcado de datos para la tabla `GASTO`
 --
 
-INSERT INTO `GASTO` (`gas_comunidad`, `gas_gasto`, `gas_nombre`, `gas_reparto`) VALUES
-(1, 1, 'Luz', 1),
-(1, 2, 'Agua', 1),
-(1, 3, 'Administración', 1),
-(1, 4, 'Limpieza', 1),
-(1, 5, 'Seguro', 2),
-(1, 6, 'Comisiones Banco', 1),
-(1, 7, 'Otro no especificado', 1),
-(1, 8, 'Errores', 3);
+INSERT INTO `GASTO` (`gas_comunidad`, `gas_gasto`, `gas_nombre`, `gas_reparto`, `gas_periodico`) VALUES
+(1, 1, 'Luz', 1, 1),
+(1, 2, 'Agua', 1, 1),
+(1, 3, 'Administración', 1, 1),
+(1, 4, 'Limpieza', 1, 1),
+(1, 5, 'Seguro', 2, 1),
+(1, 6, 'Comisiones Banco', 1, 1),
+(1, 7, 'Otro no especificado', 1, 0),
+(1, 8, 'Errores', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -559,7 +599,14 @@ INSERT INTO `MOVIMIENTO` (`mov_movimiento`, `mov_comunidad`, `mov_detalle`, `mov
 (284, 1, 'TRANSFER. EFIKAZ', '2024-12-24', NULL, NULL, NULL, -490.00, NULL, 7, NULL),
 (285, 1, 'TRANSFER. ANTONIA MARIA PONS OLIVE', '2024-12-27', NULL, NULL, NULL, -157.00, NULL, 4, NULL),
 (286, 1, 'TRANSFER. ANTONIA MARIA PONS OLIVE', '2024-12-27', NULL, NULL, NULL, -98.00, NULL, 3, NULL),
-(287, 1, 'RECIBO LAE CONSULTING NORMA C 86612/2024', '2024-12-31', NULL, NULL, NULL, -194.60, NULL, 7, NULL);
+(287, 1, 'RECIBO LAE CONSULTING NORMA C 86612/2024', '2024-12-31', NULL, NULL, NULL, -194.60, NULL, 7, NULL),
+(288, 1, 'TRANSFER. MARIA SALGUERO CALERO', '2025-01-01', NULL, NULL, NULL, 120.00, 3, NULL, NULL),
+(289, 1, 'ABONO REC.DOM.OT.ENT', '2025-01-07', NULL, NULL, NULL, 660.00, NULL, NULL, NULL),
+(290, 1, 'LIQ.REM.DEBIT.INTERC', '2025-01-07', NULL, NULL, NULL, -13.07, NULL, 6, NULL),
+(291, 1, 'AB.TR.SEPA 00064682382 JOSE MIGUEL MUNAR', '2025-01-13', NULL, NULL, NULL, 65.00, 4, NULL, NULL),
+(292, 1, 'AB.TR.SEPA 00064725214 GOMILA PEREZ ANTON', '2025-01-14', NULL, NULL, NULL, 120.00, 10, NULL, NULL),
+(293, 1, 'RECIBO GASILUZ 48B6B1A7ED69 0000000998034', '2025-01-14', NULL, NULL, NULL, -20.00, NULL, 1, NULL),
+(294, 1, 'AB.TR.SEPA 00064773238 MIQUEL ANGEL FERNA', '2025-01-16', NULL, NULL, NULL, 100.00, 11, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -635,10 +682,10 @@ CREATE TABLE `PROMESA` (
 --
 
 INSERT INTO `PROMESA` (`psm_promesa`, `psm_detalle`, `psm_fdesde`, `psm_fhasta`, `psm_comunidad`, `psm_importe`, `psm_periodo`, `psm_derrama`) VALUES
-(0, 'Ajuste Saldos Primer uso', '2024-12-01', '2024-12-31', 1, 0.00, 0, 0),
-(1, 'Cuota pisos (menos 1C)', '2025-01-01', '9999-12-31', 1, -120.00, 2, 0),
-(2, 'Cuota piso 1C', '2025-01-01', '9999-12-31', 1, -65.00, 2, 0),
-(3, 'Cuota local', '2025-01-01', '9999-12-31', 1, -140.00, 2, 0);
+(0, 'Ajuste Saldos Primer Uso', '2024-12-01', '2024-12-31', 1, 0.00, 999, 0),
+(1, 'Cuota pisos (menos 1C)', '2025-02-28', '9999-12-31', 1, -120.00, 2, 0),
+(2, 'Cuota piso 1C', '2025-02-28', '9999-12-31', 1, -65.00, 2, 0),
+(3, 'Cuota local', '2025-02-28', '9999-12-31', 1, -140.00, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -690,7 +737,18 @@ CREATE TABLE `PROPIETARIO` (
 --
 
 INSERT INTO `PROPIETARIO` (`pro_propietario`, `pro_nombre`, `pro_apellidos`, `pro_dni`, `pro_fnacimiento`, `pro_correo`, `pro_telefono`) VALUES
-(1, 'José Miguel', 'Munar Galiano', '44329367H', NULL, 'cusquiskas@gmail.com', NULL);
+(1, 'José Miguel', 'Munar Galiano', '44329367H', NULL, 'cusquiskas@gmail.com', NULL),
+(2, 'Pedro', 'Egea Santiago', NULL, NULL, NULL, NULL),
+(3, 'Jaime', 'Perelló Pons', NULL, NULL, NULL, NULL),
+(4, 'María', 'Salguero Calero', NULL, NULL, NULL, NULL),
+(5, 'Magdalena', 'Caldes Cardell', NULL, NULL, NULL, NULL),
+(6, 'Encarna', 'Jerónimo González', NULL, NULL, NULL, NULL),
+(7, 'Elisabeth', 'Sarria Melo', NULL, NULL, NULL, NULL),
+(8, 'Francisco Javier', 'Fernández López', NULL, NULL, NULL, NULL),
+(9, 'Antonio', 'Gomila Pérez', NULL, NULL, NULL, NULL),
+(10, 'Margarita', 'Martorell Noguera', NULL, NULL, NULL, NULL),
+(11, 'Aldo', 'Díaz Muñoz', NULL, NULL, NULL, NULL),
+(12, 'María del Mar', '.', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -711,7 +769,18 @@ CREATE TABLE `PROPIETARIO_PISO` (
 --
 
 INSERT INTO `PROPIETARIO_PISO` (`ppi_propietario`, `ppi_piso`, `ppi_desde`, `ppi_hasta`, `ppi_inquilino`) VALUES
-(1, 4, '2024-12-23', '9999-12-31', 0);
+(1, 4, '2024-12-23', '9999-12-31', 0),
+(2, 1, '2025-01-01', '9999-12-31', 0),
+(3, 2, '2025-01-01', '9999-12-31', 0),
+(4, 3, '2025-01-01', '9999-12-31', 0),
+(5, 5, '2025-01-01', '9999-12-31', 0),
+(6, 6, '2025-01-01', '9999-12-31', 0),
+(7, 8, '2025-01-01', '9999-12-31', 0),
+(8, 9, '2025-01-01', '9999-12-31', 0),
+(9, 10, '2025-01-01', '9999-12-31', 0),
+(10, 11, '2025-01-01', '9999-12-31', 0),
+(11, 12, '2025-01-01', '9999-12-31', 0),
+(12, 7, '2025-01-01', '9999-12-31', 0);
 
 -- --------------------------------------------------------
 
@@ -751,44 +820,63 @@ CREATE TABLE `SESION` (
 --
 
 INSERT INTO `SESION` (`ses_correo`, `ses_token`, `ses_primero`, `ses_ultimo`) VALUES
+('cusquiskas@gmail.com', '014a6327469420913ff4d3e8d4ef5336713595eee824fc62669eb8f0829f78b7', '2025-02-20 21:19:22', '2025-02-20 21:22:12'),
 ('cusquiskas@gmail.com', '01ed2fb58be4a6c1a995cea36d9a2213eccbb1f4a0b4d3da7aaac7d645e15600', '2024-10-12 09:22:57', '2024-10-12 09:24:03'),
 ('cusquiskas@gmail.com', '070b7a971cbd86ab5db941d441028c72aabc82ba107ddce2f07822ec9e8d57ae', '2024-10-16 07:55:14', '2024-10-16 07:55:20'),
 ('cusquiskas@gmail.com', '0caffa9812d888f9346826219df25cdb340ebe0c22d3d6b4f23f083a5e99623b', '2024-10-29 20:25:15', '2024-10-29 21:57:26'),
 ('cusquiskas@gmail.com', '15f80e8ef21e7a1eb3f828744ef33ec3c02299dac1d9a7d867855b84a6f926a8', '2025-02-12 10:36:36', '2025-02-12 10:39:02'),
 ('cusquiskas@gmail.com', '218098efb8206fc781ada4ab7134ed166b5b2305fd9438bd0354c42ff98f36b6', '2024-09-18 20:44:45', '2024-09-18 21:08:35'),
 ('cusquiskas@gmail.com', '2388bf35440539f6530ec6bae21e5d9c4d247f94c12e0095d3710934b626b42d', '2024-09-18 19:30:49', '2024-09-18 19:31:16'),
+('cusquiskas@gmail.com', '27c413871af693fdd156ff928cd900564c729915b3a70a93c8f1971851ee486f', '2025-03-03 23:30:09', '2025-03-03 23:31:03'),
 ('cusquiskas@gmail.com', '2c402ade711b555538b7e648b1854acd87843c5f5ecc200793924506045216dd', '2024-12-17 18:46:35', '2024-12-17 18:46:36'),
 ('cusquiskas@gmail.com', '2d3bcd77de0d2ac8c4ecdfa298707f43e7debcc93d7720891aa79f79d645ab54', '2025-01-28 20:31:20', '2025-01-28 20:46:28'),
+('cusquiskas@gmail.com', '2d89dd91bcb472b6e4588b3b9d9e4a90bd89b666d52bba2afedfebb025f36eb6', '2025-02-22 23:33:38', '2025-02-22 23:44:04'),
+('cusquiskas@gmail.com', '379a579972ad34a7c188fb433f307c7b7fce700c8900c4482af0a48f410a86c2', '2025-03-03 23:25:53', '2025-03-03 23:25:54'),
 ('cusquiskas@gmail.com', '3857c5e05741789504536cfe5b9ecc354177c6dfe029e8464d05d27e079f0a42', '2024-10-18 20:14:16', '2024-10-18 20:14:41'),
 ('cusquiskas@gmail.com', '391eb5c0a939fbf8f27e424a34badd6f007254a3e4c2a1cfdf347c10be57fafe', '2024-08-02 17:02:47', '2024-08-02 18:15:16'),
 ('cusquiskas@gmail.com', '40d8b412b632d43138e072de78d6830b2b72aabcce2b31cca5d35f6a5acc0a26', '2024-12-23 18:28:08', '2024-12-23 18:29:26'),
+('cusquiskas@gmail.com', '50e35c2b9ccc1684ea84b7b73eda479c12c4667459190e8d80f6578b3eee9f61', '2025-03-03 23:26:55', '2025-03-03 23:26:55'),
+('cusquiskas@gmail.com', '5682d0fbfb288e7023c29236d1f2cbea4d3a7eca5e8c9569e1733384a7b0b781', '2025-02-22 00:30:23', '2025-02-22 00:46:24'),
 ('cusquiskas@gmail.com', '58774eb77b3d76d4d7edfd48d1ed284b1610629d501cd459a50ffd352fb562dd', '2024-12-27 00:52:43', '2024-12-27 00:53:19'),
 ('cusquiskas@gmail.com', '59eecab4a9437876e6ccd563185f8716da0820bc9f3801fbab029ba7bc4b832f', '2024-10-15 21:22:22', '2024-10-15 21:24:56'),
+('cusquiskas@gmail.com', '62d113cbbd0e78d58e5f11c0aa1c0022e702aed873279e2e4bd99cc23e539fb2', '2025-02-25 21:47:50', '2025-02-25 21:52:08'),
 ('cusquiskas@gmail.com', '64f6bfd6252e0aac4e7b2657941dedf4d94737b12e418be140f100753aff7965', '2025-02-17 23:09:10', '2025-02-17 23:13:03'),
 ('cusquiskas@gmail.com', '6568a47d2504235891e84fbe0eb6f3db43bc76793568df7b14dbfd808a51ded1', '2024-12-23 15:18:27', '2024-12-23 16:24:23'),
+('cusquiskas@gmail.com', '6888191eef9a34827304dbc55f7b6407354f54b69a4d93d484a22c99c905a144', '2025-03-02 00:54:37', '2025-03-02 00:54:45'),
 ('cusquiskas@gmail.com', '6baba6753bd6c96bdeb24da49417aebfce960e6b2233743cb0e3ed01b77be05c', '2024-08-01 14:16:41', '2024-08-01 14:38:29'),
+('cusquiskas@gmail.com', '762df64f4b05263f468f73a2a0c77d81256196ed873d8d7d3174d54cd22a43b8', '2025-02-20 22:38:21', '2025-02-20 22:50:06'),
+('cusquiskas@gmail.com', '76fd731a546eb61689d5a79dd5e1219db2a3ba6d9dc42a8fff7386f20e295a25', '2025-02-26 08:37:03', '2025-02-26 08:40:25'),
 ('cusquiskas@gmail.com', '771bfb28ea137a815331f2586bf0a0a17e8341b063bc5df0beabeba90a9e6c6b', '2024-10-31 13:43:53', '2024-10-31 13:43:57'),
 ('cusquiskas@gmail.com', '86145e11988aaaf0a15a441b70b37e27089e2df9b24ef58741327be1f8ce4cc9', '2024-10-12 09:24:37', '9999-12-29 00:00:00'),
 ('cusquiskas@gmail.com', '896036bffd69dad158a0d4b73a6ead6b77b485acfe0ae8dd977a57972726e325', '2024-12-11 09:58:12', '2024-12-11 09:58:22'),
 ('cusquiskas@gmail.com', '8d58be6d0dac76717a5333fa6912b10a30547ec1761a418f266acb223621c5f7', '2024-07-28 13:25:01', '2024-07-28 15:54:10'),
 ('cusquiskas@gmail.com', '971d39675d16826180dc73b2c652abdf398b1d2d369b742aab35e7fd00d00b94', '2024-09-18 19:51:55', '2024-09-18 19:53:27'),
+('cusquiskas@gmail.com', '98b5ad013636be91abddb3164670b0ea156e29b027617c425ef920b8d5741a70', '2025-03-01 23:05:13', '2025-03-01 23:16:05'),
 ('cusquiskas@gmail.com', '98be9c4617cfa0828976f17c1a6b8a3def2f267c76b61c69e43a26e746042d41', '2024-08-01 23:59:56', '2024-08-02 00:36:28'),
+('cusquiskas@gmail.com', '9b959f6589a6e7e670b934113f5bc898090de6c94f7b2113502dcb5a1322f33f', '2025-02-26 08:35:08', '2025-02-26 08:36:23'),
 ('cusquiskas@gmail.com', 'ae559d01670620117969d217722739ee33d7c139d06accd8136841f339efcd72', '2024-12-23 16:24:45', '2024-12-23 16:27:44'),
+('cusquiskas@gmail.com', 'ae5d77841a45b0b092dd9a0d4d998267511db3d5a3c8b37c82ebcbbbecfae8bf', '2025-02-20 22:51:12', '2025-02-20 23:17:33'),
 ('cusquiskas@gmail.com', 'b3472fc16949eb3072434018f193f044556e2c09e3e4c83433a57f84dd5cd9e7', '2024-12-23 23:50:10', '2024-12-23 23:55:39'),
 ('cusquiskas@gmail.com', 'b5dd8298a09f1daade045aa3b4f75c15a89edb2d3494cd0b788a9ef93a24fbef', '2024-10-15 21:33:49', '9999-12-29 00:00:00'),
 ('cusquiskas@gmail.com', 'b68bd2efe78b850e4cb5ae24858c223a120c896e036274accee312f66ce5b62d', '2024-09-18 20:02:56', '2024-09-18 20:04:50'),
 ('cusquiskas@gmail.com', 'bc141b5047a8993e9d2918f85d2b0d9cd7bb344f2be78ef50f109df5a802b91d', '2025-02-13 19:26:50', '2025-02-13 19:27:24'),
+('cusquiskas@gmail.com', 'bffd14d3e0ad3f9a0aa254e4d9d40f9c0f60a37dc84873c43c5b5dd26652223e', '2025-02-21 07:05:00', '2025-02-21 07:07:20'),
 ('cusquiskas@gmail.com', 'c452f2a0659c272397f8044e3d0bb8dea5647e3e5a8c5dbef5cddea165ec8fbb', '2025-02-19 22:26:05', '2025-02-19 22:26:06'),
+('cusquiskas@gmail.com', 'c7da6c8498d9cf7b9fbfed811ad9c6728e4b936b6365d3dd61f8a62b2f5514a5', '2025-02-25 22:43:59', '2025-02-25 23:03:13'),
+('cusquiskas@gmail.com', 'c82d412ea8e0a6b5b506a9ae9e5328d122cfa559bc3f562a9ec94dcefcd6b3ed', '2025-02-19 23:19:45', '2025-02-19 23:19:46'),
 ('cusquiskas@gmail.com', 'd093b6f2133e9459bfe411c8d84f815136623d73b862c33ad1f03285f3ad9bcf', '2025-02-19 20:51:37', '2025-02-19 21:40:47'),
 ('cusquiskas@gmail.com', 'd1c56f372a0407005c46966cc972b5072c052b6420f34389601661d4ed8ca7a8', '2024-10-31 11:42:47', '2024-10-31 11:42:51'),
 ('cusquiskas@gmail.com', 'd2d4e35ec6332b75de2fde1af89be7953d95bd27f83fe8249274eaadc7f06243', '2024-10-15 21:33:33', '9999-12-29 00:00:00'),
 ('cusquiskas@gmail.com', 'd3eef3796f0536304ecd524384af2e35d7efc3a05b1ca4a147c8c5e29ba6f526', '2024-09-11 19:39:24', '2024-09-11 19:39:31'),
+('cusquiskas@gmail.com', 'd5da4bc5f91ca26968a7fd5639d72267801789420b6ef5662b25769fafd96e7a', '2025-03-02 01:07:55', '2025-03-02 01:07:59'),
+('cusquiskas@gmail.com', 'd8e6916ab70e58f6fcbc329558234b39d75c6924ead08a34f78bc4e140ded4d8', '2025-03-01 23:54:11', '2025-03-01 23:57:17'),
 ('cusquiskas@gmail.com', 'db03c4c6ac5ef905ba545fd08eb5f9cb78c6913cb30ec7e4f185ca70337ec547', '2024-10-12 09:26:31', '2024-10-12 09:26:48'),
 ('cusquiskas@gmail.com', 'df79013d6bb039121347f3e98b31227c2b3911f11152b8d379ee695ef50f9c8f', '2024-10-12 09:24:47', '9999-12-29 00:00:00'),
 ('cusquiskas@gmail.com', 'e91c0c60b649bcc94910d1a3e5b5afda261edecbe9a1edb1b33f7b35d8a51894', '2024-12-27 00:51:51', '2024-12-27 00:51:52'),
 ('cusquiskas@gmail.com', 'f1602eb4dedbe320d6ab95876afb54505a454e8f5f29cc5be68cfa2514a8b7f4', '2024-12-27 00:49:08', '2024-12-27 00:49:20'),
 ('cusquiskas@gmail.com', 'f3fcc756c625e8301075cb476f24577605cf4bb8aed7a651a97825f25e2a4d20', '2024-10-15 21:30:22', '9999-12-29 00:00:00'),
 ('cusquiskas@gmail.com', 'f7a837f4623cca2a69f91ac34a8b18ba43d7fb16194927405ff5698e02a945b7', '2024-08-07 19:06:42', '2024-08-07 19:52:04'),
+('cusquiskas@gmail.com', 'f7b4c5dd588ec78af0a362271b64a1c07e2efe7e8501107f3b9052c875fd07b8', '2025-02-21 07:02:40', '2025-02-21 07:04:13'),
 ('cusquiskas@gmail.com', 'fee6c69307a59bf3516c11d1daf75ea41343d3b71445c7e16f7fea5f79d67609', '2024-10-11 11:51:25', '2024-10-11 11:51:26');
 
 -- --------------------------------------------------------
@@ -851,8 +939,8 @@ CREATE TABLE `USUARIO` (
 --
 
 INSERT INTO `USUARIO` (`usu_correo`, `usu_nombre`, `usu_contrasena`, `usu_errorlogin`, `usu_facceso`, `usu_fvalida`) VALUES
-('antoniapons@me.com', 'Antonia', 'ce86e5921962c3ec0f2f5901790ee4bc', 0, '2023-06-26 22:58:19', '2022-06-03'),
-('cusquiskas@gmail.com', 'José Miguel', '40eabb65767eebcf90005c8c68e101fa', 0, '2025-02-19 22:26:05', '2024-05-01');
+('antoniaponsoliver@me.com', 'Antonia', '', 0, '2025-03-01 00:00:00', '9999-12-31'),
+('cusquiskas@gmail.com', 'José Miguel', '40eabb65767eebcf90005c8c68e101fa', 0, '2025-03-03 23:30:09', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -873,12 +961,18 @@ CREATE TABLE `USUARIO_COMUNIDAD` (
 --
 
 INSERT INTO `USUARIO_COMUNIDAD` (`uco_comunidad`, `uco_correo`, `uco_perfil`, `uco_desde`, `uco_hasta`) VALUES
-(1, 'antoniapons@me.com', 1, '2023-06-05', '9999-12-31'),
+(1, 'antoniaponsoliver@me.com', 2, '2025-03-01', '9999-12-31'),
 (1, 'cusquiskas@gmail.com', 1, '2024-05-01', '9999-12-31');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `AUDITORIA`
+--
+ALTER TABLE `AUDITORIA`
+  ADD PRIMARY KEY (`aud_auditoria`);
 
 --
 -- Indices de la tabla `COMUNIDAD`
@@ -1011,6 +1105,12 @@ ALTER TABLE `USUARIO_COMUNIDAD`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `AUDITORIA`
+--
+ALTER TABLE `AUDITORIA`
+  MODIFY `aud_auditoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+
+--
 -- AUTO_INCREMENT de la tabla `COMUNIDAD`
 --
 ALTER TABLE `COMUNIDAD`
@@ -1032,7 +1132,7 @@ ALTER TABLE `GASTO`
 -- AUTO_INCREMENT de la tabla `MOVIMIENTO`
 --
 ALTER TABLE `MOVIMIENTO`
-  MODIFY `mov_movimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=288;
+  MODIFY `mov_movimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
 
 --
 -- AUTO_INCREMENT de la tabla `PERFIL`
@@ -1050,7 +1150,7 @@ ALTER TABLE `PISO`
 -- AUTO_INCREMENT de la tabla `PROPIETARIO`
 --
 ALTER TABLE `PROPIETARIO`
-  MODIFY `pro_propietario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pro_propietario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `SPLIT`
