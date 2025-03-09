@@ -8,6 +8,9 @@ var movimiento = class {
         let form = mod.Forms['detalleMovimientos'];
         form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
+        if (obj.limitado) {
+            $("button.icon").addClass('xx');
+        }
         //form = mod.Forms['guardar'];
         //form.set({'mov_comunidad':obj.comunidad});
         /*
@@ -69,24 +72,25 @@ var movimiento = class {
         this.tablaD = new DataTable(".listaMovimientos", {
             language: dataTableIdiomaES,
             //ordering: false,
-            order: [[1, 'desc']],
+            order: [[0, 'desc']],
             columnDefs: [
                 { "targets": 1, "render"   : function (data, type) { if (type == 'display') return data.hazFecha('yyyy-mm-dd','dd/mm/yyyy'); else return data; } },
-                { "targets": 4, "className": "dt-body-right"},
-                { "targets": 4, "render"   : function (data, type) { if (type == 'display') return formatoEsp(data, 2) + ' &euro;';          else return data; } }
+                { "targets": 5, "className": "dt-body-right"},
+                { "targets": 5, "render"   : function (data, type) { if (type == 'display') return formatoEsp(data, 2) + ' &euro;';          else return data; } }
             ],
             columns: [
                 { data: 'movimiento' },
                 { data: 'fecha'      },
                 { data: 'detalle'    },
                 { data: 'gastoX'     },
+                { data: 'pisoX'      },
                 { data: 'importe'    },
                 { render: function (data, type, row) { 
                     var botones = '';
-                    botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
-                    botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
-                    botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
-                    if (row.gasto != null) 
+                    if (!obj.limitado) botones+= '<button type="button" class="btn btn-'+(row.piso !=null?'success':'ligth')+' border border-info movPiso"><span class="material-icons ">person</span></button>';
+                    if (!obj.limitado) botones+= '<button type="button" class="btn btn-'+(row.gasto!=null?'success':'ligth')+' border border-info movGasto"><span class="material-icons ">electrical_services</span></button>';
+                    if (!obj.limitado) botones+= '<button type="button" class="btn btn-'+(row.split!=null?'success':'ligth')+' border border-info movSplit"><span class="material-symbols-outlined">arrow_split</span></button>';
+                    if ((!obj.limitado && row.gasto != null) || (row.documento != null && obj.limitado && row.gasto !=null)) 
                         botones+= '<button type="button" class="btn btn-'+(row.documento!=null?'success':'ligth')+' border border-info movAdjunto"><span class="material-symbols-outlined">attach_file</span></button>';
                     return botones;
                 }}
@@ -117,10 +121,10 @@ var movimiento = class {
             let form = yo.modulo.Forms['guardarAdjunto'];
             form.set({doc_comunidad: obj.comunidad});
             if (data.documento == "" || data.documento == null) {
-                Moduls.getModalbody().load({ url: 'content/back/documento/addDocumento.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, callback:yo.guardar, moduloRemoto:yo.modulo}});
+                Moduls.getModalbody().load({ url: 'content/back/documento/addDocumento.html',  script: true, parametros:{comunidad:yo.object.comunidad, movimiento: data.movimiento, limitado: yo.object.limitado, callback:yo.guardar, moduloRemoto:yo.modulo}});
                 construirModal({title:"Subir Documento", w:600, h:750});
             } else {
-                Moduls.getModalbody().load({ url: 'content/back/documento/viewDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, documento:data.documento,    callback:yo.guardar, moduloRemoto:yo.modulo}});
+                Moduls.getModalbody().load({ url: 'content/back/documento/viewDocumento.html', script: true, parametros:{comunidad:yo.object.comunidad, documento:data.documento, limitado: yo.object.limitado,    callback:yo.guardar, moduloRemoto:yo.modulo}});
                 construirModal({title:"Descargar Documento", w:600, h:750});
             }
         });

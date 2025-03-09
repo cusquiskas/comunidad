@@ -7,7 +7,7 @@
     }
 
     $perfil = controlPerfil($_POST['mov_comunidad']);
-    if ($perfil > 2) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta pantalla']]]));
+    #if ($perfil > 2) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta pantalla']]]));
     
     
     /*$manMovimiento = ControladorDinamicoTabla::set('MOVIMIENTO');
@@ -28,7 +28,7 @@
                                and mov_movimiento NOT IN  (select spl_movimiento
                                                              from SPLIT
                                                             where spl_comunidad = ?)
-                             UNION
+                             UNION ALL
                             select spl_movimiento movimiento,
                                    spl_split      split,
                                    spl_detalle    detalle,
@@ -53,12 +53,37 @@
     $manGastos = ControladorDinamicoTabla::set('GASTO');
     $manGastos->give(array("gas_comunidad" => $_POST['mov_comunidad']));
     $lstGastos = $manGastos->getArray();
+    unset($manGastos);
+    # vamos a recuperar la descripción del piso
+    $manPisos = ControladorDinamicoTabla::set('PISO');
+    $manPisos->give(array("pis_comunidad" => $_POST["mov_comunidad"]));
+    $lstPisos = $manPisos->getArray();
+    unset($manPisos);
+    # vamos a recuperar la descripción del documento
+    /*
+    $manDocumento = ControladorDinamicoTabla::set('DOCUMENTO');
+    $manDocumento->give(array("doc_comunidad" => $_POST["mov_comunidad"]));
+    $lstDocumento = $manDocumento->getArray();
+    unset($manDocumento);
+    */
     for ($i = 0; $i < count($reg); $i++) {
         if ($reg[$i]["gasto"] != "") {
             $reg[$i]["gastoX"] = buscarEnArray($lstGastos, $reg[$i]["gasto"], "gas_gasto", "gas_nombre");
         } else {
             $reg[$i]["gastoX"] = "";
         }
+        if ($reg[$i]["piso"] != "") {
+            $reg[$i]["pisoX"] = buscarEnArray($lstPisos, $reg[$i]["piso"], "pis_piso", "pis_nombre");
+        } else {
+            $reg[$i]["pisoX"] = "";
+        }
+        /*
+        if ($reg[$i]["documento"] != "") {
+            $reg[$i]["documentoX"] = buscarEnArray($lstPisos, $reg[$i]["documento"], "doc_documento", "doc_real");
+        } else {
+            $reg[$i]["documentoX"] = "";
+        }
+        */
     }
 
 

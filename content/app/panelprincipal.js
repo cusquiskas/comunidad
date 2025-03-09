@@ -50,7 +50,11 @@ var panelprincipal = class {
         let comunidad = this.object.comunidad;
         let forms     = this.modulo.Forms;
         $("p.gestionMovimientos").click(function () {
-            Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad} });
+            Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad, limitado:false} });
+        });
+
+        $(".consultaMovimientos").click(function () {
+            Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad, limitado:true} });
         });
 
         $("p.gestionPisos").click(function() {
@@ -82,6 +86,7 @@ var panelprincipal = class {
         }
         if (d.root.perfil && d.root.perfil <= 2) {
             $(".gestionAcceso").removeClass('xx');
+            $(".consultaMovimientos").addClass('xx');
         }
         if (d.root.perfil && d.root.perfil > 2) {
             $(".gestionAcceso").addClass('xx');

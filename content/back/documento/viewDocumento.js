@@ -8,6 +8,9 @@ var viewDocumento = class {
         form.set({'doc_comunidad':obj.comunidad, 'doc_documento':obj.documento});
         form.executeForm();
         this.addEvents();
+        if (obj.limitado) {
+            $("button[name=eliminar]").addClass('xx');
+        }
     }
 
     addEvents () {

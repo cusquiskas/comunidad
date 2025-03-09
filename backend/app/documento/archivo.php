@@ -5,8 +5,8 @@
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'No se ha especificado una comunidad ']]]));
     }
 
-    $perfil = controlPerfil($_GET['doc_comunidad']);
-    if ($perfil > 2) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta pantalla']]]));
+    #$perfil = controlPerfil($_GET['doc_comunidad']);
+    #if ($perfil > 2) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta pantalla']]]));
     
     
     $manDocumento = ControladorDinamicoTabla::set('DOCUMENTO');
