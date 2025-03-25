@@ -51,7 +51,7 @@
                 
                 /*require_once ($_SESSION['data']['conf']['home'].'conex/correo.php');
                 $smtp = new Correo();
-                $smtp->destinatario("jm.munar@cusquiskas.com");
+                $smtp->destinatario("jmmunar@cusquiskas.com");
                 $smtp->asunto = "Verificación de cuenta de correo";
                 $smtp->cuerpo = "Se ha verificado el correo de un nuevo usuario: " . var_export($usu, true);
                 if (!$smtp->mandaMail()) {

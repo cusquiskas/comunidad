@@ -16,10 +16,10 @@ function iniciarApp() {
     //for (let i = 0; i < document.forms.length; i++) Moduls.Forms[document.forms[i].name] = new FormController(document.forms[i], null);
     Moduls.constants = {};
     Moduls.constants.initDate = new Date;
-    Moduls.getFooter().load({ url: 'content/footer.html', script: false });
+    Moduls.getFooter().load({ url: 'content/footer.html', script: true });
     Moduls.getHeader().load({ url: 'content/header.html', script: true });
     Moduls.getBody().load({ url: 'content/app/intro.html', script: true });
-    Moduls.getAlertbox().load({ url: 'content/alerta.html', script: false });
+    Moduls.getAlertbox().load({ url: 'content/alerta.html', script: true });
     Moduls.getModal().load({ url: 'content/modal.html', script: false });
 }
 
