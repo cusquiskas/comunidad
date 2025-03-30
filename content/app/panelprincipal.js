@@ -4,6 +4,7 @@ var panelprincipal = class {
         this.modulo = mod;
         this.object = obj;
         this.ctx = document.getElementById('gastosChart').getContext('2d');
+        this.banco = [];
         this.gastosChart = 
             new Chart(this.ctx, {
                 type: 'bar',
@@ -49,6 +50,21 @@ var panelprincipal = class {
         
         let comunidad = this.object.comunidad;
         let forms     = this.modulo.Forms;
+        let me        = this;
+        $("p.detalleBanco").click( function () {
+            let cadena = "";
+            let banco  = JSON.parse(me.banco[0].IBAN);
+            if (banco.length == 0) {
+                cadena = '<h3 class="text-center w-100">No se ha indicado ninguna información</h3>';
+            } else {
+                cadena = "<h5>Cuenta del Banco</h5>";
+                cadena+= '<ul style="list-style: none">';
+                for (let i=0; i<banco.length; i++) cadena+= "<li><b>"+banco[i].banco+"</b> - <i>"+banco[i].cuenta+"</i></li>";
+                cadena+= "</ul>";
+            }
+            Moduls.getModalbody().pintaHTML(cadena);
+            construirModal({title:"Información de la comunidad", w:450});
+        });
         $("p.gestionMovimientos").click(function () {
             Moduls.getBody().load({ url: 'content/back/movimiento.html', script: true, parametros:{comunidad, limitado:false} });
         });
@@ -99,6 +115,7 @@ var panelprincipal = class {
         } else {
             let form = e.form.modul.Forms['dashboard'];
             form.set({nVecinos:d.root.Detalle.length});
+            e.form.modul.script.banco = d.root.banco;
         }
     }
 

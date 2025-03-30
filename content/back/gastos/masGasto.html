@@ -1,0 +1,27 @@
+<form name="guardar" method="post" action="backend/app/gastos/guardar.php" frc-callback="guardar">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="der_fecha">Fecha:</label>
+        <input type="date" name="der_fecha" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="der_nombre">Descripción:</label>
+        <input type="text" name="der_nombre" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="der_total">Importe Total:</label>
+        <input type="number" step="0.01" name="der_total" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="der_iva">Parte IVA:</label>
+        <input type="number" step="0.01" name="der_iva" class="form-control form-control-lg" required/>
+    </div>
+
+    <div class="form-outline mb-4 text-center">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
+    </div>
+    <input type="number" class="xx" name="der_comunidad" value=""/>
+    <input type="number" class="xx" name="der_derrama"   value=""/>
+</form>

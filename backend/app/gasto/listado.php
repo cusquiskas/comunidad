@@ -29,7 +29,7 @@
 
     }
     
-    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
+    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg, 'tipoReparto' => $rep]]);
     
     unset($reg);
     unset($rep);

@@ -23,12 +23,11 @@
                                and mov_fecha <= STR_TO_DATE('$dos', '%Y-%m-%d')
                                and mov_gasto          IN  (select gas_gasto
                                                              from GASTO
-                                                            where gas_comunidad = ?
-                                                              and gas_periodico = 1)
+                                                            where gas_comunidad = ?)
                                and mov_movimiento NOT IN  (select spl_movimiento
                                                              from SPLIT
                                                             where spl_comunidad = ?)
-                             UNION
+                             UNION ALL
                             select sum(spl_importe) importe
                               from SPLIT
                              where spl_comunidad = ?
@@ -36,8 +35,7 @@
                                and spl_fecha <= STR_TO_DATE('$dos', '%Y-%m-%d')
                                and spl_gasto          IN  (select gas_gasto
                                                              from GASTO
-                                                            where gas_comunidad = ?
-                                                              and gas_periodico = 1)
+                                                            where gas_comunidad = ?)
                             ", 
                             [0 => ['tipo' => 'i', 'dato' => $_POST['mov_comunidad']],
                              1 => ['tipo' => 'i', 'dato' => $_POST['mov_comunidad']],
@@ -54,20 +52,18 @@
                                and mov_fecha >= STR_TO_DATE('$uno', '%Y-%m-%d')
                                and mov_gasto          IN  (select gas_gasto
                                                              from GASTO
-                                                            where gas_comunidad = ?
-                                                              and gas_periodico = 1)
+                                                            where gas_comunidad = ?)
                                and mov_movimiento NOT IN  (select spl_movimiento
                                                              from SPLIT
                                                             where spl_comunidad = ?)
-                             UNION
+                             UNION ALL
                             select sum(spl_importe) importe
                               from SPLIT
                              where spl_comunidad = ?
                                and spl_fecha >= STR_TO_DATE('$uno', '%Y-%m-%d')
                                and spl_gasto          IN  (select gas_gasto
                                                              from GASTO
-                                                            where gas_comunidad = ?
-                                                              and gas_periodico = 1)
+                                                            where gas_comunidad = ?)
                             ", 
                             [0 => ['tipo' => 'i', 'dato' => $_POST['mov_comunidad']],
                              1 => ['tipo' => 'i', 'dato' => $_POST['mov_comunidad']],

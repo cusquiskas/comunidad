@@ -58,7 +58,6 @@ select sum(importe) importe, servicio, bimestre
         and mov_fecha >= STR_TO_DATE('$unt', '%Y-%m-%d')
         and mov_fecha <= STR_TO_DATE('$dot', '%Y-%m-%d')
         and mov_movimiento NOT IN  (select spl_movimiento from SPLIT where spl_comunidad = ?)
-        and gas_periodico = 1
       UNION ALL
       select gas_nombre as servicio,
             CASE 
@@ -75,7 +74,6 @@ select sum(importe) importe, servicio, bimestre
         and spl_comunidad = ?
         and spl_fecha >= STR_TO_DATE('$unt', '%Y-%m-%d')
         and spl_fecha <= STR_TO_DATE('$dot', '%Y-%m-%d')
-        and gas_periodico = 1        
     ) datos
     group by servicio, bimestre
     order by servicio, bimestre  

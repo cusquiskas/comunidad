@@ -14,6 +14,12 @@
     
     unset($manPisos);
 
+    $manComunidad = ControladorDinamicoTabla::set('COMUNIDAD');
+    $manComunidad->give(["com_comunidad" => $_POST['pis_comunidad']]);
+    $rag = $manComunidad->getArray();
 
-    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
+    unset($manComunidad);
+
+
+    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg, 'banco' => $rag]]);
 ?>

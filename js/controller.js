@@ -466,6 +466,11 @@ class ModulController {
         });
     }
 
+    pintaHTML(html) {
+        $(this.name).empty();
+        $(this.name).append(html);
+    }
+
     constructor(Template, ModulControler) {
         this.template = Template;
         this.name = '#' + Template.id;

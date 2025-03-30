@@ -6,6 +6,7 @@ var gestionGastos = class {
         let yo = this;
         Moduls.getTipogasto()   .load({ url: 'content/back/gastos/tipoGastos.html',   script: true, parametros:{comunidad:obj.comunidad}});
         Moduls.getPromesaspago().load({ url: 'content/back/gastos/promesaPagos.html', script: true, parametros:{comunidad:obj.comunidad}});
+        Moduls.getDerramas()    .load({ url: 'content/back/gastos/derramas.html',     script: true, parametros:{comunidad:obj.comunidad}});
     }
 
     

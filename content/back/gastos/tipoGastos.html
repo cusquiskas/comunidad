@@ -2,17 +2,22 @@
     <input name="gas_comunidad"/>
 </form>
 
-<form class="xx" name="guardar" method="post" action="backend/app/gasto/guardarPisos.php" frc-callback="guardarGasto">
+<form class="xx" name="guardarPiso" method="post" action="backend/app/gasto/guardarPisos.php" frc-callback="guardarGasto">
     <input name="gas_comunidad"/><input name="gas_gasto"/><input name="gas_piso"/>
+</form>
+
+<form class="xx" name="guardar" method="post" action="backend/app/gasto/guardar.php" frc-callback="guardarGasto">
+    <input name="gas_comunidad"/><input name="gas_gasto"/>  <input name="gas_nombre"/> <input name="gas_reparto"/>
+    <input name="gas_periodico"/><input name="gas_visible"/><input name="gas_derrama"/>
 </form>
 
 <form name="dashboard">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <div class="container-fluid py-4">
-            <div class="row xx">
+            <div class="row">
                 <div class="col-xl-12 col-sm-6 mb-xl-0 mb-8">
                     <button class="icon btn btn-primary" name="anadirGasto">
-                        <span class="material-symbols-rounded">add_circle</span> Nuevo Gasto
+                        <span class="material-icons">add_circle</span> Añadir Gasto
                     </button>
                 </div>
             </div>
