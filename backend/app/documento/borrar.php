@@ -23,11 +23,11 @@
         $MOVIMIENTO->save($movimiento);
     }
     unset($MOVIMIENTO);
-    
+
     #buscamos si el documento está asignado a un split y lo actualizamos a null
     $SPLIT = ControladorDinamicoTabla::set('SPLIT');
     $split = ["spl_comunidad" => $_POST['doc_comunidad'], "spl_documento" => $_POST['doc_documento']];
-    $SPLIT->give($movimiento);
+    $SPLIT->give($split);
     $split = $SPLIT->getArray();
     if (count($split) == 1) {
         $split = $split[0];
@@ -35,7 +35,6 @@
         $SPLIT->save($split);
     }
     unset($SPLIT);
-    
 
     #ahora ya podemos borrar el documento, tanto físicamente del directorio como de la tabla
     $DOCUMENTO = ControladorDinamicoTabla::set('DOCUMENTO');
@@ -44,11 +43,16 @@
     $documento = $DOCUMENTO->getArray();
     $documento = $documento[0];
     $ubicacionDestino  = $_SESSION['data']['conf']['home'] . $_SESSION['data']['conf']['subidas'] . $documento["doc_almacenado"];
-    if (file_exists($ubicacionDestino)) unlink($ubicacionDestino);
-    $DOCUMENTO->delete($documento);
+    if ($DOCUMENTO->delete($documento) == 0) {
+        if (file_exists($ubicacionDestino)) unlink($ubicacionDestino);
+        echo json_encode(['success' => 'true', 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Se ha borrado el documento.']]);
+    } else {
+        $errores = $DOCUMENTO->getListaErrores();
+        echo json_encode(['success' => 'false', 'root' => $errores]);
+    }
     unset($DOCUMENTO);
 
-    echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => 'Se ha borrado el documento.']])
+    
     
 
 ?>
