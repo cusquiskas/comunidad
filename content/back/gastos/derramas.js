@@ -17,7 +17,9 @@ var derramas = class {
                 { data: 'der_total', render: function (data, type, row) {return  formatoEsp(data,2); }},
                 { data: 'der_iva',   render: function (data, type, row) {return  formatoEsp(data,2); }},
                 { render: function (data, type, row) { 
-                                return "adj. doc.";
+                    let botones = 'botón';
+                    //botones+= '<button type="button" data-promesa="'+row.psm_promesa+'" data-piso="'+JSON.stringify(pisos)+'" class="btn btn-'+(row.pisos.length>0?'success':'ligth')+' border border-info psmPiso"><span class="material-icons ">person</span></button>';
+                    return botones;
                 }}
             ],
             drawCallback: function (set) {

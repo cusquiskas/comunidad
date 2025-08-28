@@ -36,6 +36,7 @@
            from PROMESA, DEUDA
           where psm_promesa = dud_promesa
             and psm_comunidad = dud_comunidad
+            and dud_fecha between psm_fdesde and psm_fhasta
             and dud_comunidad = ? 
             and dud_piso = ?
         ) datos

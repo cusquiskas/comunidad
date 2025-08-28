@@ -51,7 +51,7 @@
     $manPromesas->give([
                     "psm_comunidad"    => $_POST["com_comunidad"], 
                     "psm_fdesde"       => date("Y-m-d"), 
-                    "psm_hasta"        => date("Y-m-d"), 
+                    "psm_fhasta"       => date("Y-m-d"), 
                     "psm_fdesde_signo" => "<=", 
                     "psm_fhasta_signo" => ">="
                 ]);
