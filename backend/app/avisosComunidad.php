@@ -68,9 +68,11 @@
             #echo var_export($pisos[$z], true);
             #---buscamos los registros que ya tengamos asignados de esta deuda
             $manDeuda->give([
-                "dud_comunidad" => $_POST["com_comunidad"],
-                "dud_piso"      => $pisos[$z]["prp_piso"],
-                "dud_promesa"   => $pisos[$z]["prp_promesa"]
+                "dud_comunidad"   => $_POST["com_comunidad"],
+                "dud_piso"        => $pisos   [$z]["prp_piso"   ],
+                "dud_promesa"     => $pisos   [$z]["prp_promesa"],
+                "dud_fecha"       => $promesas[$i]["psm_fdesde" ],
+                "dud_fecha_signo" => ">="
             ]);
             $deudas = $manDeuda->getArray();
             #---ahora tenemos que definir los registros a crear
