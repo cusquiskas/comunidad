@@ -41,9 +41,11 @@ var panelprincipal = class {
         form = mod.Forms['datosGasto'];
         form.set({'mov_comunidad':obj.comunidad});
         form.executeForm();
+        form = mod.Forms['derramasActivas'];
+        form.set({'der_comunidad':obj.comunidad});
+        form.executeForm();
         form = mod.Forms['detallePiso'];
         form.set({'pis_comunidad':obj.comunidad});
-        
     };
 
     addEventos (modulo) {
@@ -151,6 +153,32 @@ var panelprincipal = class {
             e.form.modul.script.gastosChart.data.datasets = d.root.datos;
             e.form.modul.script.gastosChart.data.labels   = d.root.control.bimestres;
             e.form.modul.script.gastosChart.update();
+        } else {
+            validaErroresCBK(d.root||d);
+        }
+    }
+
+    derramasActivas (s,d,e) {
+        if (s) {
+            let fila = '<tr>'
+                     + '<td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{der_nombre}}</h6></div></div></td>'
+                     + '<td class="align-middle text-center text-sm"><span class="text-xs font-weight-bold"> {{der_total}}€ </span></td>'
+                     + '<td class="align-middle text-center text-sm"><span class="text-xs font-weight-bold"> {{der_parcial}}€ </span></td>'
+                     + '<td class="align-middle"><div class="progress-wrapper w-75 mx-auto"><div class="progress-info"><div class="progress-percentage"><span class="text-xs font-weight-bold">{{x100}}%</span></div></div><div class="progress"><div class="progress-bar bg-gradient-info w-{{x100}}" role="progressbar"aria-valuenow="{{x100}}" aria-valuemin="0" aria-valuemax="100"></div></div></div></td>'
+                     + '</tr>';
+            let tBody = $('tbody.listaDerramasActivas');
+            let row;
+            tBody.empty();
+            if (d.root.Detalle.length < 1) {
+                tBody.html('<tr><td colspan="4" class="text-center text-success"><h3>No hay ninguna derrama abierta</h3></td></tr>');
+            } else {
+                for (let i=0; i<d.root.Detalle.length; i++) {
+                    row = d.root.Detalle[i];
+                    row.der_parcial = formatoEsp(row.der_parcial, 2);
+                    row.der_total   = formatoEsp(row.der_total,   2);
+                    tBody.append(fila.reemplazaMostachos(row));
+                }
+            }
         } else {
             validaErroresCBK(d.root||d);
         }
