@@ -1,8 +1,8 @@
 <?php
     session_set_cookie_params([
         'lifetime' => 0,
-        'path' => '\/comunidad\/',
-        'secure' => true,
+        'path' => '/',
+        'secure' => getenv('APP_ENV') === 'prod',
         'httponly' => true,
         'samesite' => 'Strict' // O 'Lax' o 'None'
     ]);
@@ -31,7 +31,7 @@
             $smtp = new Correo();
             $smtp->destinatario($ses["ses_correo"], null);
             $smtp->asunto = "Desbloqueo de cuenta de correo";
-            $smtp->cuerpo = "Sigue el enlace indicado a continuación para desbloquear tu usuario y cambiar la contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Desbloquear cuenta</a>";
+            $smtp->cuerpo = "Sigue el enlace indicado a continuación para desbloquear tu usuario y cambiar la contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/confirmarUsuario.html?s=".$ses["ses_token"]."'>Desbloquear cuenta</a>";
             if (!$smtp->mandaMail()) {
                 $error = $smtp->error;
                 unset($smtp);

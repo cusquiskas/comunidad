@@ -2,7 +2,7 @@
 
 class Cache
 {
-    public function ruta($url)
+    public static function ruta($url)
     {
         require_once 'conex/conf.php';  //información crítica del sistema
         $timestamp = '';

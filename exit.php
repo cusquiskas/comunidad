@@ -1,8 +1,8 @@
 <?php
     session_set_cookie_params([
         'lifetime' => 0,
-        'path' => '\/comunidad\/',
-        'secure' => true,
+        'path' => '/',
+        'secure' => getenv('APP_ENV') === 'prod',
         'httponly' => true,
         'samesite' => 'Strict' // O 'Lax' o 'None'
     ]);
@@ -21,7 +21,7 @@
     <script>
         sessionStorage.setItem('id','');
         sessionStorage.setItem('nombre','');
-        document.location.href = "/comunidad/";    
+        document.location.href = "/";    
     </script>
 </body>
 

@@ -50,7 +50,7 @@ function construirModal(modal) {
     let $myModal = $('#myModal');
 
     $myModal.on('hidden.bs.modal', function () {
-        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/comunidad/res/blanco.html', script: false });
+        if (Moduls.getModalbody) Moduls.getModalbody().load({ url: '/res/blanco.html', script: false });
     });
 
     if (modal.ocultarXCerrar) {

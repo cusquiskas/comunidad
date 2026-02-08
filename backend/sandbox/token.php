@@ -62,7 +62,7 @@
     $client_id = '2ae7619f-651c-4d89-a8f3-0d0fb909adca';
     $scope = 'AIS';
     $state = bin2hex(random_bytes(8)); // Genera un valor aleatorio para el estado
-    $redirect_uri = 'https://cusquiskas.com/comunidad/backend/sandbox/retoken.php'; // Asegúrate de que esta URL esté registrada en tu aplicación
+    $redirect_uri = 'https://comunidad.cusquiskas.com/backend/sandbox/retoken.php'; // Asegúrate de que esta URL esté registrada en tu aplicación
     #$code_challenge = 'YOUR_CODE_CHALLENGE'; // Debes generar un código de desafío según RFC 7636
     $code_challenge_method = 'S256';
 

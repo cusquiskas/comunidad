@@ -15,7 +15,7 @@ function peticionAjax() {
         if (http.readyState == 4) {
             dato.extra.xxhttpresponsecodexx = http.status;
             if (http.status === 401) {
-                document.location.href = '/comunidad/exit.php';
+                document.location.href = '/exit.php';
                 return;
             }
             var resultado = '';

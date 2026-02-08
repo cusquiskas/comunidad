@@ -6,14 +6,17 @@
     if ($manUsuario->give($_POST) == 0) {
         $reg = $manUsuario->getArray();
     }
+
     
     if (count($reg) == 1) {
+
         $filtro = [];
         $filtro['uco_correo'] = $_POST['usu_correo'];
         $filtro['uco_desde'] = date('Y-m-d');
         $filtro['uco_desde_signo'] = '<=';
         $filtro['uco_hasta'] = date('Y-m-d');
         $filtro['uco_hasta_signo'] = '>=';
+
 
         $manComunidad = ControladorDinamicoTabla::set('COMUNIDAD');
         $manComuUsu = ControladorDinamicoTabla::set('USUARIO_COMUNIDAD');

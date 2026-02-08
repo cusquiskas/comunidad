@@ -2,14 +2,14 @@
 
 class ConfiguracionSistema
 {
-    private $host = null;
-    private $user = null;
-    private $pass = null;
-    private $apli = null;
+    private $host = '';
+    private $user = '';
+    private $pass = '';
+    private $apli = '';
 
-    private $home = null;
-    private $subidas     = null;
-    private $timeSession = null;
+    private $home        = '';
+    private $subidas     = '';
+    private $timeSession = "";
 
     public function getHost       () { return $this->host;        }
 
@@ -26,20 +26,14 @@ class ConfiguracionSistema
     public function getSubidas    () { return $this->subidas;     }
 
     public function __construct   () {
-        if (file_exists('/opt/lampp/htdocs/claves.json')) {
-            $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
-            
-            $config = $config["comunidad"];
-            
-            $this->host        = $config["host"       ];
-            $this->user        = $config["user"       ];
-            $this->pass        = $config["pass"       ];
-            $this->apli        = $config["apli"       ];
+        $this->host        = getenv('DB_HOST');
+        $this->user        = getenv('DB_USER');
+        $this->pass        = getenv('DB_PASS');
+        $this->apli        = getenv('DB_APLI');
 
-            $this->home        = $config["home"       ];
-            $this->subidas     = $config["subidas"    ];
-            $this->timeSession = $config["timeSession"];
-        }
+        $this->home        = getenv('FL_HOME');
+        $this->subidas     = getEnv('FL_SUBIDAS');
+        $this->timeSession = getEnv('SS_timeSession');
     
     }
 }

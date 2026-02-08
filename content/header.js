@@ -53,7 +53,7 @@ var header = class {
         if (!s) {
             if (sessionStorage.getItem('id')) {
                 validaErroresCBK(d.root||d);
-                document.location.href = "/comunidad/";
+                document.location.href = "/";
             }
             sessionStorage.setItem('id','');
             sessionStorage.setItem('nombre','');

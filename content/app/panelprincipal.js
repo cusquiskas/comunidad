@@ -174,8 +174,9 @@ var panelprincipal = class {
             } else {
                 for (let i=0; i<d.root.Detalle.length; i++) {
                     row = d.root.Detalle[i];
-                    row.der_parcial = formatoEsp(row.der_parcial, 2);
-                    row.der_total   = formatoEsp(row.der_total,   2);
+                    row.x100 = row.x100||0;
+                    row.der_parcial = formatoEsp(row.der_parcial||0, 2);
+                    row.der_total   = formatoEsp(row.der_total, 2);
                     tBody.append(fila.reemplazaMostachos(row));
                 }
             }

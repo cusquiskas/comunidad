@@ -1,8 +1,8 @@
 <?php
     session_set_cookie_params([
         'lifetime' => 0,
-        'path' => '\/comunidad\/',
-        'secure' => true,
+        'path' => '/',
+        'secure' => getenv('APP_ENV') === 'prod',
         'httponly' => true,
         'samesite' => 'Strict' // O 'Lax' o 'None'
     ]);
@@ -49,7 +49,7 @@
             $smtp = new Correo();
             $smtp->destinatario($ses["ses_correo"]);
             $smtp->asunto = "Verificación de cuenta de correo";
-            $smtp->cuerpo = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/comunidad/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>";
+            $smtp->cuerpo = "Sigue el enlace indicado a continuación para activar tu usuario y contraseña.<br><a href='".$_SERVER['HTTP_ORIGIN']."/confirmarUsuario.html?s=".$ses["ses_token"]."'>Verificación cuenta de correo</a>";
             if (!$smtp->mandaMail()) {
                 $error = $smtp->error;
                 unset($smtp);

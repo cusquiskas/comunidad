@@ -74,12 +74,12 @@
         if (token != '') {
             invocaAjax({
                 parametros: {"SES_TOKEN":token},
-                direccion: '/comunidad/backend/login/activado.php',
+                direccion: '/backend/login/activado.php',
                 retorno: function (s,d,e) {
                     if (s) {
                         if (d.root.Code == 1) {
                             $(".inicial").removeClass('xx');
-                            timeOut = setTimeout(function () {window.location.href = "/comunidad/";}, 3000);
+                            timeOut = setTimeout(function () {window.location.href = "/";}, 3000);
                         } else {
                             $(".detalleUsuario").html(d.root.Detalle);
                             $(".contrasena").removeClass('xx');
@@ -96,12 +96,12 @@
                             "USU_PASSWORD1":document.forms.activar.usu_contrasena1.value,
                             "USU_PASSWORD2":document.forms.activar.usu_contrasena2.value
                         },
-                direccion: '/comunidad/backend/login/cambiaPass.php',
+                direccion: '/backend/login/cambiaPass.php',
                 retorno: function (s,d,e) {
                     if (s) {
                         $(".contrasena").addClass('xx');
                         $(".desbloqueado").removeClass('xx');
-                        timeOut = setTimeout(function () {window.location.href = "/comunidad/";}, 3000);
+                        timeOut = setTimeout(function () {window.location.href = "/";}, 3000);
                     } else {
                         alert(d.root.Detalle);
                     }

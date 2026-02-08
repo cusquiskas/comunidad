@@ -17,12 +17,11 @@
     require_once '../../conex/dao.php';   //control de comunicación con la base de datos MySQL
     require_once '../../tabla/controller.php';
     
-    /*
     $conf = new ConfiguracionSistema();
     $_SESSION['data']['conf']['home']        = $conf->getHome();
     $_SESSION['data']['conf']['timeSession'] = $conf->getTimeSession();
     unset($conf);
-    */
+    
     if (!isset($_POST) || $_POST == []) 
         $_POST = json_decode(file_get_contents('php://input'), true);
 ?>
