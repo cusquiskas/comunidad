@@ -34,10 +34,10 @@
                 $this->mail->Username   = $config["user"];   //SMTP username
                 $this->mail->Password   = $config["pass"];   //SMTP password
             } else {
-                $this->mail->Host       = 'smtp.hostinger.com';
-                $this->mail->Port       = 465;
-                $this->mail->Username   = 'noreply@cusquiskas.com';
-                $this->mail->Password   = 'Asdfg9876?';
+                $this->mail->Host       = getenv('MAIL_HOST');
+                $this->mail->Port       = getenv('MAIL_PORT');
+                $this->mail->Username   = getenv('MAIL_USER');
+                $this->mail->Password   = getenv('MAIL_PASS');
             }
             //Server settings
             $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -49,8 +49,8 @@
             $this->mail->isHTML(true);                                  //Set email format to HTML
         }
         public function destinatario($correo, $nombre=null) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
-                $this->mail->addAddress('cusquiskas@gmail.com');
+            if (getenv('SS_ENTORNO') == 'des') 
+                $this->mail->addAddress(getenv('MAIL_DEV'));
             else
                 $this->mail->addAddress($correo, $nombre);
         }
@@ -64,15 +64,15 @@
         }
 
         public function destinatarioCC($correo, $nombre) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
-                $this->mail->addCC('cusquiskas@gmail.com');
+            if (getenv('SS_ENTORNO') == 'des')  
+                $this->mail->addCC(getenv('MAIL_DEV'));
             else
                 $this->mail->addCC($correo, $nombre);
         }
 
         public function destinaratioCO($correo, $nombre) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost') 
-                $this->mail->addBCC('cusquiskas@gmail.com');
+            if (getenv('SS_ENTORNO') == 'des')  
+                $this->mail->addBCC(getenv('MAIL_DEV'));
             else
                 $this->mail->addBCC($correo, $nombre);
         }
