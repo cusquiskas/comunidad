@@ -20,7 +20,7 @@
             if (getenv('SS_ENTORNO') == 'des') 
                 $this->destinatario = getenv('MAIL_DEV');
             else
-                $this->destinatario = "$nombre <$correo>";
+                $this->destinatario = $correo;
         }
 
         public function esHTML($bol) {
@@ -31,14 +31,14 @@
             if (getenv('SS_ENTORNO') == 'des')  
                 $this->destinatarioCC = getenv('MAIL_DEV');
             else
-                $this->destinatarioCC = "$nombre <$correo>";
+                $this->destinatarioCC = $correo;
         }
 
         public function destinaratioCO($correo, $nombre) {
             if (getenv('SS_ENTORNO') == 'des')  
                 $this->destinaratioCO = getenv('MAIL_DEV');
             else
-                $this->destinaratioCO = "$nombre <$correo>";
+                $this->destinaratioCO = $correo;
         }
 
         public function adjunto ($origen, $nombre) {
