@@ -5,6 +5,8 @@
         
         private $mail   = null;
         public  $error  = null;
+        public  $asunto = null;
+        public  $cuerpo = null;
         private $destinatario = null;
         private $destinatarioCC = null;
         private $esHTML = false;
@@ -45,15 +47,16 @@
 
         public function mandaMail($asunto = '', $cuerpo = '') {
             try {
-                
-                $url = "http://".getenv('MAIL_DEV')."/correo.php";   // o la ruta que uses en tu API
+                if ($asunto != '') $this->asunto = $asunto;
+                if ($cuerpo != '') $this->cuerpo = $cuerpo;
+                $url = "http://".getenv('MAIL_HOST')."/correo.php";   // o la ruta que uses en tu API
 
                 $data = [
                     "to"      => $this->destinatario,
                     "cc"      => $this->destinatarioCC,
                     "co"      => $this->destinaratioCO,
-                    "subject" => $asunto,
-                    "body"    => $cuerpo,
+                    "subject" => $this->asunto,
+                    "body"    => $this->cuerpo,
                     "app"     => "app-Comunidad"
                 ];
 
@@ -74,8 +77,14 @@
 
                 curl_close($ch);
 
-                echo "Código HTTP: $httpcode\n";
-                echo "Respuesta: $response\n";
+                /*echo "url: $url\n";
+                echo "payload: $payload\n";
+                echo "httpcode: $httpcode\n";
+                echo "response: $response\n";*/
+
+                if ($httpcode != 200) {
+                    throw new Exception($response);
+                }
 
                 return true;
             } catch (Exception $e) {
@@ -85,7 +94,7 @@
         }
         
         public function __destruct() {
-            unset($this->mail);
+            #unset($this->mail);
         }
     }
 
