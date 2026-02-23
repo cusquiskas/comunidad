@@ -1,99 +1,85 @@
 <?php
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
-
-        
     Class Correo
     {
         
         
         private $mail   = null;
         public  $error  = null;
-        public  $asunto = null;
-        public  $cuerpo = null;
+        private $destinatario = null;
+        private $destinatarioCC = null;
+        private $esHTML = false;
+        private $destinaratioCO = null;
 
         public function __construct()
         {
-            //Import PHPMailer classes into the global namespace
-            //These must be at the top of your script, not inside a function
-            require 'PHPMailer/src/Exception.php';
-            require 'PHPMailer/src/PHPMailer.php';
-            require 'PHPMailer/src/SMTP.php';
             
-            //Create an instance; passing `true` enables exceptions
-            $this->mail = new PHPMailer(true);
-            
-            if (file_exists('/opt/lampp/htdocs/claves.json')) {
-                $config = json_decode(file_get_contents('/opt/lampp/htdocs/claves.json'), true);
-                
-                $config = $config["SMTP"];
-                
-                $this->mail->Host       = $config["host"];   //Set the SMTP server to send through
-                $this->mail->Port       = $config["port"];   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-                $this->mail->Username   = $config["user"];   //SMTP username
-                $this->mail->Password   = $config["pass"];   //SMTP password
-            } else {
-                $this->mail->Host       = getenv('MAIL_HOST');
-                $this->mail->Port       = getenv('MAIL_PORT');
-                $this->mail->Username   = getenv('MAIL_USER');
-                $this->mail->Password   = getenv('MAIL_PASS');
-            }
-            //Server settings
-            $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $this->mail->CharSet    = PHPMailer::CHARSET_UTF8;
-            $this->mail->isSMTP();                                            //Send using SMTP
-            $this->mail->setLanguage('es');
-            $this->mail->setFrom('noreply@cusquiskas.com', 'Noreply');
-            $this->mail->isHTML(true);                                  //Set email format to HTML
         }
         public function destinatario($correo, $nombre=null) {
             if (getenv('SS_ENTORNO') == 'des') 
-                $this->mail->addAddress(getenv('MAIL_DEV'));
+                $this->destinatario = getenv('MAIL_DEV');
             else
-                $this->mail->addAddress($correo, $nombre);
+                $this->destinatario = "$nombre <$correo>";
         }
 
         public function esHTML($bol) {
-            $this->mail->isHTML($bol);                                  //Set email format to HTML
-        }
-
-        public function verbose() {
-            $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $this->esHTML = $bol;                                  //Set email format to HTML
         }
 
         public function destinatarioCC($correo, $nombre) {
             if (getenv('SS_ENTORNO') == 'des')  
-                $this->mail->addCC(getenv('MAIL_DEV'));
+                $this->destinatarioCC = getenv('MAIL_DEV');
             else
-                $this->mail->addCC($correo, $nombre);
+                $this->destinatarioCC = "$nombre <$correo>";
         }
 
         public function destinaratioCO($correo, $nombre) {
             if (getenv('SS_ENTORNO') == 'des')  
-                $this->mail->addBCC(getenv('MAIL_DEV'));
+                $this->destinaratioCO = getenv('MAIL_DEV');
             else
-                $this->mail->addBCC($correo, $nombre);
+                $this->destinaratioCO = "$nombre <$correo>";
         }
 
         public function adjunto ($origen, $nombre) {
-            $this->mail->addAttachment($origen, $nombre);
+            //$this->mail->addAttachment($origen, $nombre);
         }
 
         public function mandaMail($asunto = '', $cuerpo = '') {
             try {
-                if (isset($asunto) && $asunto != "") $this->asunto = $asunto;
-                if (isset($cuerpo) && $cuerpo != "") $this->cuerpo = $cuerpo;
-                //Content
-                $this->mail->Subject = $this->asunto;
-                $this->mail->Body    = $this->cuerpo;
-                #$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-    
-                $this->mail->send();
+                
+                $url = "http://".getenv('MAIL_DEV')."/correo.php";   // o la ruta que uses en tu API
+
+                $data = [
+                    "to"      => $this->destinatario,
+                    "cc"      => $this->destinatarioCC,
+                    "co"      => $this->destinaratioCO,
+                    "subject" => $asunto,
+                    "body"    => $cuerpo,
+                    "app"     => "app-Comunidad"
+                ];
+
+                $payload = json_encode($data);
+
+                $ch = curl_init($url);
+
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    "Content-Type: application/json",
+                    "Content-Length: " . strlen($payload)
+                ]);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                $response = curl_exec($ch);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                curl_close($ch);
+
+                echo "Código HTTP: $httpcode\n";
+                echo "Respuesta: $response\n";
+
                 return true;
             } catch (Exception $e) {
-                $this->error = $this->mail->ErrorInfo;
+                $this->error = $e;
                 return false;
             }
         }
