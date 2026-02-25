@@ -17,17 +17,16 @@ var derramas = class {
                 { data: 'der_total', render: function (data, type, row) {return  formatoEsp(data,2); }},
                 { data: 'der_iva',   render: function (data, type, row) {return  formatoEsp(data,2); }},
                 { render: function (data, type, row) { 
-                    let botones = 'botón';
-                    //botones+= '<button type="button" data-promesa="'+row.psm_promesa+'" data-piso="'+JSON.stringify(pisos)+'" class="btn btn-'+(row.pisos.length>0?'success':'ligth')+' border border-info psmPiso"><span class="material-icons ">person</span></button>';
+                    let botones = '';
+                    botones+= '<button type="button" class="reparteDerrama" data-derrama="'+row.der_derrama+'"><span class="material-symbols-outlined">payment_arrow_down</span></button>';
                     return botones;
                 }}
             ],
-            drawCallback: function (set) {
-                $('button.docDerrama').click(function(eve){
-                    let form = yo.modulo.Forms['guardar'];
-                    
-                });
-            }
+        });
+        this.tablaD.on('click', 'button.reparteDerrama', function (eve) { 
+            let data = yo.tablaD.row($(this).closest('tr')).data();
+            Moduls.getModalbody().load({ url: 'content/back/gastos/derramaAPago.html',  script: true, parametros:{"comunidad":yo.obj.comunidad, "derrama": data.derrama}});
+            construirModal({title:"Convertir Derrama en Pagos", w:800, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Cancelar', cancelfunction:function(){cerrarModal();}});
         });
     }
 
