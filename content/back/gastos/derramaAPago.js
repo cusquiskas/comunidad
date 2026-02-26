@@ -1,5 +1,6 @@
 var derramaAPago = class {
     constructor (mod, obj) {
+        debugger;
         console.log('derramaAPago.js -> constructor');
         this.modulo = mod;
         this.object = obj;
@@ -9,14 +10,19 @@ var derramaAPago = class {
         form.formulario.reset();
         form.set({pis_comunidad:obj.comunidad});
         form.executeForm();
+        form = mod.Forms.formPromesaPago;
+        form.set({nombre:obj.nombre, total:formatoEsp(obj.total, 2)});
     }
 
     addEventos(mod) {
-
+        $("tbody.lista-vecinos").on("click", "input[type='checkbox']", function(e) {
+            console.log("Checkbox clickeado");
+            mod.script.recalcular();
+        });
     }
 
     pintaListaPisos() {
-        let fila = '<tr><td><input type="checkbox" name="vecino" value="{{pis_piso}} data-id="{{pis_piso}}"/></td><td>{{pis_nombre}}</td><td>{{porcentaje}}%</td><td>{{imp_total}}</td><td>{{imp_cuota}}</td></tr>';
+        let fila = '<tr><td><input type="checkbox" name="vecino" value="{{pis_piso}} data-id="{{pis_piso}}"/></td><td>{{pis_nombre}}</td><td>{{porcentaje}}%</td><td>{{aplicado}}%</td><td>{{imp_total}}</td><td>{{imp_cuota}}</td></tr>';
         let tabla = $('tbody.lista-vecinos');
         this.listaPisos.forEach(obj => {
             tabla.append(fila.reemplazaMostachos(obj));
@@ -76,6 +82,7 @@ var derramaAPago = class {
                 listaPisos[i].imp_total = 0;
                 listaPisos[i].imp_cuota = 0;
                 listaPisos[i].porcentaje = formatoEsp(listaPisos[i].pis_porcentaje, 1);
+                listaPisos[i].aplicado = 0;
             }
             modulo.listaPisos = listaPisos;
             modulo.pintaListaPisos();
