@@ -2,7 +2,7 @@
     <input name="pis_comunidad"/>
 </form>
         <!-- FORMULARIO COMPLETO -->
-        <form name="formPromesaPago" class="form-promesa-pago">
+        <form name="formPromesaPago" class="form-promesa-pago" action="backend/app/derrama/guardarPromesa.php" frc-callback="callbackDerramaPisos" method="post">
 
           <!-- Datos de la derrama -->
           <div class="bg-light border rounded p-3 mb-4 derrama-info">
@@ -25,17 +25,17 @@
 
             <div class="col-md-4">
               <label class="form-label">Fecha primera cuota</label>
-              <input type="date" class="form-control" name="fecha_inicio">
+              <input type="date" class="form-control" name="fecha_inicio" required>
             </div>
 
             <div class="col-md-4">
               <label class="form-label">Número de cuotas</label>
-              <input type="number" class="form-control" name="num_cuotas" min="1" value="1">
+              <input type="number" class="form-control" name="num_cuotas" min="1" value="1" required>
             </div>
 
             <div class="col-md-4">
               <label class="form-label">Periodicidad</label>
-              <select class="form-select" name="periodicidad">
+              <select class="form-select" name="periodicidad" required>
                 <option value="1">Mensual</option>
                 <option value="2">Bimensual</option>
                 <option value="3">Trimestral</option>
@@ -62,10 +62,10 @@
               <tr>
                 <th style="width: 60px;">Incluir</th>
                 <th>Vecino</th>
-                <th style="width: 120px;">Coef.</th>
+                <th style="width: 100px;">Coef.</th>
                 <th style="width: 120px;">% pago</th>
-                <th style="width: 150px;">Total</th>
-                <th style="width: 150px;">Por cuota</th>
+                <th style="width: 100px;">Total</th>
+                <th style="width: 100px;">Por cuota</th>
               </tr>
             </thead>
             <tbody class="lista-vecinos"></tbody>

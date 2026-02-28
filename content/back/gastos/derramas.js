@@ -25,8 +25,8 @@ var derramas = class {
         });
         this.tablaD.on('click', 'button.reparteDerrama', function (eve) { 
             let data = yo.tablaD.row($(this).closest('tr')).data();
-            Moduls.getModalbody().load({ url: 'content/back/gastos/derramaAPago.html',  script: true, parametros:{"comunidad":data.der_comunidad, "derrama": data.der_derrama, "total":data.der_total, "nombre":data.der_nombre}});
-            construirModal({title:"Convertir Derrama en Pagos", w:800, oktext:'Guardar', okfunction:yo.callbackPisos, canceltext:'Cancelar', cancelfunction:function(){cerrarModal();}});
+            Moduls.getModalbody().load({ url: 'content/back/gastos/derramaAPago.html',  script: true, parametros:{"comunidad":data.der_comunidad, "derrama": data.der_derrama, "total":data.der_total, "nombre":data.der_nombre, callParent:yo.callbackPisos}});
+            construirModal({title:"Convertir Derrama en Pagos", w:800, oktext:'Guardar', okfunction:() => {Moduls.getModalbody().script.grabaPagos();}, canceltext:'Cancelar', cancelfunction: cerrarModal});
         });
     }
 
@@ -56,6 +56,10 @@ var derramas = class {
         } else {
             validaErroresCBK(d.root||d);
         }
+    }
+
+    callbackPisos (s, d, e) {
+        cerrarModal();
     }
 
 }

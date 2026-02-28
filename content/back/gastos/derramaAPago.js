@@ -14,11 +14,23 @@ var derramaAPago = class {
     }
 
     addEventos(mod) {
-        $("tbody.lista-vecinos").on("click", "input[type='checkbox']", function(e) {
-            console.log("Checkbox clickeado");
-            mod.script.recalcular();
+        let form = mod.Forms.formPromesaPago;
+
+        // Delegación sobre el formulario
+        $(form.formulario).on('change', 'input[name="num_cuotas"]', () => {
+            this.recalcular();
+        });
+
+        $(form.formulario).on('change', 'select[name="tipo_reparto"]', () => {
+            this.recalcular();
+        });
+
+        // Delegación sobre el tbody para los checkbox
+        $('tbody.lista-vecinos').on('change', 'input[name="vecino"]', () => {
+            this.recalcular();
         });
     }
+
 
     pintaListaPisos() {
         let fila = '<tr><td><input type="checkbox" name="vecino" value="{{pis_piso}}" {{checked}}/></td><td>{{pis_nombre}}</td><td>{{porcentaje}}%</td><td>{{aplicado}}%</td><td>{{imp_total}}</td><td>{{imp_cuota}}</td></tr>';
@@ -29,7 +41,6 @@ var derramaAPago = class {
         });
     }
 
-    //
     recalcular() {
         let form = this.modulo.Forms.formPromesaPago.parametros;
 
@@ -56,7 +67,7 @@ var derramaAPago = class {
                 piso.aplicado = 0;
                 return;
             } else {
-                piso.checked = 'checked'
+                piso.checked = 'checked';
                 piso.aplicado = (tipo === 'igual')
                                     ?(100 / numSel)
                                     :(piso.pis_porcentaje / sumaCoeficientes) * 100;
@@ -90,26 +101,28 @@ var derramaAPago = class {
             for (let i=0; i<listaPisos.length; i++) {
                 listaPisos[i].imp_total = 0;
                 listaPisos[i].imp_cuota = 0;
-                listaPisos[i].checked   = '';
                 listaPisos[i].porcentaje = formatoEsp(listaPisos[i].pis_porcentaje, 1);
                 listaPisos[i].aplicado = 0;
+                listaPisos[i].checked = 'checked';
             }
             modulo.listaPisos = listaPisos;
             modulo.pintaListaPisos();
+            modulo.recalcular();
         } else {
             validaErroresCBK(d.root||d);
         }
     }
-    /*guardar (s,d,e) {
+    
+    grabaPagos () {
+        this.modulo.Forms.formPromesaPago.executeForm();
+    }
+
+    callbackDerramaPisos (s,d,e) {
+        debugger;
         if (s) {
-            if (e.form.modul.name = '#modalBody') {
-                cerrarModal();
-                Moduls.getTipoGastos().Forms['gastos'] && Moduls.getTipoGastos().Forms['gastos'].executeForm();
-            } else {
-                e.form.modul.Forms && e.form.modul.Forms.gastos && e.form.modul.Forms.gastos.executeForm();
-            }
+            e.form.modul.script.callParent();
         } else {
             validaErroresCBK(d.root||d);
         }
-    }*/
+    }
 }
