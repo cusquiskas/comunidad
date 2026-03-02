@@ -78,7 +78,22 @@ class ConexionSistema extends mysqli
     private $filas_afectadas;
 
     private $conex;
+    
+    public function begin(int $flags = 0, ?string $name = null): bool
+    {
+        return $this->get()->begin_transaction($flags, $name);
+    }
 
+    public function commit(int $flags = 0, ?string $name = null): bool
+    {
+        return $this->get()->commit($flags, $name);
+    }
+
+    public function rollback(int $flags = 0, ?string $name = null): bool
+    {
+        return $this->get()->rollback($flags, $name);
+    }
+    
     public function filasAfectadas()
     {
         return $this->filas_afectadas;
@@ -96,7 +111,7 @@ class ConexionSistema extends mysqli
 
     private function conecta()
     {
-        $this->conex = mysqli_connect("p:".$this->host, $this->user, $this->pass, $this->apli);
+        $this->conex = mysqli_connect($this->host, $this->user, $this->pass, $this->apli);
     }
 
     public function get()
@@ -141,8 +156,9 @@ class ConexionSistema extends mysqli
 
     public function close()
     {
-        if (!isset($this->conex)) {
-            #mysqli_close($this->conex);
+        if (isset($this->conex)) {
+            mysqli_close($this->conex);
+            $this->conex = null;
         }
     }
 

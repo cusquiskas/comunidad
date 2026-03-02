@@ -15,6 +15,7 @@
               <strong>Importe total:</strong>
               <span><frC-Graft name="total_derrama"></frC-Graft></span>
               <input type="hidden" name="total" value="" frC-submit="false">
+              <input type="hidden" name="psm_comuniad" value="">
             </p>
           </div>
 
@@ -24,12 +25,12 @@
           <div class="row g-3 mb-4">
 
             <div class="col-md-4">
-              <label class="form-label">Fecha primera cuota</label>
-              <input type="date" class="form-control" name="fecha_inicio" required>
+              <label class="form-label" for="psm_fdesde">Fecha primera cuota</label>
+              <input type="date" class="form-control" name="psm_fdesde" required>
             </div>
 
             <div class="col-md-4">
-              <label class="form-label">Número de cuotas</label>
+              <label class="form-label" for="num_cuotas">Número de cuotas</label>
               <input type="number" class="form-control" name="num_cuotas" min="1" value="1" required>
             </div>
 

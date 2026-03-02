@@ -1,81 +1,59 @@
 <?php
     require_once ('../../required/controlSession.php');
 
-    if (!$_POST['der_comunidad'] || $_POST['der_comunidad'] == "") {
+    header('Content-Type: application/json');
+
+    /* =====================================================
+    VALIDACIONES BÁSICAS DE ENTRADA
+    ===================================================== */
+    
+    if (!$_POST['psm_comunidad'] || $_POST['psm_comunidad'] == "") {
         die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'No se ha especificado una comunidad']]]));
     }
 
-    $perfil = controlPerfil($_POST['der_comunidad']);
+    $perfil = controlPerfil($_POST['psm_comunidad']);
     if ($perfil < 1) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta comunidad']]]));
     
+    
+    if (!isset($_POST['derrama']) || !isset($_POST['der_comunidad'])) {
+        echo json_encode(['success'=>false,'root'=>[['tipo'=>'Validacion','Detalle'=>'Datos incompletos']]]);
+        exit;
+    }
 
-header('Content-Type: application/json');
+    $manPromesa = ControladorDinamicoTabla::set('PROMESA');
+    $manPromesa->give([
+        psm_comunidad => $_POST['psm_comunidad'],
+        psm_derrama => $_POST['psm_derrama']
+    ]);
+    $promesa = $manPromesa->getArray();
 
-/* =====================================================
-   1. VALIDACIONES BÁSICAS DE ENTRADA
-===================================================== */
+    if (count($promesa) > 0) {
+        echo json_encode(['success'=>false,'root'=>[['tipo'=>'Validacion','Detalle'=>'Esta derrama ya se ha validado para pago']]]);
+        exit;
+    }
 
-if (!isset($_POST['derrama']) || !isset($_POST['der_comunidad'])) {
-    echo json_encode(['success'=>false,'root'=>[['tipo'=>'Validacion','Detalle'=>'Datos incompletos']]]);
-    exit;
-}
-
-$derrama     = intval($_POST['derrama']);
-$comunidad   = intval($_POST['der_comunidad']);
+$comunidad   = intval($_POST['psm_comunidad']);
 $fechaInicio = $_POST['fecha_inicio'] ?? null;
 $numCuotas   = intval($_POST['num_cuotas'] ?? 0);
 $periodo     = intval($_POST['periodicidad'] ?? 0);
 $tipo        = $_POST['tipo_reparto'] ?? 'igual';
 
-/* =====================================================
-   2. CONTROL DE PERFIL
-===================================================== */
-
-$perfil = controlPerfil($comunidad);
-if ($perfil < 1) {
-    echo json_encode(['success'=>false,'root'=>[['tipo'=>'Permisos','Detalle'=>'Sin acceso a la comunidad']]]);
-    exit;
-}
-
-/* =====================================================
-   3. VALIDACIONES FUNCIONALES
-===================================================== */
-
-if (!$fechaInicio || $numCuotas < 1 || $periodo < 1) {
-    echo json_encode(['success'=>false,'root'=>[['tipo'=>'Validacion','Detalle'=>'Configuración inválida']]]);
-    exit;
-}
-
-/* =====================================================
-   4. COMPROBAR QUE LA DERRAMA NO ESTÉ YA CONVERTIDA
-===================================================== */
-
-$psm = ControladorDinamicoTabla::set('psm');
-
-$existe = $psm->customQuery("
-    SELECT COUNT(*) as total 
-    FROM psm 
-    WHERE psm_derrama = {$derrama}
-");
-
-if ($existe[0]['total'] > 0) {
-    echo json_encode(['success'=>false,'root'=>[['tipo'=>'Logica','Detalle'=>'La derrama ya está convertida en promesa']]]);
-    exit;
-}
 
 /* =====================================================
    5. OBTENER DATOS REALES DE LA DERRAMA
 ===================================================== */
 
-$der = ControladorDinamicoTabla::set('der');
-$derData = $der->findById(['der_comunidad'=>$comunidad,'der_derrama'=>$derrama]);
+$manDerrama = ControladorDinamicoTabla::set('DERRAMA');
+$manDerrama->give([
+    der_comunidad => $_POST['psm_comunidad'],
+    der_derrama => $_POST['psm_derrama']
+]);
+$derrama = $manDerrama->give();
 
-if (!$derData) {
+if (count($derrama) <> 1) {
     echo json_encode(['success'=>false,'root'=>[['tipo'=>'Datos','Detalle'=>'Derrama no encontrada']]]);
     exit;
 }
-
-$importeTotal = floatval($derData['der_total']);
 
 /* =====================================================
    6. OBTENER PISOS SELECCIONADOS (DESDE FRONT)

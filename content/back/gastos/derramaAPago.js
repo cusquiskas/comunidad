@@ -10,7 +10,13 @@ var derramaAPago = class {
         form.set({pis_comunidad:obj.comunidad});
         form.executeForm();
         form = mod.Forms.formPromesaPago;
-        form.set({detalle_derrama:obj.nombre, total:(obj.total*1), total_derrama:formatoEsp(obj.total, 2)+'€'});
+        form.set({
+            detalle_derrama:obj.nombre, 
+            total:(obj.total*1), 
+            total_derrama:formatoEsp(obj.total, 2)+'€',
+            psm_comunidad: obj.comunidad,
+            psm_derrama: obj.derrama
+        });
     }
 
     addEventos(mod) {
@@ -118,7 +124,6 @@ var derramaAPago = class {
     }
 
     callbackDerramaPisos (s,d,e) {
-        debugger;
         if (s) {
             e.form.modul.script.callParent();
         } else {
