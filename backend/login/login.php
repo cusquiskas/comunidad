@@ -20,7 +20,7 @@
     $_POST['usu_errorlogin_signo'] = "<";
     $_POST['usu_fvalida'] = date('Y-m-d');
     $_POST['usu_fvalida_signo'] = "<=";
-    $manJugador = ControladorDinamicoTabla::set('USUARIO', true);
+    $manJugador = ControladorDinamicoTabla::set('USUARIO');
     
     if ($manJugador->give($_POST) == 0) {
         #echo var_export($manJugador->getDatos(), true)."\n";

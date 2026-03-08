@@ -20,7 +20,7 @@ class stmt extends mysqli_stmt
         unset($this->mbind_params);
         unset($this->mbind_types);
         $this->mbind_params = [];
-        $this->mbind_types = [];
+        $this->mbind_types = [''];
     }
 
     //use this one to bind params by reference

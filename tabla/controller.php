@@ -47,6 +47,7 @@ class ControladorDinamicoTabla
     {
         $selectDatos = '';
         $selectQuery = '';
+        $variablesInternas = '';
         $i = -1;
         foreach ($datos as &$valor) {
             ++$i;
@@ -123,11 +124,11 @@ class ControladorDinamicoTabla
                         \$this->conexion = new ConexionSistema();
                         \$this->conexionPropia = true;
                     }
-                    return 0; 
                 }\n
                 public function __destruct() {
                     if (\$this->conexionPropia && \$this->conexion) {
                         \$this->conexion->close();
+                        \$this->conexion = null;
                     }
                 }\n";
     }
@@ -275,7 +276,7 @@ class ControladorDinamicoTabla
         $cadena = '';
         foreach ($datos as $valor) {
             if ($valor['Key'] == 'PRI') {
-                $cadena .= ",'".$valor['Field']."' => \$array['".$valor['Field']."']\n";
+                $cadena .= ",'".$valor['Field']."' => \$array['".$valor['Field']."'] ?? null\n";
             }
         }
         $cadena = substr($cadena, 1);
@@ -314,6 +315,7 @@ class ControladorDinamicoTabla
     {
         $dependencias = '';
         $deletePK = '';
+        $deleteWhere = '';
         $i = -1;
         $escape = "if (count(\$this->error) > 0) {return 1;}\n";
         $validacion = '';
@@ -487,9 +489,6 @@ class ControladorDinamicoTabla
             unset($conexionInterna);
         }
         
-        return new $clsName($conexion);
+        return new $clsName(($conexion instanceof ConexionSistema)?$conexion:false);
     }
 }
-
-?>
-
