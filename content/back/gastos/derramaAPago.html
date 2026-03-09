@@ -1,0 +1,79 @@
+<form class="xx" name="pisos" method="post" action="backend/app/piso/listado.php" frc-callback="listadoPisos">
+    <input name="pis_comunidad"/>
+</form>
+        <!-- FORMULARIO COMPLETO -->
+        <form name="formPromesaPago" class="form-promesa-pago" action="backend/app/derrama/guardarPromesa.php" frc-callback="callbackDerramaPisos" method="post">
+
+          <!-- Datos de la derrama -->
+          <div class="bg-light border rounded p-3 mb-4 derrama-info">
+            <h6 class="mb-2">Derrama seleccionada</h6>
+            <p class="mb-1">
+              <strong>Descripción:</strong>
+              <span><frC-Graft name="psm_detalle"></frC-Graft></span>
+            </p>
+            <p class="mb-0">
+              <strong>Importe total:</strong>
+              <span><frC-Graft name="total_derrama"></frC-Graft></span>
+              <input type="hidden" name="total" value="" frC-submit="false">
+              <input type="hidden" name="psm_comunidad" value="">
+              <input type="hidden" name="psm_derrama" value="">
+              <input type="hidden" name="psm_vecinos" value="">
+            </p>
+          </div>
+
+          <!-- Configuración -->
+          <h6 class="mb-3">Configuración de la promesa</h6>
+
+          <div class="row g-3 mb-4">
+
+            <div class="col-md-4">
+              <label class="form-label" for="psm_fdesde">Fecha primera cuota</label>
+              <input type="date" class="form-control" name="psm_fdesde" required>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="num_cuotas">Número de cuotas</label>
+              <input type="number" class="form-control" name="num_cuotas" min="1" value="1" required>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Periodicidad</label>
+              <select class="form-select" name="psm_periodo" required>
+                <option value="1">Mensual</option>
+                <option value="2">Bimensual</option>
+                <option value="3">Trimestral</option>
+                <option value="6">Semestral</option>
+                <option value="12">Anual</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tipo de reparto</label>
+              <select class="form-select" name="tipo_reparto">
+                <option value="igual">A partes iguales</option>
+                <option value="coef">Por coeficiente</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Lista de vecinos -->
+          <h6 class="mb-3">Vecinos incluidos</h6>
+
+          <table class="table table-bordered table-sm align-middle tabla-vecinos">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 60px;">Incluir</th>
+                <th>Vecino</th>
+                <th style="width: 100px;">Coef.</th>
+                <th style="width: 120px;">% pago</th>
+                <th style="width: 100px;">Total</th>
+                <th style="width: 100px;">Por cuota</th>
+              </tr>
+            </thead>
+            <tbody class="lista-vecinos"></tbody>
+          </table>
+
+        </form>
+
+      

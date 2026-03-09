@@ -98,16 +98,4 @@
         }
     }
 
-/*
-    $correo = new SMTP();
-    $correo->destinatario('cusquiskas@gmail.com', 'José Miguel');
-    $correo->asunto = 'Pruebas final PHPMailer';
-    $correo->cuerpo = '<h1>SUCCESS</h1><hr/><p>El contenido del correo, ahora le estoy diciendo que lo que mando <b>es HTML</b></p><p>Ahora me paso a la librería PHPMailer, que va como un cañón.</p>';
-    #$nuevo->verbose();
-    if ($correo->mandaMail()) {
-        echo "Correo enviado";
-    } else {
-        echo "Error: ". var_export($nuevo->error, true);
-    }
-*/
 ?>
