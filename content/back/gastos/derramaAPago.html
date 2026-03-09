@@ -9,13 +9,15 @@
             <h6 class="mb-2">Derrama seleccionada</h6>
             <p class="mb-1">
               <strong>Descripción:</strong>
-              <span><frC-Graft name="detalle_derrama"></frC-Graft></span>
+              <span><frC-Graft name="psm_detalle"></frC-Graft></span>
             </p>
             <p class="mb-0">
               <strong>Importe total:</strong>
               <span><frC-Graft name="total_derrama"></frC-Graft></span>
               <input type="hidden" name="total" value="" frC-submit="false">
-              <input type="hidden" name="psm_comuniad" value="">
+              <input type="hidden" name="psm_comunidad" value="">
+              <input type="hidden" name="psm_derrama" value="">
+              <input type="hidden" name="psm_vecinos" value="">
             </p>
           </div>
 
@@ -36,7 +38,7 @@
 
             <div class="col-md-4">
               <label class="form-label">Periodicidad</label>
-              <select class="form-select" name="periodicidad" required>
+              <select class="form-select" name="psm_periodo" required>
                 <option value="1">Mensual</option>
                 <option value="2">Bimensual</option>
                 <option value="3">Trimestral</option>

@@ -41,7 +41,7 @@
             # luego sumamos la deuda que haya para esa promesa
             $reg[$i]["x100"] = intval(($reg[$i]["der_parcial"]*100)/$reg[$i]["der_total"]);
         } else {
-            $reg[$i]["psm_promesa"] = 0;
+            $reg[$i]["der_promesa"] = 0;
             $reg[$i]["der_parcial"] = 0;
             $reg[$i]["x100"]        = 0;
         }

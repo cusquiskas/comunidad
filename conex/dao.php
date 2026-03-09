@@ -74,7 +74,7 @@ class ConexionSistema extends mysqli
     private $pass = '';
     private $apli = '';
 
-    private $lista_errores;
+    private $lista_errores = [];
     private $filas_afectadas;
 
     private $conex;

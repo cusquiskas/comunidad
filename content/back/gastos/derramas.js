@@ -18,7 +18,7 @@ var derramas = class {
                 { data: 'der_iva',   render: function (data, type, row) {return  formatoEsp(data,2); }},
                 { render: function (data, type, row) { 
                     let botones = '';
-                    botones+= '<button type="button" class="reparteDerrama"><span class="material-symbols-outlined">payment_arrow_down</span></button>';
+                    botones+= (!row.der_promesa)?'<button type="button" class="reparteDerrama"><span class="material-symbols-outlined">payment_arrow_down</span></button>':'';
                     return botones;
                 }}
             ],
@@ -60,6 +60,11 @@ var derramas = class {
 
     callbackPisos (s, d, e) {
         cerrarModal();
+        Moduls.getBody().load({ url: 'content/back/gestionGastos.html', script: true, parametros:{comunidad:this.comunidad} });
+        setTimeout(() => {
+            document.querySelector('button[data-bs-target=".div-tab3"]').click();
+        }, 1000);
+        
     }
 
 }

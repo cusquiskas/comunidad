@@ -120,14 +120,13 @@ var derramaAPago = class {
     }
     
     grabaPagos () {
-        this.modulo.Forms.formPromesaPago.executeForm();
+        let form = this.modulo.Forms.formPromesaPago;
+        form.set({psm_vecinos:JSON.stringify(this.listaPisos)});
+        form.executeForm();
     }
 
     callbackDerramaPisos (s,d,e) {
-        if (s) {
-            e.form.modul.script.callParent();
-        } else {
-            validaErroresCBK(d.root||d);
-        }
+        validaErroresCBK(d.root||d);
+        if (s) e.form.modul.script.object.callParent();
     }
 }

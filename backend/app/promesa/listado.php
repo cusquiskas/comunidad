@@ -9,7 +9,6 @@
     if ($perfil == 0) die(json_encode(['success' => false, 'root' => [['tipo' => 'Permisos', 'Detalle' => 'Sin acceso a esta comunidad']]]));
     
     $manPromesas = ControladorDinamicoTabla::set('PROMESA');
-    $manPromesas = new Tabla_PROMESA();
     $manPromesas->give($_POST);
     $reg = $manPromesas->getArray();
     unset($manPromesas);

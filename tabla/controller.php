@@ -183,6 +183,7 @@ class ControladorDinamicoTabla
         return "private function insert()
                 {
                     \$this->clearError();
+                    \$status = 0;
                     $dependencias
                     $insertExtraVal
                     \$datos = [$insertDatos];
