@@ -9,7 +9,7 @@
             <h6 class="mb-2">Derrama seleccionada</h6>
             <p class="mb-1">
               <strong>Descripción:</strong>
-              <span><frC-Graft name="psm_detalle"></frC-Graft></span>
+              <span><frC-Graft name="detalle_derrama"></frC-Graft></span>
             </p>
             <p class="mb-0">
               <strong>Importe total:</strong>
@@ -47,7 +47,7 @@
               </select>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label class="form-label">Tipo de reparto</label>
               <select class="form-select" name="tipo_reparto">
                 <option value="igual">A partes iguales</option>
@@ -55,6 +55,15 @@
               </select>
             </div>
 
+            <div class="col-md-4">
+              <label class="form-label" for="ult_pago">Fecha último pago</label>
+              <input type="date" class="form-control" name="ult_pago" disabled frC-submit="false">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="imp_vecino">Forzar importe por vecino</label>
+              <input type="number" min="1" class="form-control" name="imp_vecino">
+            </div>
           </div>
 
           <!-- Lista de vecinos -->

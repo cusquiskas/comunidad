@@ -24,19 +24,53 @@ var derramaAPago = class {
 
         // Delegación sobre el formulario
         $(form.formulario).on('change', 'input[name="num_cuotas"]', () => {
+            this.calculaFechaFin();
             this.recalcular();
         });
 
         $(form.formulario).on('change', 'select[name="tipo_reparto"]', () => {
+            this.precioFijo();
             this.recalcular();
+        });
+
+        $(form.formulario).on('change', 'select[name="psm_periodo"]', () => {
+            this.calculaFechaFin();
         });
 
         // Delegación sobre el tbody para los checkbox
         $('tbody.lista-vecinos').on('change', 'input[name="vecino"]', () => {
+            this.calculaFechaFin();
             this.recalcular();
         });
+
+        $(form.formulario).on('change', 'input[name="psm_fdesde"]', () => {
+            this.calculaFechaFin();
+        });
+        
+        $(form.formulario).on('change', 'input[name="imp_vecino"]', () => {
+            this.recalcular();
+        });
+        
     }
 
+    calculaFechaFin() {
+        let form = this.modulo.Forms.formPromesaPago.get();
+        let cuotas = parseInt(form.num_cuotas) || 1;
+        let meses = (cuotas - 1) * form.psm_periodo;
+        let fechaFin = new Date(form.psm_fdesde + "T00:00:00").addMonthsSafe(meses);
+        let dia = fechaFin.getDate().toString().padStart(2, '0');
+        let mes = (fechaFin.getMonth() + 1).toString().padStart(2, '0');
+        let año = fechaFin.getFullYear();
+        this.modulo.Forms.formPromesaPago.set({ult_pago:`${año}-${mes}-${dia}`});
+    }
+
+    precioFijo() {
+        if (this.modulo.Forms.formPromesaPago.get().tipo_reparto === 'igual') {
+            $('input[name="imp_vecino"]').prop('disabled', false);
+        } else {
+            $('input[name="imp_vecino"]').prop('disabled', true).val('');
+        }
+    }
 
     pintaListaPisos() {
         let fila = '<tr><td><input type="checkbox" name="vecino" value="{{pis_piso}}" {{checked}}/></td><td>{{pis_nombre}}</td><td>{{porcentaje}}%</td><td>{{aplicado}}%</td><td>{{imp_total}}</td><td>{{imp_cuota}}</td></tr>';
@@ -82,7 +116,7 @@ var derramaAPago = class {
             let total = 0;
 
             if (tipo === 'igual') {
-                total = importeTotal / numSel;
+                total = (form.imp_vecino.value && form.imp_vecino.value > (importeTotal / numSel)) ? form.imp_vecino.value : (importeTotal / numSel);
             } else {
                 total = importeTotal * (piso.pis_porcentaje / sumaCoeficientes);
             }

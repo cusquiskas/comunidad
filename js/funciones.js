@@ -545,6 +545,37 @@ function dec2bin(x, a) {
 }
 
 // Funciones de Date
+Date.prototype.addMonthsSafe = function(months) {
+
+    let diaOriginal = this.getDate();
+
+    // último día del mes original
+    let ultimoDiaOriginal = new Date(
+        this.getFullYear(),
+        this.getMonth() + 1,
+        0
+    ).getDate();
+
+    let esFinDeMes = diaOriginal === ultimoDiaOriginal;
+
+    this.setDate(1);
+    this.setMonth(this.getMonth() + months);
+
+    let ultimoDiaDestino = new Date(
+        this.getFullYear(),
+        this.getMonth() + 1,
+        0
+    ).getDate();
+
+    if (esFinDeMes) {
+        this.setDate(ultimoDiaDestino);
+    } else {
+        this.setDate(Math.min(diaOriginal, ultimoDiaDestino));
+    }
+
+    return this;
+};
+
 Date.prototype.addMonth = function (n) { return new Date(new Date(this).setMonth(this.getMonth() + n)); }
 Date.prototype.formatea = function (f) {
   f = f || 'dd/mm/yyyy';
