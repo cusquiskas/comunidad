@@ -2,6 +2,7 @@ var gestionPiso = class {
     constructor (mod, obj) {
         console.log('gestionPiso.js -> constructor');
         this.obj = obj;
+        this.mod = mod;
         let form = mod.Forms.pisos;
         var yo = this;
         form.set({pis_comunidad:obj.comunidad});
@@ -23,7 +24,7 @@ var gestionPiso = class {
                 { data: 'pis_comentario' },
                 { render: function (data, type, row) { 
                                 var botones = '';
-                                botones+= '<button class="asignarPropietario" type="button" data-piso="'+row.pis_piso+'" data-propietario="'+(row.pis_propietario||'')+'"><span class="material-icons">person</span></button>';
+                                botones+= '<button class="asignarPropietario" type="button" data-piso="'+row.pis_piso+'" data-propietario="'+(row.pro_propietario||'')+'"><span class="material-icons">person</span></button>';
                                 return botones;
                 }}
             ],
@@ -31,15 +32,19 @@ var gestionPiso = class {
                 $('.asignarPropietario').click(function (eve) {
                     //form.set({mov_movimiento:eve.currentTarget.getAttribute('data-movimiento')});
                     if (eve.currentTarget.getAttribute('data-propietario') == null || eve.currentTarget.getAttribute('data-propietario') == "") {
-                        Moduls.getModalbody().load({ url: 'content/back/selectPropietario.html', script: true, parametros:{comunidad:yo.obj.comunidad, piso: eve.currentTarget.getAttribute('data-piso')}});
+                        Moduls.getModalbody().load({ url: 'content/back/selectPropietario.html', script: true, parametros:{comunidad:yo.obj.comunidad, piso: eve.currentTarget.getAttribute('data-piso'), callBackParent: yo.volverAListar.bind(yo)}});
                         construirModal({title:"Propietario", w:600, h:750, okfunction:yo.callbackPropietario});
                     } else {
-                        Moduls.getModalbody().load({ url: 'content/back/editPropietario.html', script: true, parametros:{comunidad:yo.obj.comunidad, propiertario:eve.currentTarget.getAttribute('data-propietario'), piso: eve.currentTarget.getAttribute('data-piso')}});
+                        Moduls.getModalbody().load({ url: 'content/back/editPropietario.html', script: true, parametros:{comunidad:yo.obj.comunidad, propiertario:eve.currentTarget.getAttribute('data-propietario'), piso: eve.currentTarget.getAttribute('data-piso'), callBackParent: yo.volverAListar.bind(yo)}});
                         construirModal({title:"Propietario", w:600, h:750, oktext:'Guardar', okfunction:yo.callbackPropietario});
                     }
                 });
             }
         });
+    }
+
+    volverAListar() {
+        this.mod.Forms.pisos.executeForm();
     }
 
     listado (s,d,e) {

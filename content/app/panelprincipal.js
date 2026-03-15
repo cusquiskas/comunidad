@@ -193,7 +193,7 @@ var panelprincipal = class {
         } else {
             let form = e.form.modul.Forms['dashboard'];
             let fila = '<tr><td><div class="d-flex px-1 py-1"><div class="d-flex flex-column justify-content-center"><span  data-bs-toggle="modal" data-bs-target="#detallePisosModal" class="material-icons btn" piso="{{cpiso}}" style="margin-top: -10px; height:10px">info</span></div></div></td><td><div class="d-flex px-2 py-1"><div class="d-flex flex-column justify-content-center"><h6 class="mb-0 text-sm">{{piso}} # {{propietario}}</h6></div></div></td><td class="align-middle text-end text-sm"><span class="font-monospace text-xs text-{{color}} font-weight-bold">{{importe}}€</span></td></tr>';
-            form.set({saldoU:formatoEsp(d.root.Detalle.saldoCuenta,2), fondo:formatoEsp(d.root.Detalle.fondoCuenta,2), fechaU:d.root.Detalle.ultimoMovimiento.hazFecha('yyyy-mm-dd','dd/mm/yyyy')});
+            form.set({saldoU:formatoEsp(d.root.Detalle.saldoCuenta,2), fondo:formatoEsp(d.root.Detalle.fondoCuenta,2), fechaU:d.root.Detalle.ultimoMovimiento && d.root.Detalle.ultimoMovimiento.hazFecha('yyyy-mm-dd','dd/mm/yyyy')});
             let tabla = $('tbody.listaSaldoPisos');
             tabla.empty();
             for (let i=0; i<d.root.Detalle.saldoPiso.length; i++) {

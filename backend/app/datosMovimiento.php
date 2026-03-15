@@ -13,8 +13,8 @@
     $reg = $manMovimiento->getArray();
     $suma  = 0;
     $fondo = 0;
-    $fecha = $reg[count($reg)-1]["mov_fecha"];
-    for ($i=0; $i<count($reg); $i++) {
+    $fecha = $reg[count($reg)-1]["mov_fecha"] ?? null;
+    for ($i=0; $i<count($reg) ?? -1; $i++) {
         $suma += $reg[$i]['mov_importe'];
         $fondo+= $reg[$i]['mov_importe'];
     }

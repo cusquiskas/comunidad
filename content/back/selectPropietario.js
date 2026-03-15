@@ -12,11 +12,13 @@ var selectPropietario = class {
     buscaPropietario (s, d, e) {
         if (s) {
             $(".panelBuscar").addClass("xx");
-            if (d.root.Detalle == null) {
+            if (!d.root.Detalle || d.root.Detalle.length == 0) {
                 $(".panelConfirmarCrear").removeClass("xx");
             } else {
+                let form = e.form.modul.Forms["crearPropietario"];
+                form.set(d.root.Detalle[0]);
                 $(".panelCrear").removeClass("xx");
-            }
+                }
         } else {
             validaErroresCBK(d.root||d);
         }
@@ -24,7 +26,8 @@ var selectPropietario = class {
 
     crearPropietario (s, d, e) {
         if (s) {
-
+            e.form.modul.getScript().obj.callBackParent();
+            cerrarModal();
         } else {
             validaErroresCBK(d.root||d);
         }

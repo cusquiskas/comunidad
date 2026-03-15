@@ -17,20 +17,20 @@
         if (count($reg) == 1) $propietario = $reg[0]["pro_propietario"];
     }
     
-    if ($propietario != null && isset($_POST["pro_correo"]) && $_POST["pro_correo"] != "") {
+    if ($propietario == null && isset($_POST["pro_correo"]) && $_POST["pro_correo"] != "") {
         $manPropietario->give(["pro_correo" => $_POST["pro_correo"]]);
         $reg = $manPropietario->getArray();
-        if (count($reg) == 1) $propietario = $regDNI[0]["pro_propietario"];
+        if (count($reg) == 1) $propietario = $reg[0]["pro_propietario"];
     }
     
-    unset($manPropietario);
-    unset($reg);
-
     if ($propietario == null && (!isset($_POST["pro_dni"]) || $_POST["pro_dni"] == "") && (!isset($_POST["pro_correo"]) || $_POST["pro_correo"] == "")) {
         echo json_encode(['success' => false, 'root' => ['tipo' => 'error', 'Detalle' => 'No se ha indicado información del propietario']]);
     } else {
         echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => $reg]]);
     }
 
+    unset($reg);
+    unset($manPropietario);
+    
     
 ?>
