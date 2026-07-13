@@ -49,6 +49,8 @@
                                  5 => ['tipo' => 'i', 'dato' => $_POST['pis_comunidad']],
                                  6 => ['tipo' => 'i', 'dato' => $_POST['pis_piso']]
                                 ]);
+    
+    $link->close();
     unset($link);
     
     $total = 0;

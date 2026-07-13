@@ -183,4 +183,13 @@ class ConexionSistema extends mysqli
         $this->conecta();
         unset($conf);
     }
+    
+    public function __destruct()
+    {
+        if (isset($this->conex)) {
+            mysqli_close($this->conex);
+            $this->conex = null;
+        }
+    }
+
 }
