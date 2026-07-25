@@ -49,10 +49,13 @@ class ConexionSistema
     private array $lista_errores = [];
     private int $filas_afectadas = 0;
 
+    private string $Apli = "";
+
     public function __construct()
     {
         $conf = new ConfiguracionSistema();
 
+        $this->Apli = $conf->getApli();
         $this->conn = new mysqli(
             $conf->getHost(),
             $conf->getUser(),
@@ -73,8 +76,9 @@ class ConexionSistema
 
     public function getApplication(): string
     {
-        return $this->apli;
+        return $this->Apli;
     }
+
 
     public function prepare(string $query): mysqli_stmt
     {
