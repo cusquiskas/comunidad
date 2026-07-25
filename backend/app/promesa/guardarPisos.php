@@ -22,6 +22,7 @@
         $reg = $enlace->getListaErrores();
         echo json_encode(['success' => false, 'root' => $reg]);
     }
+    $enlace->close();
     echo json_encode(['success' => true, 'root' => ['tipo' => 'Respuesta', 'Detalle' => ""]]);
     unset($enlace);
     unset($manGasto);

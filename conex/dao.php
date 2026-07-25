@@ -1,195 +1,159 @@
 <?php
 
-// aquí estás todo lo relacionado con la conexión a base de datos
-// en principio la conexión propia de la aplicación, las propias de la intervención no están aquí
-
-/*
- * Very Special Thanks to Guido
- * for you aportation in http://php.net/manual/es/mysqli-stmt.bind-param.php
- */
 class stmt extends mysqli_stmt
 {
-    public function __construct($link, $query)
+    private string $types = "";
+    private array $params = [];
+
+    public function __construct(mysqli $link, string $query)
     {
-        $this->mbind_reset();
         parent::__construct($link, $query);
     }
 
-    public function mbind_reset()
+    public function mbind_reset(): void
     {
-        unset($this->mbind_params);
-        unset($this->mbind_types);
-        $this->mbind_params = [];
-        $this->mbind_types = [''];
+        $this->types = "";
+        $this->params = [];
     }
 
-    //use this one to bind params by reference
-    public function mbind_param($type, &$param)
+    public function mbind_param(string $type, &$param): void
     {
-        $this->mbind_types[0] .= $type;
-        $this->mbind_params[] = &$param;
+        $this->types .= $type;
+        $this->params[] = &$param;
     }
 
-    //use this one to bin value directly, can be mixed with mbind_param()
-    public function mbind_value($type, $param)
+    public function mbind_value(string $type, $param): void
     {
-        $this->mbind_types[0] .= $type;
-        $this->mbind_params[] = $param;
+        $this->types .= $type;
+        $this->params[] = $param;
     }
 
-    public function mbind_param_do()
+    private function mbind_apply(): void
     {
-        $params = array_merge($this->mbind_types, $this->mbind_params);
-
-        return call_user_func_array([$this, 'bind_param'], $this->makeValuesReferenced($params));
-    }
-
-    private function makeValuesReferenced($arr)
-    {
-        $refs = [];
-        foreach ($arr as $key => $value) {
-            $refs[$key] = &$arr[$key];
+        if ($this->types !== "") {
+            $this->bind_param($this->types, ...$this->params);
         }
-
-        return $refs;
     }
 
-    public function execute()
+    public function execute(): bool
     {
-        if (count($this->mbind_params)) {
-            $this->mbind_param_do();
-        }
-
+        $this->mbind_apply();
         return parent::execute();
     }
-
-    private $mbind_types = [];
-    private $mbind_params = [];
 }
 
-class ConexionSistema extends mysqli
+
+
+<?php
+
+class ConexionSistema
 {
-    private $host = '';
-    private $user = '';
-    private $pass = '';
-    private $apli = '';
-
-    private $lista_errores = [];
-    private $filas_afectadas;
-
-    private $conex;
-    
-    public function begin(int $flags = 0, ?string $name = null): bool
-    {
-        return $this->get()->begin_transaction($flags, $name);
-    }
-
-    public function commit(int $flags = 0, ?string $name = null): bool
-    {
-        return $this->get()->commit($flags, $name);
-    }
-
-    public function rollback(int $flags = 0, ?string $name = null): bool
-    {
-        return $this->get()->rollback($flags, $name);
-    }
-    
-    public function filasAfectadas()
-    {
-        return $this->filas_afectadas;
-    }
-
-    public function hayError()
-    {
-        return (!is_array($this->lista_errores)) ? false : count($this->lista_errores) > 0;
-    }
-
-    public function getListaErrores()
-    {
-        return $this->lista_errores;
-    }
-
-    private function conecta()
-    {
-        $this->conex = mysqli_connect($this->host, $this->user, $this->pass, $this->apli);
-    }
-
-    public function get()
-    {
-        if (!isset($this->conex)) {
-            $this->conecta();
-        }
-
-        return $this->conex;
-    }
-
-    public function consulta($query, $array)
-    {
-        $stmt = $this->prepare($query);
-        foreach ($array as $param) {
-            $stmt->mbind_value($param['tipo'], $param['dato']);
-        }
-        $stmt->execute();
-        $_res = $stmt->get_result();
-        $stmt->close();
-        $data = [];
-        while ($row = $_res->fetch_array(MYSQLI_ASSOC)) {
-            array_push($data, $row);
-        }
-
-        return $data;
-    }
-
-    public function ejecuta($query, $array)
-    {
-        $stmt = $this->prepare($query);
-        foreach ($array as $param) {
-            $stmt->mbind_value($param['tipo'], $param['dato']);
-        }
-        $stmt->execute();
-        $this->filas_afectadas = $stmt->affected_rows;
-        if (count($stmt->error_list) > 0) {
-            $this->lista_errores = $stmt->error_list;
-        }
-        $stmt->close();
-    }
-
-    public function close()
-    {
-        if (isset($this->conex)) {
-            mysqli_close($this->conex);
-            $this->conex = null;
-        }
-    }
-
-    /* reescribimos la función de MySQLi para poder hacer las bind variables una a una */
-    public function prepare($query)
-    {
-        return new stmt($this->get(), $query);
-    }
-
-    public function getApplication()
-    {
-        return $this->apli;
-    }
+    private mysqli $conn;
+    private array $lista_errores = [];
+    private int $filas_afectadas = 0;
 
     public function __construct()
     {
         $conf = new ConfiguracionSistema();
-        $this->host = $conf->getHost();
-        $this->user = $conf->getUser();
-        $this->pass = $conf->getPass();
-        $this->apli = $conf->getApli();
-        $this->conecta();
+
+        $this->conn = new mysqli(
+            $conf->getHost(),
+            $conf->getUser(),
+            $conf->getPass(),
+            $conf->getApli()
+        );
+
+        if ($this->conn->connect_errno) {
+            throw new Exception("Error de conexión MySQL: " . $this->conn->connect_error);
+        }
+
+        // Estado limpio SIEMPRE
+        $this->conn->set_charset("utf8mb4");
+        $this->conn->autocommit(true);
+
         unset($conf);
     }
-    
-    public function __destruct()
+
+    public function prepare(string $query): mysqli_stmt
     {
-        if (isset($this->conex)) {
-            mysqli_close($this->conex);
-            $this->conex = null;
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            throw new Exception("Error preparando consulta: " . $this->conn->error);
+        }
+
+        return $stmt;
+    }
+
+    public function consulta(string $query, array $params = []): array
+    {
+        $stmt = $this->prepare($query);
+
+        if (!empty($params)) {
+            $this->bindParams($stmt, $params);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error ejecutando consulta: " . $stmt->error);
+        }
+
+        $res = $stmt->get_result();
+        $data = $res->fetch_all(MYSQLI_ASSOC);
+
+        $stmt->close();
+        return $data;
+    }
+
+    public function ejecuta(string $query, array $params = []): int
+    {
+        $stmt = $this->prepare($query);
+
+        if (!empty($params)) {
+            $this->bindParams($stmt, $params);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error ejecutando sentencia: " . $stmt->error);
+        }
+
+        $this->filas_afectadas = $stmt->affected_rows;
+        $stmt->close();
+
+        return $this->filas_afectadas;
+    }
+
+    private function bindParams(mysqli_stmt $stmt, array $params): void
+    {
+        $types = "";
+        $values = [];
+
+        foreach ($params as $p) {
+            $types .= $p['tipo'];
+            $values[] = $p['dato'];
+        }
+
+        $stmt->bind_param($types, ...$values);
+    }
+
+    public function close(): void
+    {
+        if ($this->conn) {
+            $this->conn->close();
         }
     }
 
+    public function filasAfectadas(): int
+    {
+        return $this->filas_afectadas;
+    }
+
+    public function hayError(): bool
+    {
+        return count($this->lista_errores) > 0;
+    }
+
+    public function getListaErrores(): array
+    {
+        return $this->lista_errores;
+    }
 }
