@@ -95,13 +95,25 @@
             #--- esta será la nueva fecha a grabar, si es que ya ha llegado el día
             
             while ($fechaDesde <= $fechaHasta) {
-                $manDeuda->save([
-                    "dud_comunidad" => $_POST["com_comunidad"] * 1,
-                    "dud_piso"      => $pisos[$z]["prp_piso"] * 1,
-                    "dud_promesa"   => $pisos[$z]["prp_promesa"] * 1,
-                    "dud_fecha"     => $fechaDesde->format('Y-m-d'),
-                    "dud_importe"   => $promesas[$i]["psm_importe"] * 1
+                $manDeuda->give([
+                    "dud_comunidad"   => $_POST["com_comunidad"],
+                    "dud_piso"        => $pisos[$z]["prp_piso"],
+                    "dud_promesa"     => $pisos[$z]["prp_promesa"],
+                    "dud_fecha"       => $fechaDesde->format('Y-m-d'),
+                    "dud_fecha_signo" => "="
                 ]);
+                $deudaActual = $manDeuda->getArray();
+
+                if (count($deudaActual) === 0) {
+                    $manDeuda->save([
+                        "dud_comunidad" => $_POST["com_comunidad"] * 1,
+                        "dud_piso"      => $pisos[$z]["prp_piso"] * 1,
+                        "dud_promesa"   => $pisos[$z]["prp_promesa"] * 1,
+                        "dud_fecha"     => $fechaDesde->format('Y-m-d'),
+                        "dud_importe"   => $promesas[$i]["psm_importe"] * 1
+                    ]);
+                }
+
                 $fechaDesde->modify('first day of this month')
                            ->modify('+'.$promesas[$i]["psm_periodo"].' month')
                            ->modify($dia);
