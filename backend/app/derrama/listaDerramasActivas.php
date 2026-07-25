@@ -27,7 +27,7 @@
         $manPromesa->give($filtroPromesa);
         $psm = $manPromesa->getArray();
         
-        if (count($psm) == 1) {
+        if (count($psm) >= 1) {
             $reg[$i]["der_promesa"] = $psm[0]["psm_promesa"];
 
             $filtroDeuda["dud_promesa"] = $psm[0]["psm_promesa"];

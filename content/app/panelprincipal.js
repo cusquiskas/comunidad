@@ -173,8 +173,8 @@ var panelprincipal = class {
                 tBody.html('<tr><td colspan="4" class="text-center text-success"><h3>No hay ninguna derrama abierta</h3></td></tr>');
             } else {
                 for (let i=0; i<d.root.Detalle.length; i++) {
-                    if (d.root.Detalle[i].der_promesa > 0) {
-                        row = d.root.Detalle[i];
+                    row = d.root.Detalle[i];
+                    if (row.der_promesa > 0) {
                         row.x100 = row.x100||0;
                         row.der_parcial = formatoEsp(row.der_parcial||0, 2);
                         row.der_total   = formatoEsp(row.der_total, 2);
