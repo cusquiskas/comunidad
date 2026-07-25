@@ -28,18 +28,22 @@
         $psm = $manPromesa->getArray();
         
         if (count($psm) >= 1) {
-            $reg[$i]["der_promesa"] = $psm[0]["psm_promesa"];
+            $reg[$i]["der_promesa"] = count($psm);
 
-            $filtroDeuda["dud_promesa"] = $psm[0]["psm_promesa"];
-            $manDeuda->give($filtroDeuda);
-            $dud = $manDeuda->getArray();
-            
             $reg[$i]["der_parcial"] = 0;
-            for ($z=0; $z<count($dud); $z++) {
-                $reg[$i]["der_parcial"] += ($dud[$z]["dud_importe"] * -1);
+            for ($p=0; $p<count($psm); $p++) {
+                $filtroDeuda["dud_promesa"] = $psm[$p]["psm_promesa"];
+                $manDeuda->give($filtroDeuda);
+                $dud = $manDeuda->getArray();
+
+                for ($z=0; $z<count($dud); $z++) {
+                    $reg[$i]["der_parcial"] += ($dud[$z]["dud_importe"] * -1);
+                }
             }
-            # luego sumamos la deuda que haya para esa promesa
-            $reg[$i]["x100"] = intval(($reg[$i]["der_parcial"]*100)/$reg[$i]["der_total"]);
+
+            $reg[$i]["x100"] = ($reg[$i]["der_total"] > 0)
+                ? intval(($reg[$i]["der_parcial"] * 100) / $reg[$i]["der_total"])
+                : 0;
         } else {
             $reg[$i]["der_promesa"] = 0;
             $reg[$i]["der_parcial"] = 0;
