@@ -43,9 +43,6 @@ class stmt extends mysqli_stmt
 }
 
 
-
-<?php
-
 class ConexionSistema
 {
     private mysqli $conn;
