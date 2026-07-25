@@ -71,6 +71,11 @@ class ConexionSistema
         unset($conf);
     }
 
+    public function getApplication(): string
+    {
+        return $this->apli;
+    }
+
     public function prepare(string $query): mysqli_stmt
     {
         $stmt = $this->conn->prepare($query);
