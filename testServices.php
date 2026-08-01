@@ -73,7 +73,7 @@
     $smtp->setDebugger(true);
     $smtp->setPara("cusquiskas@gmail.com");
     $smtp->setAsunto("Prueba definitiva 31");
-    $smtp->setCuerpo("<h1>CONSEGUIDO</h1><p>Visita el enlace a <a href='https://cusquiskas.com' target='_blank'>CusQuisKas</a></p><p>Tengo cañón & otras €</p>");
+    $smtp->setCuerpo("<h1>CONSEGUIDO</h1><p>Visita el enlace a <a href='https://www.cusquiskas.es' target='_blank'>CusQuisKas</a></p><p>Tengo cañón & otras €</p>");
     if ($smtp->sendMail()) {
         echo json_encode(['success' => true, 'root' => "correo enviado correctamente"]);
     } else {
